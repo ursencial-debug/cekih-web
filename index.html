@@ -19,6 +19,7 @@
     --red-light: #ff6b6b;
     --green: #3dba7e;
     --blue: #4a9eff;
+    --purple: #9a4dcc;
     --text: #e8e4d9;
     --text-muted: #7a7890;
     --text-dim: #4a4860;
@@ -27,9 +28,7 @@
     --card-black: #111118;
     --shadow: 0 8px 32px rgba(0,0,0,0.6);
   }
-
   * { margin: 0; padding: 0; box-sizing: border-box; }
-
   body {
     background: var(--bg);
     color: var(--text);
@@ -38,12 +37,8 @@
     overflow-x: hidden;
     user-select: none;
   }
-
-  /* ── SCREENS ── */
   .screen { display: none; width: 100%; min-height: 100vh; }
   .screen.active { display: flex; }
-
-  /* ── MENU ── */
   #menu-screen {
     flex-direction: column;
     align-items: center;
@@ -90,7 +85,6 @@
   }
   .menu-suits span:nth-child(1), .menu-suits span:nth-child(4) { color: var(--card-red); }
   .menu-suits span:nth-child(2), .menu-suits span:nth-child(3) { color: var(--text); }
-
   .btn-primary {
     background: linear-gradient(135deg, var(--gold), #a07830);
     color: #0a0a0f;
@@ -106,10 +100,7 @@
     transition: all 0.2s;
     text-transform: uppercase;
   }
-  .btn-primary:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 24px rgba(201,168,76,0.4);
-  }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(201,168,76,0.4); }
   .btn-secondary {
     background: transparent;
     color: var(--text-muted);
@@ -123,616 +114,204 @@
     transition: all 0.2s;
   }
   .btn-secondary:hover { border-color: var(--gold); color: var(--gold); }
-
   .menu-rules {
-    position: relative;
-    z-index: 1;
-    margin-top: 3rem;
-    max-width: 500px;
-    border: 1px solid var(--border);
-    padding: 1.5rem;
-    background: rgba(18,18,26,0.8);
+    position: relative; z-index: 1; margin-top: 3rem; max-width: 540px;
+    border: 1px solid var(--border); padding: 1.5rem; background: rgba(18,18,26,0.8);
   }
-  .menu-rules h3 {
-    font-family: 'Playfair Display', serif;
-    color: var(--gold);
-    margin-bottom: 1rem;
-    font-size: 1rem;
-  }
-  .menu-rules ul {
-    list-style: none;
-    font-size: 0.72rem;
-    color: var(--text-muted);
-    line-height: 2;
-  }
-  .menu-rules ul li::before { content: '▸ '; color: var(--gold); }
+  .menu-rules h3 { font-family: 'Playfair Display', serif; color: var(--gold); margin-bottom: 1rem; font-size: 1rem; }
+  .menu-rules ul { list-style: none; font-size: 0.72rem; color: var(--text-muted); line-height: 2; }
+  .menu-rules ul li::before { content: '\25B8 '; color: var(--gold); }
 
-  /* ── GAME SCREEN ── */
-  #game-screen {
-    flex-direction: column;
-    background: #0d0d14;
-    min-height: 100vh;
-  }
-
-  /* Header */
+  #game-screen { flex-direction: column; background: #0d0d14; min-height: 100vh; }
   .game-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0.6rem 1.5rem;
-    background: var(--surface);
-    border-bottom: 1px solid var(--border);
-    flex-shrink: 0;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0.6rem 1.5rem; background: var(--surface);
+    border-bottom: 1px solid var(--border); flex-shrink: 0;
   }
-  .game-logo {
-    font-family: 'Playfair Display', serif;
-    font-weight: 700;
-    color: var(--gold);
-    font-size: 1.2rem;
-  }
-  .game-round-info {
-    font-size: 0.7rem;
-    color: var(--text-muted);
-    text-align: center;
-  }
+  .game-logo { font-family: 'Playfair Display', serif; font-weight: 700; color: var(--gold); font-size: 1.2rem; }
+  .game-round-info { font-size: 0.7rem; color: var(--text-muted); text-align: center; }
   .game-round-info strong { color: var(--text); }
   .btn-icon {
-    background: transparent;
-    border: 1px solid var(--border);
-    color: var(--text-muted);
-    width: 32px; height: 32px;
-    cursor: pointer;
-    font-size: 0.8rem;
-    display: flex; align-items: center; justify-content: center;
-    transition: all 0.2s;
+    background: transparent; border: 1px solid var(--border); color: var(--text-muted);
+    width: 32px; height: 32px; cursor: pointer; font-size: 0.8rem;
+    display: flex; align-items: center; justify-content: center; transition: all 0.2s;
   }
   .btn-icon:hover { border-color: var(--gold); color: var(--gold); }
-
-  /* Score bar */
-  .score-bar {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    background: var(--surface);
-    border-bottom: 1px solid var(--border);
-    flex-shrink: 0;
-  }
-  .score-cell {
-    padding: 0.5rem 0.8rem;
-    border-right: 1px solid var(--border);
-    position: relative;
-    transition: background 0.3s;
-  }
+  .score-bar { display: grid; grid-template-columns: repeat(4, 1fr); background: var(--surface); border-bottom: 1px solid var(--border); flex-shrink: 0; }
+  .score-cell { padding: 0.5rem 0.8rem; border-right: 1px solid var(--border); position: relative; transition: background 0.3s; }
   .score-cell:last-child { border-right: none; }
   .score-cell.active-turn { background: rgba(201,168,76,0.08); }
-  .score-cell.human { }
-  .score-name {
-    font-size: 0.65rem;
-    color: var(--text-muted);
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    display: flex;
-    align-items: center;
-    gap: 0.4rem;
-  }
-  .score-name .badge {
-    background: var(--gold);
-    color: var(--bg);
-    font-size: 0.5rem;
-    padding: 0.1rem 0.3rem;
-    font-weight: 700;
-  }
+  .score-name { font-size: 0.65rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.1em; display: flex; align-items: center; gap: 0.4rem; }
+  .score-name .badge { background: var(--gold); color: var(--bg); font-size: 0.5rem; padding: 0.1rem 0.3rem; font-weight: 700; }
   .score-name .badge.bot { background: var(--surface3); color: var(--text-muted); }
-  .score-points {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.4rem;
-    font-weight: 700;
-    color: var(--text);
-    line-height: 1.2;
-  }
+  .score-points { font-family: 'Playfair Display', serif; font-size: 1.4rem; font-weight: 700; color: var(--text); line-height: 1.2; }
   .score-points.negative { color: var(--red); }
   .score-points.high { color: var(--gold); }
-  .score-status {
-    font-size: 0.58rem;
-    color: var(--text-dim);
-    height: 0.8rem;
-  }
-  .score-status.cekih { color: var(--red-light) !important; font-weight: 500; }
-  .turn-indicator {
-    position: absolute;
-    bottom: 0; left: 0; right: 0;
-    height: 2px;
-    background: var(--gold);
-    opacity: 0;
-    transition: opacity 0.3s;
-  }
+  .score-status { font-size: 0.58rem; color: var(--text-dim); height: 0.8rem; }
+  .score-status.cekih { color: var(--red-light) !important; font-weight: 500; animation: pulseRed 1.6s infinite; }
+  @keyframes pulseRed { 0%,100%{opacity:1} 50%{opacity:.5} }
+  .turn-indicator { position: absolute; bottom: 0; left: 0; right: 0; height: 2px; background: var(--gold); opacity: 0; transition: opacity 0.3s; }
   .score-cell.active-turn .turn-indicator { opacity: 1; }
 
-  /* Main game area */
-  .game-main {
-    display: grid;
-    grid-template-rows: auto 1fr auto;
-    flex: 1;
-    gap: 0;
-    padding: 0.8rem;
-    gap: 0.8rem;
-    min-height: 0;
-  }
+  .game-main { display: grid; grid-template-rows: auto 1fr auto; flex: 1; gap: 0.8rem; padding: 0.8rem; min-height: 0; }
+  .bot-areas { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.8rem; }
+  .player-area { background: var(--surface); border: 1px solid var(--border); padding: 0.6rem; min-height: 80px; position: relative; transition: border-color 0.3s; }
+  .player-area.active-turn { border-color: rgba(201,168,76,0.55); box-shadow: 0 0 0 1px rgba(201,168,76,0.25); }
+  .player-area-label { font-size: 0.6rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.4rem; display: flex; justify-content: space-between; gap: 8px; }
+  .player-area-label .pname { color: var(--gold); }
+  .player-area-label .cekih-tag { color: var(--red-light); font-weight:500; }
 
-  /* Bot player areas */
-  .bot-areas {
-    display: grid;
-    grid-template-columns: 1fr 2fr 1fr;
-    gap: 0.8rem;
-  }
-  .player-area {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    padding: 0.6rem;
-    min-height: 80px;
-    position: relative;
-    transition: border-color 0.3s;
-  }
-  .player-area.active-turn { border-color: rgba(201,168,76,0.4); }
-  .player-area-label {
-    font-size: 0.6rem;
-    color: var(--text-dim);
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    margin-bottom: 0.4rem;
-  }
-  .player-area-label span { color: var(--gold); }
-
-  /* Table area */
-  .table-area {
-    display: grid;
-    grid-template-columns: 1fr 1fr 2fr;
-    gap: 0.8rem;
-    align-items: center;
-  }
-
-  .deck-zone {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.5rem;
-  }
-  .deck-label {
-    font-size: 0.6rem;
-    color: var(--text-dim);
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-  }
+  .table-area { display: grid; grid-template-columns: 1fr 2fr 1fr; gap: 0.8rem; align-items: stretch; }
+  .deck-zone { display: flex; flex-direction: column; align-items: center; gap: 0.5rem; justify-content: center; }
+  .deck-label { font-size: 0.6rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.08em; }
   .deck-pile {
     width: 60px; height: 84px;
     background: linear-gradient(135deg, #1e1e30, #14142a);
-    border: 1px solid var(--border);
-    border-radius: 4px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    position: relative;
-    transition: all 0.2s;
-    font-size: 1.2rem;
-    color: var(--text-dim);
+    border: 1px solid var(--border); border-radius: 4px;
+    display: flex; align-items: center; justify-content: center;
+    cursor: not-allowed; position: relative; transition: all 0.2s;
+    font-size: 1.4rem; color: rgba(201,168,76,0.3);
   }
-  .deck-pile.clickable {
-    border-color: var(--gold);
-    cursor: pointer;
-  }
-  .deck-pile.clickable:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 6px 20px rgba(201,168,76,0.3);
-  }
-  .deck-pile.disabled {
-    opacity: 0.4;
-    cursor: not-allowed;
-  }
-  .deck-count {
-    font-size: 0.65rem;
-    color: var(--text-muted);
-  }
+  .deck-pile.clickable { border-color: var(--gold); cursor: pointer; }
+  .deck-pile.clickable:hover { transform: translateY(-3px); box-shadow: 0 6px 20px rgba(201,168,76,0.3); }
+  .deck-count { font-size: 0.65rem; color: var(--text-muted); }
+  .deck-shuffler { font-size: 0.55rem; color: var(--text-dim); text-align: center; max-width: 100px; line-height:1.3; }
 
-  /* Discard pile */
-  .discard-zone {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.5rem;
+  .discard-zone { display: flex; flex-direction: column; gap: 0.4rem; min-width: 0; }
+  .discard-head { display:flex; justify-content:space-between; align-items:baseline; font-size:0.6rem; color:var(--text-dim); text-transform:uppercase; letter-spacing:0.08em; }
+  .discard-scroll { width: 100%; overflow-x: auto; padding-bottom: 4px; scrollbar-width: thin; scrollbar-color: var(--border) transparent; }
+  .discard-row { display: flex; flex-direction: row; gap: 2px; min-width: max-content; padding: 2px; align-items:center; }
+  .discard-boundary {
+    width: 0; border-left: 2px dashed rgba(201,168,76,0.5);
+    height: 60px; margin: 0 4px; position: relative; flex-shrink:0;
   }
-  .discard-scroll {
-    width: 100%;
-    overflow-x: auto;
-    padding-bottom: 4px;
-    scrollbar-width: thin;
-    scrollbar-color: var(--border) transparent;
+  .discard-boundary::after {
+    content: 'batas 7'; position: absolute; top: -10px; left: 50%;
+    transform: translateX(-50%); font-size: 0.46rem; color: var(--gold);
+    letter-spacing: 0.05em; white-space: nowrap;
   }
-  .discard-row {
-    display: flex;
-    flex-direction: row;
-    gap: 2px;
-    min-width: max-content;
-    padding: 2px;
-  }
+  .discard-out { opacity: 0.35; }
 
-  /* Log area */
-  .log-zone {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    padding: 0.6rem;
-    overflow-y: auto;
-    max-height: 120px;
-    font-size: 0.62rem;
-    color: var(--text-muted);
-    line-height: 1.8;
-    scrollbar-width: thin;
-    scrollbar-color: var(--border) transparent;
-  }
+  .log-zone { background: var(--surface); border: 1px solid var(--border); padding: 0.6rem; overflow-y: auto; max-height: 140px; font-size: 0.62rem; color: var(--text-muted); line-height: 1.7; scrollbar-width: thin; scrollbar-color: var(--border) transparent; }
   .log-entry { padding: 0 0.2rem; }
   .log-entry.important { color: var(--gold); }
   .log-entry.danger { color: var(--red-light); }
   .log-entry.success { color: var(--green); }
 
-  /* Human player area */
-  .human-area {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-top: 2px solid rgba(201,168,76,0.3);
-    padding: 0.8rem;
-  }
-  .human-area-top {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 0.6rem;
-  }
-  .human-label {
-    font-size: 0.65rem;
-    color: var(--text-muted);
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-  }
-  .human-controls {
-    display: flex;
-    gap: 0.5rem;
-    align-items: center;
-  }
+  .human-area { background: var(--surface); border: 1px solid var(--border); border-top: 2px solid rgba(201,168,76,0.3); padding: 0.8rem; }
+  .human-area-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.6rem; flex-wrap:wrap; gap:0.5rem; }
+  .human-label { font-size: 0.65rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.1em; }
+  .human-controls { display: flex; gap: 0.5rem; align-items: center; flex-wrap:wrap; }
   .btn-action {
-    background: transparent;
-    border: 1px solid var(--border);
-    color: var(--text-muted);
-    padding: 0.3rem 0.8rem;
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 0.65rem;
-    cursor: pointer;
-    letter-spacing: 0.05em;
-    transition: all 0.2s;
-    text-transform: uppercase;
+    background: transparent; border: 1px solid var(--border); color: var(--text-muted);
+    padding: 0.35rem 0.85rem; font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.65rem; cursor: pointer; letter-spacing: 0.05em;
+    transition: all 0.2s; text-transform: uppercase;
   }
   .btn-action:hover:not(:disabled) { border-color: var(--gold); color: var(--gold); }
   .btn-action.active { background: var(--gold); border-color: var(--gold); color: var(--bg); }
   .btn-action:disabled { opacity: 0.3; cursor: not-allowed; }
   .btn-action.danger { border-color: var(--red); color: var(--red); }
-  .btn-action.danger:hover { background: var(--red); color: #fff; }
+  .btn-action.danger:hover:not(:disabled) { background: var(--red); color: #fff; }
+  .btn-action.kecebur { border-color: var(--red); color: var(--red); animation: glowRed 1.4s infinite; font-weight:600; }
+  @keyframes glowRed { 0%,100%{box-shadow:0 0 0 0 rgba(224,69,69,0.5)} 50%{box-shadow:0 0 0 6px rgba(224,69,69,0)} }
+  .btn-action.tutup { border-color: var(--green); color: var(--green); animation: glowGreen 1.6s infinite; font-weight:600; }
+  @keyframes glowGreen { 0%,100%{box-shadow:0 0 0 0 rgba(61,186,126,0.5)} 50%{box-shadow:0 0 0 6px rgba(61,186,126,0)} }
 
-  .hand-cards {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 4px;
-    min-height: 96px;
-    align-items: flex-start;
-  }
+  .hand-cards { display: flex; flex-wrap: wrap; gap: 4px; min-height: 96px; align-items: flex-start; }
 
-  /* Open combinations on table */
-  .open-combos {
-    margin-top: 0.4rem;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 4px;
-  }
-  .combo-group {
-    display: flex;
-    gap: 1px;
-    border: 1px solid rgba(201,168,76,0.2);
-    padding: 2px;
-    background: rgba(201,168,76,0.03);
-  }
+  .open-combos { margin-top: 0.5rem; display: flex; flex-wrap: wrap; gap: 6px; }
+  .combo-group { display: flex; gap: 1px; border: 1px solid rgba(201,168,76,0.25); padding: 3px; background: rgba(201,168,76,0.04); position:relative; }
+  .combo-group .ctype { position:absolute; top:-9px; left:3px; font-size:0.45rem; color:var(--gold); background:var(--surface); padding:0 3px; letter-spacing:0.05em; }
 
-  /* ── CARDS ── */
   .card {
-    width: 52px; height: 72px;
-    background: var(--card-bg);
-    border-radius: 4px;
-    border: 1px solid #ccc;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    font-size: 0.8rem;
-    font-family: 'Crimson Pro', serif;
-    font-weight: 600;
-    cursor: default;
-    position: relative;
-    flex-shrink: 0;
-    transition: transform 0.15s, box-shadow 0.15s;
+    width: 52px; height: 72px; background: var(--card-bg); border-radius: 4px;
+    border: 1px solid #ccc; display: flex; flex-direction: column; align-items: center;
+    justify-content: center; font-size: 0.8rem; font-family: 'Crimson Pro', serif;
+    font-weight: 600; cursor: default; position: relative; flex-shrink: 0;
+    transition: transform 0.15s, box-shadow 0.15s, border-color 0.15s;
     box-shadow: 0 2px 6px rgba(0,0,0,0.4);
   }
   .card.red { color: var(--card-red); }
   .card.black { color: var(--card-black); }
-  .card.face-down {
-    background: linear-gradient(135deg, #1e1e30, #14142a);
-    border-color: var(--border);
-    font-size: 1rem;
-    color: var(--text-dim);
-  }
-  .card.joker { color: #6a0dad; font-size: 0.65rem; font-weight: 700; }
-  .card.small {
-    width: 36px; height: 50px;
-    font-size: 0.6rem;
-  }
-  .card.tiny {
-    width: 28px; height: 38px;
-    font-size: 0.5rem;
-  }
+  .card.face-down { background: linear-gradient(135deg, #1e1e30, #14142a); border-color: var(--border); font-size: 1rem; color: var(--text-dim); }
+  .card.joker { color: var(--purple); font-size: 0.65rem; font-weight: 700; background: linear-gradient(135deg,#f8f0ff,#faf6ee); }
+  .card.small { width: 36px; height: 50px; font-size: 0.6rem; }
+  .card.tiny { width: 28px; height: 38px; font-size: 0.5rem; }
   .card.selectable { cursor: pointer; }
-  .card.selectable:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 8px 16px rgba(0,0,0,0.5);
-    border-color: var(--gold);
-  }
-  .card.selected {
-    transform: translateY(-10px);
-    border: 2px solid var(--gold);
-    box-shadow: 0 10px 20px rgba(201,168,76,0.3);
-  }
-  .card.discard-target {
-    border: 2px solid var(--red-light);
-    cursor: pointer;
-  }
-  .card.discard-target:hover { transform: translateY(-6px); box-shadow: 0 6px 16px rgba(224,69,69,0.3); }
-  .card.pickup-highlight {
-    border: 2px solid var(--green) !important;
-    cursor: pointer;
-    animation: pulse-green 1s infinite;
-  }
-  @keyframes pulse-green {
-    0%, 100% { box-shadow: 0 2px 6px rgba(61,186,126,0.3); }
-    50% { box-shadow: 0 4px 16px rgba(61,186,126,0.6); }
-  }
-
-  .card-top {
-    position: absolute;
-    top: 2px; left: 3px;
-    font-size: 0.7rem;
-    line-height: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
+  .card.selectable:hover { transform: translateY(-6px); box-shadow: 0 8px 16px rgba(0,0,0,0.5); border-color: var(--gold); }
+  .card.selected { transform: translateY(-10px); border: 2px solid var(--gold); box-shadow: 0 10px 20px rgba(201,168,76,0.3); }
+  .card.tutupan-target { border: 2px solid var(--green); box-shadow: 0 0 12px rgba(61,186,126,0.5); }
+  .card.pickup-target { border: 2px solid var(--green) !important; cursor: pointer; animation: pulseGreen 1.2s infinite; }
+  @keyframes pulseGreen { 0%,100%{box-shadow:0 2px 6px rgba(61,186,126,0.3)} 50%{box-shadow:0 4px 16px rgba(61,186,126,0.7)} }
+  .card.pickup-drag { border: 1px dashed rgba(61,186,126,0.4) !important; opacity:0.7; }
+  .card.in-combo { box-shadow: 0 0 0 2px rgba(61,186,126,0.7), 0 2px 6px rgba(0,0,0,0.4); }
+  .card.not-combo { box-shadow: 0 0 0 2px rgba(224,69,69,0.6), 0 2px 6px rgba(0,0,0,0.4); }
+  .card.joker.mati { box-shadow: 0 0 0 2px var(--red), 0 0 12px rgba(224,69,69,0.6); }
+  .card.dragging { opacity: 0.4; }
+  .card-top { position: absolute; top: 2px; left: 3px; font-size: 0.7rem; line-height: 1; display: flex; flex-direction: column; align-items: center; }
   .card-center { font-size: 1.3rem; }
   .card.small .card-center { font-size: 1rem; }
   .card.tiny .card-center { font-size: 0.75rem; }
   .card.small .card-top { font-size: 0.55rem; }
   .card.tiny .card-top { font-size: 0.45rem; top: 1px; left: 2px; }
+  .card.face-down::after { content: '\2726'; font-size: 1.5rem; color: rgba(201,168,76,0.15); }
+  .joker-role {
+    position:absolute; bottom:1px; left:50%; transform:translateX(-50%);
+    font-size:0.45rem; color:var(--purple); background:rgba(154,77,204,0.12);
+    border:1px solid rgba(154,77,204,0.3); padding:0 3px; border-radius:2px;
+    letter-spacing:0.02em; white-space:nowrap; max-width: 90%; overflow: hidden;
+  }
+  .bot-hand { display: flex; gap: 2px; flex-wrap: wrap; }
 
-  /* Back of card pattern */
-  .card.face-down::after {
-    content: '✦';
-    font-size: 1.5rem;
-    color: rgba(201,168,76,0.15);
+  .banner {
+    padding: 0.4rem 0.8rem; font-size: 0.7rem; text-align: center;
+    display: none; margin-bottom: 0.3rem;
   }
+  .banner.active { display: block; }
+  .banner.pickup { background: rgba(61,186,126,0.1); border: 1px solid var(--green); color: var(--green); }
+  .banner.discard { background: rgba(224,69,69,0.12); border: 1px solid var(--red); color: var(--red-light); }
+  .banner.tutup { background: rgba(61,186,126,0.15); border: 1px solid var(--green); color: var(--green); }
 
-  /* Bot hand display (face-down small) */
-  .bot-hand {
-    display: flex;
-    gap: 2px;
-    flex-wrap: wrap;
-  }
+  .action-panel { display: flex; gap: 0.5rem; align-items: center; padding: 0.4rem 0; flex-wrap: wrap; }
+  .action-hint { font-size: 0.65rem; color: var(--text-muted); font-style: italic; flex: 1; }
+  .action-hint.urgent { color: var(--gold); font-weight:500; }
 
-  /* Action panel */
-  .action-panel {
-    display: flex;
-    gap: 0.5rem;
-    align-items: center;
-    padding: 0.4rem 0;
-    flex-wrap: wrap;
-  }
-  .action-hint {
-    font-size: 0.62rem;
-    color: var(--text-muted);
-    font-style: italic;
-    flex: 1;
-  }
-  .action-hint.urgent { color: var(--gold); }
-
-  /* Modal */
-  .modal-overlay {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.85);
-    z-index: 100;
-    align-items: center;
-    justify-content: center;
-  }
+  .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 100; align-items: center; justify-content: center; }
   .modal-overlay.active { display: flex; }
-  .modal {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    padding: 2rem;
-    max-width: 420px;
-    width: 90%;
-    max-height: 80vh;
-    overflow-y: auto;
-  }
-  .modal h2 {
-    font-family: 'Playfair Display', serif;
-    color: var(--gold);
-    margin-bottom: 1rem;
-    font-size: 1.4rem;
-  }
+  .modal { background: var(--surface); border: 1px solid var(--border); padding: 2rem; max-width: 540px; width: 92%; max-height: 88vh; overflow-y: auto; }
+  .modal h2 { font-family: 'Playfair Display', serif; color: var(--gold); margin-bottom: 1rem; font-size: 1.4rem; }
   .modal table { width: 100%; border-collapse: collapse; font-size: 0.75rem; }
-  .modal td, .modal th {
-    padding: 0.4rem 0.6rem;
-    border-bottom: 1px solid var(--border);
-    text-align: left;
-  }
+  .modal td, .modal th { padding: 0.4rem 0.6rem; border-bottom: 1px solid var(--border); text-align: left; }
   .modal th { color: var(--text-muted); font-weight: normal; font-size: 0.65rem; text-transform: uppercase; }
   .modal td.winner { color: var(--gold); font-weight: 700; }
   .modal td.loser { color: var(--red); }
 
-  /* Toast */
   .toast {
-    position: fixed;
-    top: 80px;
-    left: 50%;
-    transform: translateX(-50%) translateY(-10px);
-    background: var(--surface2);
-    border: 1px solid var(--border);
-    color: var(--text);
-    padding: 0.6rem 1.2rem;
-    font-size: 0.75rem;
-    z-index: 200;
-    opacity: 0;
-    transition: all 0.3s;
-    pointer-events: none;
+    position: fixed; top: 80px; left: 50%; transform: translateX(-50%) translateY(-10px);
+    background: var(--surface2); border: 1px solid var(--border); color: var(--text);
+    padding: 0.6rem 1.2rem; font-size: 0.78rem; z-index: 200;
+    opacity: 0; transition: all 0.3s; pointer-events: none; max-width:90%; text-align:center;
   }
-  .toast.visible {
-    opacity: 1;
-    transform: translateX(-50%) translateY(0);
-  }
+  .toast.visible { opacity: 1; transform: translateX(-50%) translateY(0); }
   .toast.gold { border-color: var(--gold); color: var(--gold); }
   .toast.red { border-color: var(--red); color: var(--red-light); }
   .toast.green { border-color: var(--green); color: var(--green); }
 
-  /* Discard selection mode */
-  .discard-mode-banner {
-    background: rgba(224,69,69,0.15);
-    border: 1px solid var(--red);
-    color: var(--red-light);
-    padding: 0.4rem 0.8rem;
-    font-size: 0.7rem;
-    text-align: center;
-    display: none;
-  }
-  .discard-mode-banner.active { display: block; }
-
-  /* Pickup selection mode */
-  .pickup-mode-banner {
-    background: rgba(61,186,126,0.1);
-    border: 1px solid var(--green);
-    color: var(--green);
-    padding: 0.4rem 0.8rem;
-    font-size: 0.7rem;
-    text-align: center;
-    display: none;
-  }
-  .pickup-mode-banner.active { display: block; }
-
-  /* Score modal specific */
   .score-delta { font-size: 0.7rem; }
   .score-delta.pos { color: var(--green); }
   .score-delta.neg { color: var(--red); }
-
-  .footer-hint {
-    text-align: center;
-    padding: 0.3rem;
-    font-size: 0.6rem;
-    color: var(--text-dim);
-    border-top: 1px solid var(--border);
-  }
-
-  /* Scrollbar */
-  ::-webkit-scrollbar { width: 4px; height: 4px; }
+  .footer-hint { text-align: center; padding: 0.3rem; font-size: 0.6rem; color: var(--text-dim); border-top: 1px solid var(--border); }
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
   ::-webkit-scrollbar-track { background: transparent; }
   ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
-
-  /* responsive */
-  @media (max-width: 600px) {
+  @media (max-width: 700px) {
     .card { width: 42px; height: 60px; }
     .card .card-top { font-size: 0.6rem; }
     .card .card-center { font-size: 1.1rem; }
+    .table-area { grid-template-columns: 1fr 1fr; }
+    .log-zone { grid-column: 1 / -1; }
   }
-
-  /* ── JOKER ASSIGNMENT MODAL ── */
-  .joker-modal-overlay {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.88);
-    z-index: 300;
-    align-items: center;
-    justify-content: center;
-  }
-  .joker-modal-overlay.active { display: flex; }
-  .joker-modal {
-    background: var(--surface);
-    border: 2px solid #6a0dad;
-    padding: 1.5rem;
-    max-width: 480px;
-    width: 95%;
-    max-height: 80vh;
-    overflow-y: auto;
-  }
-  .joker-modal h3 {
-    font-family: 'Playfair Display', serif;
-    color: #b06de0;
-    margin-bottom: 0.8rem;
-    font-size: 1.1rem;
-  }
-  .joker-modal p { font-size: 0.7rem; color: var(--text-muted); margin-bottom: 0.8rem; }
-  .joker-suit-section { margin-bottom: 0.8rem; }
-  .joker-suit-label { font-size: 0.62rem; color: var(--text-dim); margin-bottom: 0.3rem; letter-spacing: 0.08em; text-transform: uppercase; }
-  .joker-card-grid { display: flex; flex-wrap: wrap; gap: 4px; }
-  .joker-card-option {
-    padding: 0.25rem 0.5rem;
-    border: 1px solid var(--border);
-    background: var(--surface2);
-    cursor: pointer;
-    font-family: 'Crimson Pro', serif;
-    font-size: 0.75rem;
-    font-weight: 600;
-    transition: all 0.15s;
-    min-width: 44px;
-    text-align: center;
-  }
-  .joker-card-option.red { color: var(--card-red); }
-  .joker-card-option.black { color: var(--card-black); background: #f5f0e8; border-color: #aaa; }
-  .joker-card-option:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(106,13,173,0.3); border-color: #9a3dcc; }
-  .joker-card-option.used { opacity: 0.35; cursor: not-allowed; }
-  .joker-modal .btn-cancel-joker {
-    margin-top: 0.8rem;
-    background: transparent;
-    border: 1px solid var(--border);
-    color: var(--text-muted);
-    padding: 0.4rem 1rem;
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 0.65rem;
-    cursor: pointer;
-    letter-spacing: 0.05em;
-  }
-
-  /* Joker kartu dengan assignment */
-  .card.joker-assigned { color: #6a0dad; }
-  .card.joker-assigned .joker-badge {
-    position: absolute;
-    top: 1px; right: 2px;
-    font-size: 0.4rem;
-    background: #6a0dad;
-    color: white;
-    padding: 0 2px;
-    border-radius: 2px;
-    line-height: 1.4;
-  }
-
-  /* Drag and drop */
-  .card.dragging { opacity: 0.4; }
-  .card.drag-over { border-color: var(--gold) !important; transform: translateY(-4px); }
-
-  /* Combo highlight in hand */
-  .hand-cards .card.in-combo { box-shadow: 0 0 0 2px var(--green); }
-  .hand-cards .card.not-combo { box-shadow: 0 0 0 2px var(--red); opacity: 0.85; }
-
 </style>
 </head>
 <body>
@@ -741,22 +320,23 @@
 <div id="menu-screen" class="screen active">
   <div class="menu-title">CEKIH</div>
   <div class="menu-sub">permainan kartu remi indonesia</div>
-  <div class="menu-suits"><span>♥</span><span>♠</span><span>♣</span><span>♦</span></div>
+  <div class="menu-suits"><span>&#9829;</span><span>&#9824;</span><span>&#9827;</span><span>&#9830;</span></div>
   <button class="btn-primary" onclick="startGame()">MULAI PERMAINAN</button>
   <button class="btn-secondary" onclick="document.getElementById('rules-modal').classList.add('active')">ATURAN SINGKAT</button>
   <div class="menu-rules">
     <h3>CARA BERMAIN</h3>
     <ul>
-      <li>4 pemain, 7 kartu awal masing-masing</li>
-      <li>Setiap giliran: ambil 1 kartu tengah ATAU ambil dari buangan (maks 7)</li>
+      <li>4 pemain, 7 kartu dibagikan acak, 26 kartu tengah</li>
+      <li>Setiap giliran: ambil 1 kartu tengah ATAU dari area buangan (maks 7 terakhir)</li>
       <li>Selalu buang 1 kartu setelah mengambil</li>
-      <li>Seri angka: urutan sama lambang (min 3, hanya 2–10)</li>
-      <li>Seri raja: J♠Q♠K♠ satu lambang</li>
-      <li>Threes: 3–4 kartu raja/AS sama pangkat beda lambang</li>
-      <li>Seri AS = 4 kartu AS (pengganti seri untuk syarat threes)</li>
-      <li>Cekih: bilang "cekih" saat butuh 1 kartu lagi</li>
-      <li>Kecebur: pemain sebelummu buang kartu yang kamu butuhkan</li>
-      <li>Target: 500 poin pertama menang!</li>
+      <li>Seri angka: urutan satu lambang (min 3, hanya 2&ndash;10)</li>
+      <li>Seri raja: J+Q+K satu lambang</li>
+      <li>Threes: 3&ndash;4 kartu raja/AS sama pangkat. Butuh seri dulu.</li>
+      <li>Seri AS = 4 kartu AS</li>
+      <li>Joker otomatis menggantikan kartu apapun (wildcard)</li>
+      <li>Cekih: kurang 1 kartu untuk tutup (otomatis terdeteksi)</li>
+      <li>Kecebur: pemain sebelum Anda buang kartu yang Anda butuhkan</li>
+      <li>Pertama mencapai 500 poin menang!</li>
     </ul>
   </div>
 </div>
@@ -772,65 +352,59 @@
     <button class="btn-icon" onclick="document.getElementById('rules-modal').classList.add('active')" title="Aturan">?</button>
   </div>
 
-  <div class="score-bar" id="score-bar">
-    <!-- 4 score cells inserted by JS -->
-  </div>
-
-  <div class="pickup-mode-banner" id="pickup-banner">
-    ▸ Klik kartu buangan untuk memilih batas penarikan (maks 7 dari terakhir). Kartu yang cocok akan dibuka di meja.
-    <button class="btn-action" style="margin-left:8px" onclick="cancelPickup()">BATAL</button>
-  </div>
-  <div class="discard-mode-banner" id="discard-banner">
-    ▸ Pilih 1 kartu di tangan untuk dibuang
-  </div>
+  <div class="score-bar" id="score-bar"></div>
 
   <div class="game-main">
 
-    <!-- Bot areas top row -->
     <div class="bot-areas">
       <div class="player-area" id="area-p1">
-        <div class="player-area-label"><span id="name-p1">BOT 1</span> &nbsp;·&nbsp; <span id="hand-count-p1">7</span> kartu</div>
+        <div class="player-area-label"><span class="pname" id="name-p1">BOT 1</span><span><span id="hand-count-p1">7</span> kartu <span class="cekih-tag" id="cekih-tag-p1"></span></span></div>
         <div class="bot-hand" id="hand-display-p1"></div>
         <div class="open-combos" id="open-p1"></div>
       </div>
-      <div class="player-area" id="area-p2" style="grid-column:2">
-        <div class="player-area-label"><span id="name-p2">BOT 2</span> &nbsp;·&nbsp; <span id="hand-count-p2">7</span> kartu</div>
+      <div class="player-area" id="area-p2">
+        <div class="player-area-label"><span class="pname" id="name-p2">BOT 2</span><span><span id="hand-count-p2">7</span> kartu <span class="cekih-tag" id="cekih-tag-p2"></span></span></div>
         <div class="bot-hand" id="hand-display-p2"></div>
         <div class="open-combos" id="open-p2"></div>
       </div>
       <div class="player-area" id="area-p3">
-        <div class="player-area-label"><span id="name-p3">BOT 3</span> &nbsp;·&nbsp; <span id="hand-count-p3">7</span> kartu</div>
+        <div class="player-area-label"><span class="pname" id="name-p3">BOT 3</span><span><span id="hand-count-p3">7</span> kartu <span class="cekih-tag" id="cekih-tag-p3"></span></span></div>
         <div class="bot-hand" id="hand-display-p3"></div>
         <div class="open-combos" id="open-p3"></div>
       </div>
     </div>
 
-    <!-- Table -->
     <div class="table-area">
       <div class="deck-zone">
         <div class="deck-label">Kartu Tengah</div>
-        <div class="deck-pile" id="deck-pile" onclick="humanDrawDeck()">🂠</div>
+        <div class="deck-pile" id="deck-pile" onclick="onDeckClick()">&#127136;</div>
         <div class="deck-count" id="deck-count">26 kartu</div>
+        <div class="deck-shuffler" id="deck-shuffler"></div>
       </div>
       <div class="discard-zone">
-        <div class="deck-label">Buangan (terbuka)</div>
+        <div class="discard-head">
+          <span>Area Buangan (terbuka)</span>
+          <span id="discard-count">0 kartu</span>
+        </div>
         <div class="discard-scroll">
           <div class="discard-row" id="discard-row"></div>
         </div>
       </div>
-      <div class="log-zone" id="game-log">
-        <div class="log-entry">Permainan dimulai...</div>
-      </div>
+      <div class="log-zone" id="game-log"></div>
     </div>
 
-    <!-- Human area -->
     <div class="human-area">
+      <div id="banner-pickup" class="banner pickup">&#9656; Klik kartu hijau di area buangan untuk mengambil (semua kartu setelah posisi itu akan ikut terambil). <button class="btn-action" style="margin-left:8px" onclick="cancelPickup()">BATAL</button></div>
+      <div id="banner-tutup" class="banner tutup">&#9656; Pilih kartu di tangan sebagai TUTUPAN. Sisa kartu harus semua dalam kombinasi. <button class="btn-action" style="margin-left:8px" onclick="cancelTutup()">BATAL</button></div>
+      <div id="banner-discard" class="banner discard">&#9656; Pilih 1 kartu di tangan untuk dibuang (klik 2 kali untuk konfirmasi)</div>
+
       <div class="human-area-top">
-        <div class="human-label">Kartu Anda &nbsp;·&nbsp; <span id="hand-count-p0">7</span> di tangan</div>
+        <div class="human-label">Kartu Anda &nbsp;&middot;&nbsp; <span id="hand-count-p0">7</span> di tangan <span id="cekih-self" class="cekih-tag" style="color:var(--red-light);margin-left:8px"></span></div>
         <div class="human-controls">
-          <button class="btn-action" id="btn-cekih" onclick="declareCekih()" disabled>CEKIH</button>
+          <button class="btn-action kecebur" id="btn-kecebur" onclick="executeHumanKecebur()" style="display:none">CEBURIN!</button>
+          <button class="btn-action tutup" id="btn-tutup" onclick="enterTutupMode()" style="display:none">TUTUP</button>
           <button class="btn-action" id="btn-pickup" onclick="enterPickupMode()" disabled>AMBIL BUANGAN</button>
-          <button class="btn-action" id="btn-drawdeck" onclick="humanDrawDeck()" disabled>AMBIL TENGAH</button>
+          <button class="btn-action" id="btn-drawdeck" onclick="onDeckClick()" disabled>AMBIL TENGAH</button>
         </div>
       </div>
       <div class="hand-cards" id="hand-p0"></div>
@@ -841,7 +415,7 @@
     </div>
 
   </div>
-  <div class="footer-hint">Klik kartu di tangan untuk memilih · Shift+klik untuk multi-select</div>
+  <div class="footer-hint">Drag kartu di tangan untuk menata urutan. Joker otomatis menggantikan kartu yang diperlukan.</div>
 </div>
 
 <!-- TOAST -->
@@ -860,7 +434,7 @@
 <!-- GAME OVER MODAL -->
 <div class="modal-overlay" id="gameover-modal">
   <div class="modal">
-    <h2 id="gameover-title">🏆 GAME OVER</h2>
+    <h2 id="gameover-title">&#127942; GAME OVER</h2>
     <div id="gameover-body"></div>
     <br>
     <button class="btn-primary" onclick="location.reload()" style="width:100%">MAIN LAGI</button>
@@ -873,12 +447,12 @@
     <h2>Aturan Cekih</h2>
     <table>
       <tr><th>Kombinasi</th><th>Syarat</th><th>Poin/kartu</th></tr>
-      <tr><td>Seri Angka</td><td>Urutan, lambang sama, 2–10, min 3</td><td>+5</td></tr>
-      <tr><td>Seri Raja</td><td>J+Q+K satu lambang, bisa +Joker</td><td>+10</td></tr>
-      <tr><td>Seri AS</td><td>4 kartu AS (bisa +Joker)</td><td>+15</td></tr>
-      <tr><td>Threes Raja</td><td>3–4 kartu raja sama, beda lambang. Perlu seri dulu.</td><td>+10</td></tr>
-      <tr><td>Threes AS</td><td>3–4 kartu AS. Perlu seri dulu.</td><td>+15</td></tr>
-      <tr><td colspan="3" style="color:var(--text-muted);font-size:0.65rem;padding-top:0.5rem">Kartu tidak di kombinasi: angka -5, raja -10, AS -15, Joker: mati joker -250</td></tr>
+      <tr><td>Seri Angka</td><td>Urutan, satu lambang, 2&ndash;10, min 3</td><td>+5</td></tr>
+      <tr><td>Seri Raja</td><td>J+Q+K satu lambang (boleh +Joker)</td><td>+10</td></tr>
+      <tr><td>Seri AS</td><td>4 kartu AS (boleh +Joker)</td><td>+15</td></tr>
+      <tr><td>Threes Raja</td><td>3&ndash;4 kartu raja sama, beda lambang. Butuh seri.</td><td>+10</td></tr>
+      <tr><td>Threes AS</td><td>3 kartu AS (boleh +Joker). Butuh seri.</td><td>+15</td></tr>
+      <tr><td colspan="3" style="color:var(--text-muted);font-size:0.65rem;padding-top:0.5rem">Kartu di luar kombinasi: angka -5, raja -10, AS -15, Joker tidak ditempatkan: MATI JOKER -250</td></tr>
     </table>
     <br>
     <table>
@@ -891,1565 +465,1496 @@
     <br>
     <table>
       <tr><th>Kondisi Spesial</th><th>Efek</th></tr>
-      <tr><td>Tutup Tangan</td><td>Flat +250 (murni tengah, tidak ambil buangan)</td></tr>
+      <tr><td>Tutup Tangan</td><td>Flat +250 (murni tengah, tak pernah ambil buangan)</td></tr>
       <tr><td>Tutup Tangan Murni Raja</td><td>Flat +350</td></tr>
-      <tr><td>Kecebur</td><td>Poin ronde = 0 + minus nilai tutupan lawan</td></tr>
-      <tr><td>Mati Joker</td><td>-250 dari total akumulasi</td></tr>
-      <tr><td>Bakar Poin</td><td>Jika poin ≥100 dilewati orang lain → reset ke 0</td></tr>
+      <tr><td>Kecebur</td><td>Pemain yang ceburkan: -nilai tutupan lawan</td></tr>
+      <tr><td>Mati Joker</td><td>-250 dari akumulasi</td></tr>
+      <tr><td>Bakar Poin</td><td>Poin &ge;100 dilewati pemain lain &rarr; reset ke 0</td></tr>
+      <tr><td>Tutupan</td><td>Double-count bila kartu tutupan menyambung kombinasi</td></tr>
+      <tr><td>Pegadaian</td><td>Ambil threes saat seri masih di tangan &rarr; seri ikut diturunkan</td></tr>
     </table>
     <br>
     <button class="btn-secondary" onclick="document.getElementById('rules-modal').classList.remove('active')" style="width:100%">TUTUP</button>
   </div>
 </div>
-
-
-<!-- JOKER ASSIGNMENT MODAL -->
-<div class="joker-modal-overlay" id="joker-modal-overlay">
-  <div class="joker-modal">
-    <h3>🃏 Atur Posisi Joker</h3>
-    <p>Pilih kartu yang ingin digantikan oleh Joker ini. Joker akan tampil sebagai kartu tersebut di tangan Anda. Anda bisa mengubahnya kapan saja.</p>
-    <div id="joker-suit-sections"></div>
-    <div style="display:flex;gap:0.5rem;margin-top:0.8rem;flex-wrap:wrap">
-      <button class="btn-cancel-joker" onclick="clearJokerAssignment()">🗑 Hapus Assignment</button>
-      <button class="btn-cancel-joker" onclick="closeJokerModal()">Tutup</button>
-    </div>
-  </div>
-</div>
-
 <script>
-// ═══════════════════════════════════════
-//  CONSTANTS & CARD DEFINITIONS
-// ═══════════════════════════════════════
-const SUITS = ['♥','♦','♣','♠'];
-const SUIT_COLORS = { '♥':'red','♦':'red','♣':'black','♠':'black' };
-const RANKS = ['2','3','4','5','6','7','8','9','10','J','Q','K','A'];
-const RANK_ORDER = { '2':2,'3':3,'4':4,'5':5,'6':6,'7':7,'8':8,'9':9,'10':10,'J':11,'Q':12,'K':13,'A':14 };
-const SUIT_SYMBOLS = { '♥':'♥','♦':'♦','♣':'♣','♠':'♠' };
+/* ===== ENGINE INLINED ===== */
+/* ============================================================
+   CEKIH ENGINE — logika murni permainan (tanpa DOM)
+   ============================================================ */
+(function (root) {
+'use strict';
 
-function isAngka(r) { return ['2','3','4','5','6','7','8','9','10'].includes(r); }
-function isRaja(r) { return ['J','Q','K'].includes(r); }
-function isAce(r) { return r === 'A'; }
-function isJoker(c) { return c.rank === 'JOK'; }
+var SUITS = ['\u2665', '\u2666', '\u2663', '\u2660'];
+var RANKS = ['2','3','4','5','6','7','8','9','10','J','Q','K','A'];
+var RANK_NUM = {'2':2,'3':3,'4':4,'5':5,'6':6,'7':7,'8':8,'9':9,'10':10,'J':11,'Q':12,'K':13,'A':14};
 
-function cardId(c) { return c.rank + c.suit; }
-function cardValue(c) {
+function isAngka(r){ return r!=='JOK' && RANK_NUM[r]>=2 && RANK_NUM[r]<=10; }
+function isRaja(r){ return r==='J'||r==='Q'||r==='K'; }
+function isAce(r){ return r==='A'; }
+function isJoker(c){ return c && c.rank==='JOK'; }
+function cid(c){ return isJoker(c) ? ('JOK'+(c.jid)) : (c.rank+c.suit); }
+
+function tierOf(c){
   if (isJoker(c)) return 0;
   if (isAce(c.rank)) return 15;
   if (isRaja(c.rank)) return 10;
   return 5;
 }
-function closureBonus(c) {
+function closureBonus(c){
   if (isJoker(c)) return 250;
   if (isAce(c.rank)) return 150;
   if (isRaja(c.rank)) return 100;
   return 50;
 }
 
-// ═══════════════════════════════════════
-//  DECK
-// ═══════════════════════════════════════
-function createDeck() {
-  const deck = [];
-  for (const s of SUITS) for (const r of RANKS) deck.push({rank:r, suit:s});
-  deck.push({rank:'JOK',suit:'🃏',id:'J1'});
-  deck.push({rank:'JOK',suit:'🃏',id:'J2'});
-  return deck;
+function createDeck(){
+  var d=[];
+  for (var s=0;s<SUITS.length;s++)
+    for (var r=0;r<RANKS.length;r++)
+      d.push({rank:RANKS[r], suit:SUITS[s]});
+  d.push({rank:'JOK', suit:'\u2605', jid:1});
+  d.push({rank:'JOK', suit:'\u2605', jid:2});
+  return d;
 }
-function shuffle(arr) {
-  const a = [...arr];
-  for (let i=a.length-1;i>0;i--) {
-    const j = Math.floor(Math.random()*(i+1));
-    [a[i],a[j]] = [a[j],a[i]];
+function shuffle(a, rng){
+  rng = rng || Math.random;
+  a = a.slice();
+  for (var i=a.length-1;i>0;i--){
+    var j=Math.floor(rng()*(i+1));
+    var t=a[i]; a[i]=a[j]; a[j]=t;
   }
   return a;
 }
 
-// ═══════════════════════════════════════
-//  COMBINATION LOGIC
-// ═══════════════════════════════════════
+function numLabel(n){ return ''+n; }
 
-// Check valid series: same suit, consecutive angka (2-10), min 3
-function isValidAngkaSeri(cards) {
-  const non_joker = cards.filter(c=>!isJoker(c));
-  const jokers = cards.filter(c=>isJoker(c));
-  if (non_joker.length < 2) return false;
-  const suits = [...new Set(non_joker.map(c=>c.suit))];
-  if (suits.length > 1) return false;
-  const ranks = non_joker.map(c=>RANK_ORDER[c.rank]).sort((a,b)=>a-b);
-  // all must be angka
-  if (!non_joker.every(c=>isAngka(c.rank))) return false;
-  // fill gaps with jokers
-  let gaps = 0;
-  for (let i=1;i<ranks.length;i++) gaps += (ranks[i]-ranks[i-1]-1);
-  if (gaps > jokers.length) return false;
-  // total length min 3
-  return cards.length >= 3;
-}
-
-// Check valid raja seri: J,Q,K same suit, min 3 (with Joker), min length 3
-function isValidRajaSeri(cards) {
-  const non_joker = cards.filter(c=>!isJoker(c));
-  const jokers = cards.filter(c=>isJoker(c));
-  if (non_joker.length < 2 && jokers.length < 2) return false;
-  const suits = [...new Set(non_joker.map(c=>c.suit))];
-  if (suits.length > 1) return false;
-  if (!non_joker.every(c=>isRaja(c.rank))) return false;
-  const rrs = non_joker.map(c=>RANK_ORDER[c.rank]).sort((a,b)=>a-b);
-  // gaps
-  let gaps = 0;
-  for (let i=1;i<rrs.length;i++) gaps += (rrs[i]-rrs[i-1]-1);
-  if (gaps > jokers.length) return false;
-  return cards.length >= 3 && cards.length <= 3+jokers.length;
-}
-
-// Check valid ace seri: exactly 4 aces (or 3 aces + 1 joker, 2 aces + 2 jokers)
-function isValidAceSeri(cards) {
-  const aces = cards.filter(c=>isAce(c.rank));
-  const jokers = cards.filter(c=>isJoker(c));
-  if (aces.length + jokers.length !== 4) return false;
-  if (cards.length !== 4) return false;
-  const aceSuits = aces.map(c=>c.suit);
-  if (new Set(aceSuits).size !== aceSuits.length) return false; // dup suits
-  return true;
-}
-
-// Check valid threes: 3-4 cards same rank (J/Q/K or A), diff suits, needs seri
-function isValidThrees(cards, hasSeri) {
-  if (!hasSeri) return false;
-  const non_joker = cards.filter(c=>!isJoker(c));
-  const jokers = cards.filter(c=>isJoker(c));
-  if (non_joker.length < 2) return false;
-  const ranks = [...new Set(non_joker.map(c=>c.rank))];
-  if (ranks.length !== 1) return false;
-  const r = ranks[0];
-  if (!isRaja(r) && !isAce(r)) return false;
-  const suits = non_joker.map(c=>c.suit);
-  if (new Set(suits).size !== suits.length) return false;
-  return cards.length >= 3 && cards.length <= 4;
-}
-
-// Check if a single combination array is valid
-function checkCombo(cards, hasSeri) {
-  if (cards.length < 3) return false;
-  return isValidAngkaSeri(cards) || isValidRajaSeri(cards) || isValidAceSeri(cards) || isValidThrees(cards, hasSeri);
-}
-
-// ═══════════════════════════════════════
-//  SCORE CALCULATION
-// ═══════════════════════════════════════
-function calcScore(player, closureCard, closureType) {
-  // closureType: 'tutup' | 'tutupTangan' | 'murniRaja' | null
-  if (closureType === 'tutupTangan') {
-    const hasAngka = player.hand.some(c=>isAngka(c.rank));
-    return hasAngka ? 250 : 350;
+function asNumSeri(cards){
+  var nonJ=[], jok=0, i;
+  for (i=0;i<cards.length;i++){ if(isJoker(cards[i])) jok++; else nonJ.push(cards[i]); }
+  if (nonJ.length===0) return null;
+  var suit=nonJ[0].suit, ranks=[];
+  for (i=0;i<nonJ.length;i++){
+    if (!isAngka(nonJ[i].rank)) return null;
+    if (nonJ[i].suit!==suit) return null;
+    ranks.push(RANK_NUM[nonJ[i].rank]);
   }
+  var seen={};
+  for (i=0;i<ranks.length;i++){ if(seen[ranks[i]]) return null; seen[ranks[i]]=1; }
+  var n=cards.length;
+  if (n<3 || n>9) return null;
+  var minR=Math.min.apply(null,ranks), maxR=Math.max.apply(null,ranks);
+  if (maxR-minR+1 > n) return null;
+  var loMin=Math.max(2, maxR-n+1), loMax=Math.min(minR, 10-n+1);
+  if (loMin>loMax) return null;
+  var lo=loMin;  // utamakan isi gap bawah & internal sebelum perpanjangan atas
+  var labels=[];
+  for (var rk=lo; rk<lo+n; rk++){ if (!seen[rk]) labels.push(numLabel(rk)+suit); }
+  return {type:'seri', tier:5, jokerLabels:labels};
+}
 
-  let score = 0;
+function asRajaSeri(cards){
+  if (cards.length!==3) return null;
+  var nonJ=[], jok=0, i;
+  for (i=0;i<cards.length;i++){ if(isJoker(cards[i])) jok++; else nonJ.push(cards[i]); }
+  if (nonJ.length===0) return null;
+  var suit=nonJ[0].suit, present={};
+  for (i=0;i<nonJ.length;i++){
+    if (!isRaja(nonJ[i].rank)) return null;
+    if (nonJ[i].suit!==suit) return null;
+    if (present[nonJ[i].rank]) return null;
+    present[nonJ[i].rank]=1;
+  }
+  var need=['J','Q','K'], labels=[];
+  for (i=0;i<need.length;i++){ if(!present[need[i]]) labels.push(need[i]+suit); }
+  if (labels.length>jok) return null;
+  return {type:'seri', tier:10, jokerLabels:labels};
+}
 
-  // open combos on table
-  for (const combo of player.openCombos) {
-    for (const c of combo) {
-      score += isJoker(c) ? getJokerValueInCombo(c, combo) : cardValue(c);
+function asAceSeri(cards){
+  if (cards.length!==4) return null;
+  var nonJ=[], jok=0, i;
+  for (i=0;i<cards.length;i++){ if(isJoker(cards[i])) jok++; else nonJ.push(cards[i]); }
+  if (nonJ.length===0) return null;
+  var suits={};
+  for (i=0;i<nonJ.length;i++){
+    if (!isAce(nonJ[i].rank)) return null;
+    if (suits[nonJ[i].suit]) return null;
+    suits[nonJ[i].suit]=1;
+  }
+  var labels=[];
+  for (i=0;i<SUITS.length;i++){ if(!suits[SUITS[i]]) labels.push('A'+SUITS[i]); }
+  labels=labels.slice(0,jok);
+  return {type:'seri', tier:15, jokerLabels:labels};
+}
+
+function asRajaThrees(cards){
+  if (cards.length<3 || cards.length>4) return null;
+  var nonJ=[], jok=0, i;
+  for (i=0;i<cards.length;i++){ if(isJoker(cards[i])) jok++; else nonJ.push(cards[i]); }
+  if (nonJ.length===0) return null;
+  var rank=nonJ[0].rank;
+  if (!isRaja(rank)) return null;
+  var suits={};
+  for (i=0;i<nonJ.length;i++){
+    if (nonJ[i].rank!==rank) return null;
+    if (suits[nonJ[i].suit]) return null;
+    suits[nonJ[i].suit]=1;
+  }
+  var labels=[], cnt=0;
+  for (i=0;i<SUITS.length && cnt<jok;i++){ if(!suits[SUITS[i]]){ labels.push(rank+SUITS[i]); cnt++; } }
+  return {type:'threes', tier:10, jokerLabels:labels};
+}
+
+function asAceThrees(cards){
+  if (cards.length!==3) return null;
+  var nonJ=[], jok=0, i;
+  for (i=0;i<cards.length;i++){ if(isJoker(cards[i])) jok++; else nonJ.push(cards[i]); }
+  if (nonJ.length===0) return null;
+  var suits={};
+  for (i=0;i<nonJ.length;i++){
+    if (!isAce(nonJ[i].rank)) return null;
+    if (suits[nonJ[i].suit]) return null;
+    suits[nonJ[i].suit]=1;
+  }
+  var labels=[], cnt=0;
+  for (i=0;i<SUITS.length && cnt<jok;i++){ if(!suits[SUITS[i]]){ labels.push('A'+SUITS[i]); cnt++; } }
+  return {type:'threes', tier:15, jokerLabels:labels};
+}
+
+function classifyGroup(cards){
+  return asNumSeri(cards) || asRajaSeri(cards) || asAceSeri(cards) ||
+         asRajaThrees(cards) || asAceThrees(cards) || null;
+}
+function isSeriGroup(cards){
+  return !!(asNumSeri(cards) || asRajaSeri(cards) || asAceSeri(cards));
+}
+
+function popcount(x){ var c=0; while(x){ c+=x&1; x>>=1; } return c; }
+function lowestBit(mask){ var i=0; while(!(mask&(1<<i))) i++; return i; }
+
+function genCandidates(cards){
+  var n=cards.length, out=[];
+  var total=1<<n;
+  for (var mask=1; mask<total; mask++){
+    var bits=popcount(mask);
+    if (bits<3 || bits>9) continue;
+    var sub=[], idxs=[];
+    for (var i=0;i<n;i++) if (mask&(1<<i)){ sub.push(cards[i]); idxs.push(i); }
+    var info=classifyGroup(sub);
+    if (info) out.push({mask:mask, idxs:idxs, type:info.type, tier:info.tier, jokerLabels:info.jokerLabels});
+  }
+  return out;
+}
+
+var JOKER_LEFTOVER_PENALTY = 1000;
+
+function evaluate(cards, hasExternalSeri){
+  var n=cards.length;
+  if (n===0) return {combos:[], leftover:[], hasSeri:!!hasExternalSeri, matiJoker:false, score:0};
+  if (n>11){ // guard; tangan tak pernah > 8, tapi aman
+    return greedyEval(cards, hasExternalSeri);
+  }
+  var cands=genCandidates(cards);
+  var byLow={};
+  for (var k=0;k<cands.length;k++){
+    var lb=lowestBit(cands[k].mask);
+    (byLow[lb]=byLow[lb]||[]).push(cands[k]);
+  }
+  var fullMask=(1<<n)-1;
+  var best={chosen:[], score:-Infinity, coveredMask:0};
+  var nodes={v:0};
+
+  function negOf(c){ return isJoker(c)?JOKER_LEFTOVER_PENALTY:tierOf(c); }
+  function scoreLeaf(chosen){
+    var coveredMask=0, i, g;
+    for (i=0;i<chosen.length;i++) coveredMask|=chosen[i].mask;
+    var seriPresent=!!hasExternalSeri;
+    for (i=0;i<chosen.length;i++) if (chosen[i].type==='seri'){ seriPresent=true; break; }
+    var score=0;
+    for (i=0;i<chosen.length;i++){
+      g=chosen[i];
+      if (g.type==='seri'){ score += g.tier*g.idxs.length; }
+      else { if (seriPresent){ score += g.tier*g.idxs.length; } else { for (var j=0;j<g.idxs.length;j++) score -= negOf(cards[g.idxs[j]]); } }
     }
+    for (i=0;i<n;i++){ if (!(coveredMask&(1<<i))) score -= negOf(cards[i]); }
+    if (score>best.score){ best.score=score; best.chosen=chosen.slice(); best.coveredMask=coveredMask; }
   }
-
-  // hand combos
-  const handCombos = player.handCombos || [];
-  const usedInCombo = new Set();
-  for (const combo of handCombos) {
-    for (const c of combo) usedInCombo.add(cardId(c));
-    for (const c of combo) {
-      score += isJoker(c) ? getJokerValueInCombo(c, combo) : cardValue(c);
-    }
-  }
-
-  // remaining hand cards not in combo
-  const hasAnyCombos = (player.openCombos.length > 0 || handCombos.length > 0);
-  for (const c of player.hand) {
-    if (isJoker(c)) {
-      // check mati joker
-      const inCombo = handCombos.some(combo=>combo.some(cc=>cardId(cc)===cardId(c)));
-      if (!inCombo) {
-        // mati joker handled separately
-      }
-      continue;
-    }
-    const inCombo = handCombos.some(combo=>combo.some(cc=>cardId(cc)===cardId(c)));
-    if (!inCombo) score -= cardValue(c);
-  }
-
-  // check mati joker
-  for (const c of player.hand) {
-    if (isJoker(c)) {
-      const inCombo = handCombos.some(combo=>combo.some(cc=>cardId(cc)===cardId(c)));
-      if (!inCombo) {
-        // mati joker penalty applied to total accumulated
-        score -= 0; // will be handled separately at global level
-        player.matiJoker = true;
-      }
-    }
-  }
-
-  // closure bonus
-  if (closureCard && closureType === 'tutup') {
-    score += closureBonus(closureCard);
-    // also count closure card itself if in combo
-    const inHandCombo = handCombos.some(combo=>combo.some(cc=>cardId(cc)===cardId(closureCard)));
-    const inOpenCombo = player.openCombos.some(combo=>combo.some(cc=>cardId(cc)===cardId(closureCard)));
-    if (inHandCombo || inOpenCombo) {
-      score += cardValue(closureCard);
-    }
-  }
-
-  return score;
-}
-
-function getJokerValueInCombo(joker, combo) {
-  const non_joker = combo.filter(c=>!isJoker(c));
-  if (non_joker.length === 0) return 5;
-  // infer from combo type
-  if (non_joker.every(c=>isAngka(c.rank))) return 5;
-  if (non_joker.every(c=>isRaja(c.rank))) return 10;
-  if (non_joker.every(c=>isAce(c.rank))) return 15;
-  // mixed - return most common
-  return cardValue(non_joker[0]);
-}
-
-// ═══════════════════════════════════════
-//  GAME STATE
-// ═══════════════════════════════════════
-let G = {};
-
-// ═══════════════════════════════════════
-//  JOKER ASSIGNMENT SYSTEM
-// ═══════════════════════════════════════
-// jokerAssignments: Map dari cardId(joker) -> {rank, suit} yang dia gantikan
-// Ini hanya untuk DISPLAY dan EVALUASI poin - tidak mengubah kartu asli
-let jokerAssignments = {}; // { 'JOKJ1': {rank:'7', suit:'♢'}, ... }
-let jokerModalTarget = null; // cardId joker yang sedang di-assign
-
-function openJokerModal(jokerCardId) {
-  jokerModalTarget = jokerCardId;
-  const overlay = document.getElementById('joker-modal-overlay');
-  const sections = document.getElementById('joker-suit-sections');
-  
-  // Kartu yang sudah dipakai di tangan + meja pemain (tidak termasuk joker itu sendiri)
-  const p = G.players[0];
-  const usedCards = new Set();
-  for (const c of p.hand) { if (!isJoker(c)) usedCards.add(cardId(c)); }
-  for (const combo of p.openCombos) { for (const c of combo) { if (!isJoker(c)) usedCards.add(cardId(c)); } }
-  // Kartu yang sudah ada di buangan & kartu pemain lain (sudah terpakai di deck)
-  // Kartu yang sudah "dipakai" oleh joker lain
-  for (const [jid, assigned] of Object.entries(jokerAssignments)) {
-    if (jid !== jokerModalTarget && assigned) usedCards.add(assigned.rank + assigned.suit);
-  }
-
-  const RAJA_RANKS = ['J','Q','K'];
-  const ANGKA_RANKS = ['2','3','4','5','6','7','8','9','10'];
-  
-  let html = '';
-  const suitGroups = [
-    { label: '♥ Hati (Merah)', suits: ['♥'], colorClass: 'red' },
-    { label: '♦ Wajik (Merah)', suits: ['♦'], colorClass: 'red' },
-    { label: '♣ Keriting (Hitam)', suits: ['♣'], colorClass: 'black' },
-    { label: '♠ Sekop (Hitam)', suits: ['♠'], colorClass: 'black' },
-  ];
-  
-  for (const sg of suitGroups) {
-    html += `<div class="joker-suit-section"><div class="joker-suit-label">${sg.label}</div><div class="joker-card-grid">`;
-    const suit = sg.suits[0];
-    const allRanks = [...ANGKA_RANKS, ...RAJA_RANKS, 'A'];
-    for (const rank of allRanks) {
-      const cid = rank + suit;
-      const isUsed = usedCards.has(cid);
-      const isCurrent = jokerAssignments[jokerModalTarget] && jokerAssignments[jokerModalTarget].rank === rank && jokerAssignments[jokerModalTarget].suit === suit;
-      html += `<div class="joker-card-option ${sg.colorClass} ${isUsed ? 'used' : ''}" 
-        style="${isCurrent ? 'border-color:#9a3dcc;background:rgba(106,13,173,0.15);' : ''}"
-        onclick="${isUsed ? '' : `assignJoker('${jokerModalTarget}','${rank}','${suit}')`}"
-        title="${isUsed ? 'Kartu ini sudah digunakan' : rank+suit}">
-        ${rank}${suit}
-      </div>`;
-    }
-    html += '</div></div>';
-  }
-  
-  sections.innerHTML = html;
-  overlay.classList.add('active');
-}
-
-function assignJoker(jokerCardId, rank, suit) {
-  jokerAssignments[jokerCardId] = { rank, suit };
-  closeJokerModal();
-  // Re-evaluate cekih status
-  updateCekihStatus(0);
-  render();
-  showToast(`Joker → ${rank}${suit}`, 'gold', 2000);
-}
-
-function clearJokerAssignment() {
-  if (jokerModalTarget) {
-    delete jokerAssignments[jokerModalTarget];
-  }
-  closeJokerModal();
-  updateCekihStatus(0);
-  render();
-}
-
-function closeJokerModal() {
-  document.getElementById('joker-modal-overlay').classList.remove('active');
-  jokerModalTarget = null;
-}
-
-// Dapatkan kartu "efektif" dari joker (setelah assignment)
-function getEffectiveCard(c) {
-  if (!isJoker(c)) return c;
-  const assigned = jokerAssignments[cardId(c)];
-  if (assigned) return { ...c, _isJoker: true, rank: assigned.rank, suit: assigned.suit };
-  return c;
-}
-
-// Versi hand yang sudah di-resolve Joker-nya untuk evaluasi
-function resolveHandWithJokers(hand) {
-  return hand.map(c => {
-    if (!isJoker(c)) return c;
-    const assigned = jokerAssignments[cardId(c)];
-    if (assigned) return { ...c, _isJoker: true, _jokerCardId: cardId(c), rank: assigned.rank, suit: assigned.suit };
-    return c; // belum di-assign, tetap sebagai Joker
-  });
-}
-
-// computeCekihNeeded yang pakai Joker assignment
-function computeCekihNeededWithAssignment(p) {
-  const hand = p.hand;
-  if (hand.length === 0) return null;
-  const hasSeriOpen = p.openCombos.some(c => isValidAngkaSeri(c)||isValidRajaSeri(c)||isValidAceSeri(c));
-
-  for (let i = 0; i < hand.length; i++) {
-    const tutupan = hand[i];
-    const rest = hand.filter((_, j) => j !== i);
-    if (rest.length === 0) continue;
-    // Gunakan versi resolved dengan joker assignment untuk evaluasi
-    const resolved = resolveHandWithJokers(rest);
-    // Ganti Joker yang sudah di-assign agar isValidXxx bisa mengenali
-    const evalCards = resolved.map(c => {
-      if (isJoker(c) && c._isJoker) return c; // sudah di-resolve, tapi cardValue masih pakai joker logic
-      return c;
-    });
-    const result = findBestComboAssignment(evalCards, hasSeriOpen);
-    if (result.uncovered.length === 0) return tutupan;
-  }
-  return null;
-}
-
-// Reset joker assignments saat ronde baru
-function resetJokerAssignments() {
-  jokerAssignments = {};
-}
-
-
-function initGameState() {
-  resetJokerAssignments();
-  const deck = shuffle(createDeck());
-  const players = [
-    { name:'Anda', isHuman:true,  hand:[], openCombos:[], handCombos:[], points:0, cekih:false, matiJoker:false, tookFromDiscard:false },
-    { name:'Bot 1',isHuman:false, hand:[], openCombos:[], handCombos:[], points:0, cekih:false, matiJoker:false, tookFromDiscard:false },
-    { name:'Bot 2',isHuman:false, hand:[], openCombos:[], handCombos:[], points:0, cekih:false, matiJoker:false, tookFromDiscard:false },
-    { name:'Bot 3',isHuman:false, hand:[], openCombos:[], handCombos:[], points:0, cekih:false, matiJoker:false, tookFromDiscard:false },
-  ];
-  // deal 7 each
-  for (let i=0;i<7;i++) for (const p of players) p.hand.push(deck.pop());
-  G = {
-    players,
-    deck,
-    discard: [],          // all discarded cards, oldest first
-    currentPlayer: 0,     // index
-    round: 1,
-    firstCycle: true,     // first full cycle - must draw from deck
-    firstCycleDone: false,
-    turnPhase: 'draw',    // 'draw' | 'discard'
-    winner: null,
-    gameOver: false,
-    startPlayer: 0,
-    closedBy: null,       // player index who closed
-    closureCard: null,
-    closureType: null,    // 'tutup' | 'tutupTangan' | 'murniRaja'
-    cekiburanBy: null,    // player index who got kecebur
-    roundDone: false,
-    playersWhoMoved: new Set(), // track first cycle
-  };
-  // determine starting player: random first round, or highest points from last
-  G.currentPlayer = G.startPlayer;
-  G.turnPhase = 'draw';
-}
-
-// ═══════════════════════════════════════
-//  UI HELPERS
-// ═══════════════════════════════════════
-function suitSymbol(s) { return s; }
-
-function cardHTML(c, cls='', onclick='') {
-  if (!c) return '';
-  const isJ = isJoker(c);
-  const colorClass = isJ ? 'joker' : SUIT_COLORS[c.suit] === 'red' ? 'red' : 'black';
-  const r = isJ ? 'JKR' : c.rank;
-  const s = isJ ? '🃏' : c.suit;
-  const onclickAttr = onclick ? `onclick="${onclick}"` : '';
-  return `<div class="card ${colorClass} ${cls}" ${onclickAttr}>
-    <div class="card-top"><span>${r}</span><span>${s}</span></div>
-    <div class="card-center">${s}</div>
-  </div>`;
-}
-
-function cardHTMLTiny(c, cls='') {
-  if (!c) return '';
-  const isJ = isJoker(c);
-  const colorClass = isJ ? 'joker' : SUIT_COLORS[c.suit] === 'red' ? 'red' : 'black';
-  const r = isJ ? 'JK' : c.rank;
-  const s = isJ ? '🃏' : c.suit;
-  return `<div class="card tiny ${colorClass} ${cls}">
-    <div class="card-top"><span>${r}</span><span>${s}</span></div>
-    <div class="card-center">${s}</div>
-  </div>`;
-}
-
-function showToast(msg, type='', duration=2200) {
-  const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.className = `toast visible ${type}`;
-  setTimeout(() => { t.className = 'toast'; }, duration);
-}
-
-function addLog(msg, cls='') {
-  const log = document.getElementById('game-log');
-  const el = document.createElement('div');
-  el.className = `log-entry ${cls}`;
-  el.textContent = msg;
-  log.appendChild(el);
-  log.scrollTop = log.scrollHeight;
-  // keep max 80 entries
-  while (log.children.length > 80) log.removeChild(log.firstChild);
-}
-
-// ═══════════════════════════════════════
-//  RENDER
-// ═══════════════════════════════════════
-let selectedCards = new Set(); // indices in hand
-let uiMode = 'idle'; // 'idle' | 'pickup' | 'discard'
-
-function render() {
-  renderScoreBar();
-  renderBotAreas();
-  renderDiscardRow();
-  renderHumanHand();
-  renderDeckInfo();
-  renderActionButtons();
-}
-
-function renderScoreBar() {
-  const bar = document.getElementById('score-bar');
-  bar.innerHTML = '';
-  for (let i=0;i<4;i++) {
-    const p = G.players[i];
-    const isActive = G.currentPlayer === i;
-    const pts = p.points;
-    const ptsClass = pts < 0 ? 'negative' : pts >= 300 ? 'high' : '';
-    const statusText = p.cekih ? '🔴 CEKIH' : '';
-    bar.innerHTML += `
-      <div class="score-cell ${isActive?'active-turn':''} ${i===0?'human':''}">
-        <div class="score-name">
-          ${p.name}
-          <span class="badge ${i===0?'':'bot'}">${i===0?'ANDA':'BOT'}</span>
-        </div>
-        <div class="score-points ${ptsClass}">${pts}</div>
-        <div class="score-status ${p.cekih?'cekih':''}">${statusText}</div>
-        <div class="turn-indicator"></div>
-      </div>`;
-  }
-}
-
-function renderBotAreas() {
-  for (let i=1;i<=3;i++) {
-    const p = G.players[i];
-    const area = document.getElementById(`area-p${i}`);
-    if (area) {
-      area.className = `player-area ${G.currentPlayer===i?'active-turn':''}`;
-    }
-    const countEl = document.getElementById(`hand-count-p${i}`);
-    if (countEl) countEl.textContent = p.hand.length;
-    // face down cards
-    const handDisplay = document.getElementById(`hand-display-p${i}`);
-    if (handDisplay) {
-      handDisplay.innerHTML = '';
-      for (let j=0;j<p.hand.length;j++) {
-        handDisplay.innerHTML += `<div class="card tiny face-down"></div>`;
+  function rec(mask, chosen){
+    nodes.v++;
+    if (nodes.v>500000){ scoreLeaf(chosen); return; }
+    if (mask===0){ scoreLeaf(chosen); return; }
+    var i=lowestBit(mask);
+    var list=byLow[i];
+    if (list){
+      for (var t=0;t<list.length;t++){
+        var G=list[t];
+        if ((G.mask&mask)===G.mask){ chosen.push(G); rec(mask & ~G.mask, chosen); chosen.pop(); }
       }
     }
-    // open combos
-    const openEl = document.getElementById(`open-p${i}`);
-    if (openEl) {
-      openEl.innerHTML = '';
-      for (const combo of p.openCombos) {
-        let g = '<div class="combo-group">';
-        for (const c of combo) g += cardHTMLTiny(c);
-        g += '</div>';
-        openEl.innerHTML += g;
-      }
+    rec(mask & ~(1<<i), chosen);
+  }
+  rec(fullMask, []);
+
+  var seriPresent=!!hasExternalSeri, i;
+  for (i=0;i<best.chosen.length;i++) if (best.chosen[i].type==='seri'){ seriPresent=true; break; }
+  var combos=[], usedMask=0;
+  for (i=0;i<best.chosen.length;i++){
+    var g=best.chosen[i];
+    if (g.type==='seri' || seriPresent){
+      var cobj={cards:[], type:g.type, tier:g.tier, jokerLabels:g.jokerLabels};
+      for (var j=0;j<g.idxs.length;j++) cobj.cards.push(cards[g.idxs[j]]);
+      combos.push(cobj); usedMask|=g.mask;
     }
   }
-  // round info
-  document.getElementById('round-num').textContent = G.round;
+  var leftover=[], matiJoker=false;
+  for (i=0;i<n;i++){ if (!(usedMask&(1<<i))){ leftover.push(cards[i]); if (isJoker(cards[i])) matiJoker=true; } }
+  var disp=0;
+  for (i=0;i<combos.length;i++) disp += combos[i].tier*combos[i].cards.length;
+  for (i=0;i<leftover.length;i++) if(!isJoker(leftover[i])) disp -= tierOf(leftover[i]);
+  return {combos:combos, leftover:leftover, hasSeri:seriPresent, matiJoker:matiJoker, score:disp};
 }
 
-function renderDiscardRow() {
-  const row = document.getElementById('discard-row');
-  row.innerHTML = '';
-  const dis = G.discard;
-  const p = G.players[0];
-  const hasSeri = hasSeriInHand(p);
-  const handWithoutJoker = p.hand.filter(c => !isJoker(c));
+function greedyEval(cards, ext){ // fallback sederhana (tak dipakai pada tangan normal)
+  return {combos:[], leftover:cards.slice(), hasSeri:!!ext, matiJoker:cards.some(isJoker), score:0};
+}
 
-  // Pre-compute which positions are valid pickup targets (in pickup mode)
-  const validTargets = new Set();
-  if (uiMode === 'pickup') {
-    const limit = Math.min(7, dis.length);
-    const startIdx = dis.length - limit;
-    for (let i = startIdx; i < dis.length; i++) {
-      const taken = dis.slice(i);
-      const pool = [...handWithoutJoker, ...taken];
-      let found = false;
-      for (let size = 3; size <= pool.length && !found; size++) {
-        const combos = getCombinations(pool, size);
-        for (const combo of combos) {
-          const targetCard = dis[i];
-          if (!combo.some(c => cardId(c) === cardId(targetCard))) continue;
-          if (combo.some(c => isJoker(c))) continue;
-          if (checkCombo(combo, hasSeri)) { found = true; break; }
-        }
-      }
-      if (found) validTargets.add(i);
+// kandidat kartu X yang berpotensi melengkapi (terfokus, lengkap untuk penyelesaian 1-kartu)
+function candidateDrawCards(hand){
+  var held={}, jcount=0, i, s;
+  for (i=0;i<hand.length;i++){ if(isJoker(hand[i])) jcount++; else held[cid(hand[i])]=1; }
+  var seen={}, cands=[];
+  function add(r, suit){ var id=r+suit; if(held[id]||seen[id]) return; seen[id]=1; cands.push({rank:r,suit:suit}); }
+  for (i=0;i<hand.length;i++){
+    var c=hand[i];
+    if (isJoker(c)) continue;
+    if (isAngka(c.rank)){
+      var n=RANK_NUM[c.rank];
+      for (var d=-2; d<=2; d++){ var nr=n+d; if(nr>=2&&nr<=10) add(''+nr, c.suit); }
+    } else if (isRaja(c.rank)){
+      add('J',c.suit); add('Q',c.suit); add('K',c.suit);
+      for (s=0;s<SUITS.length;s++) add(c.rank, SUITS[s]);
+    } else if (isAce(c.rank)){
+      for (s=0;s<SUITS.length;s++) add('A', SUITS[s]);
     }
   }
-
-  for (let i=0;i<dis.length;i++) {
-    const fromEnd = dis.length - 1 - i; // 0=last
-    const isInRange = fromEnd < 7;
-    const isValid = validTargets.has(i);
-    let cls = 'small';
-    let onclick = '';
-    if (uiMode === 'pickup') {
-      if (isValid) {
-        cls += ' pickup-highlight selectable';
-        onclick = `pickupFromDiscard(${i})`;
-      } else if (isInRange) {
-        // dalam range tapi tidak valid - tetap tampilkan tapi tidak bisa diklik
-        cls += ' selectable';
-        onclick = `showToast('Kartu ini tidak membentuk kombinasi valid!', 'red', 2000)`;
-      }
-    }
-    row.innerHTML += cardHTMLSmall(dis[i], cls, onclick);
-  }
-
-  // scroll to end
-  const scroll = document.querySelector('.discard-scroll');
-  if (scroll) scroll.scrollLeft = scroll.scrollWidth;
+  // joker sebagai X (jika masih ada joker tersisa di game: maks 2)
+  if (jcount<2) cands.push({rank:'JOK', suit:'\u2605', jid:99});
+  return cands;
 }
 
-function cardHTMLSmall(c, cls='', onclick='') {
-  if (!c) return '';
-  const isJ = isJoker(c);
-  const colorClass = isJ ? 'joker' : SUIT_COLORS[c.suit] === 'red' ? 'red' : 'black';
-  const r = isJ ? 'JKR' : c.rank;
-  const s = isJ ? '🃏' : c.suit;
-  const onclickAttr = onclick ? `onclick="${onclick}"` : '';
-  return `<div class="card small ${colorClass} ${cls}" ${onclickAttr}>
-    <div class="card-top"><span>${r}</span><span>${s}</span></div>
-    <div class="card-center">${s}</div>
-  </div>`;
-}
-
-function renderHumanHand() {
-  const p = G.players[0];
-  const handEl = document.getElementById('hand-p0');
-  handEl.innerHTML = '';
-  const isMyTurn = G.currentPlayer === 0;
-  const canSelect = isMyTurn && (uiMode === 'discard' || uiMode === 'idle');
-
-  // Evaluasi combo terbaik untuk highlight
-  const hasSeriOpen = p.openCombos.some(c => isValidAngkaSeri(c)||isValidRajaSeri(c)||isValidAceSeri(c));
-  const resolvedHand = resolveHandWithJokers(p.hand);
-  const evalResult = findBestComboAssignment(resolvedHand, hasSeriOpen);
-  const inComboIds = new Set();
-  for (const combo of evalResult.combos) {
-    for (const c of combo) inComboIds.add(c._jokerCardId || cardId(c));
-  }
-
-  for (let i = 0; i < p.hand.length; i++) {
-    const c = p.hand[i];
-    const isJ = isJoker(c);
-    const assigned = isJ ? jokerAssignments[cardId(c)] : null;
-    const sel = selectedCards.has(i);
-    const cid = isJ ? (cardId(c)) : cardId(c);
-    const comboHighlight = inComboIds.has(cid) ? ' in-combo' : ' not-combo';
-
-    let cls = comboHighlight;
-    if (canSelect) cls += ' selectable';
-    if (sel) cls += ' selected';
-    if (uiMode === 'discard' && sel) cls += ' discard-target';
-
-    if (isJ) {
-      // Joker: klik untuk buka assignment modal (jika giliran sendiri), atau klik untuk discard
-      const onclickStr = canSelect
-        ? (uiMode === 'discard' || G.turnPhase === 'discard'
-            ? `selectCard(${i})`
-            : `openJokerModalOrSelect(${i})`)
-        : '';
-      handEl.innerHTML += cardHTMLJoker(c, assigned, cls, onclickStr);
-    } else {
-      handEl.innerHTML += cardHTML(c, cls, canSelect ? `selectCard(${i})` : '');
-    }
-  }
-
-  // Drag and drop untuk reorder tangan
-  setupHandDragDrop(handEl, p);
-
-  document.getElementById('hand-count-p0').textContent = p.hand.length;
-
-  // open combos
-  const openEl = document.getElementById('open-p0');
-  openEl.innerHTML = '';
-  for (const combo of p.openCombos) {
-    let g = '<div class="combo-group">';
-    for (const c of combo) g += cardHTMLSmall(c);
-    g += '</div>';
-    openEl.innerHTML += g;
-  }
-}
-
-function openJokerModalOrSelect(idx) {
-  // Jika sedang di fase discard, select untuk discard
-  if (uiMode === 'discard' || G.turnPhase === 'discard') {
-    selectCard(idx);
-    return;
-  }
-  // Buka modal assignment
-  const c = G.players[0].hand[idx];
-  if (c) openJokerModal(cardId(c));
-}
-
-function cardHTMLJoker(c, assigned, cls='', onclick='') {
-  const onclickAttr = onclick ? `onclick="${onclick}"` : '';
-  if (assigned) {
-    const colorClass = ['♥','♦'].includes(assigned.suit) ? 'red' : 'black';
-    return `<div class="card ${colorClass} ${cls}" ${onclickAttr} style="border:2px dashed #9a3dcc;position:relative" title="Joker sebagai ${assigned.rank}${assigned.suit} (klik untuk ubah)">
-      <div class="card-top"><span>${assigned.rank}</span><span>${assigned.suit}</span></div>
-      <div class="card-center">${assigned.suit}</div>
-      <span class="joker-badge">JKR</span>
-    </div>`;
-  }
-  return `<div class="card joker ${cls}" ${onclickAttr} title="Joker - klik untuk assign posisi">
-    <div class="card-top"><span>JKR</span><span>🃏</span></div>
-    <div class="card-center">🃏</div>
-  </div>`;
-}
-
-let dragSrcIdx = null;
-function setupHandDragDrop(handEl, p) {
-  const cards = handEl.querySelectorAll('.card');
-  cards.forEach((el, i) => {
-    el.draggable = true;
-    el.addEventListener('dragstart', e => {
-      dragSrcIdx = i;
-      e.dataTransfer.effectAllowed = 'move';
-      setTimeout(() => el.classList.add('dragging'), 0);
-    });
-    el.addEventListener('dragend', () => {
-      el.classList.remove('dragging');
-      dragSrcIdx = null;
-    });
-    el.addEventListener('dragover', e => {
-      e.preventDefault();
-      e.dataTransfer.dropEffect = 'move';
-      el.classList.add('drag-over');
-    });
-    el.addEventListener('dragleave', () => el.classList.remove('drag-over'));
-    el.addEventListener('drop', e => {
-      e.preventDefault();
-      el.classList.remove('drag-over');
-      if (dragSrcIdx === null || dragSrcIdx === i) return;
-      // Reorder hand
-      const hand = p.hand;
-      const moved = hand.splice(dragSrcIdx, 1)[0];
-      hand.splice(i, 0, moved);
-      dragSrcIdx = null;
-      render();
-    });
-  });
-}
-
-function renderDeckInfo() {
-  const el = document.getElementById('deck-count');
-  if (el) el.textContent = `${G.deck.length} kartu`;
-  document.getElementById('deck-remaining').textContent = G.deck.length;
-  const pile = document.getElementById('deck-pile');
-  if (pile) {
-    const myTurn = G.currentPlayer === 0;
-    const canDraw = myTurn && G.turnPhase === 'draw';
-    pile.className = `deck-pile ${canDraw ? 'clickable' : 'disabled'}`;
-  }
-}
-
-function renderActionButtons() {
-  const myTurn = G.currentPlayer === 0;
-  const drawPhase = G.turnPhase === 'draw';
-  const discardPhase = G.turnPhase === 'discard';
-  const p = G.players[0];
-
-  const btnDraw = document.getElementById('btn-drawdeck');
-  const btnPickup = document.getElementById('btn-pickup');
-  const btnCekih = document.getElementById('btn-cekih');
-
-  btnDraw.disabled = !(myTurn && drawPhase);
-  btnPickup.disabled = !(myTurn && drawPhase && G.discard.length > 0 && !G.firstCycle);
-  btnCekih.disabled = !(myTurn && !p.cekih);
-  btnCekih.textContent = p.cekih ? '✓ CEKIH' : 'CEKIH';
-
-  const hint = document.getElementById('action-hint');
-  if (!myTurn) {
-    hint.textContent = `Giliran ${G.players[G.currentPlayer].name}...`;
-    hint.className = 'action-hint';
-  } else if (drawPhase) {
-    hint.textContent = G.firstCycle ? 'Putaran pertama: wajib ambil kartu tengah' : 'Giliran Anda: ambil kartu tengah atau dari buangan';
-    hint.className = 'action-hint urgent';
-  } else if (discardPhase) {
-    hint.textContent = 'Pilih 1 kartu untuk dibuang (klik kartu, lalu klik BUANG)';
-    hint.className = 'action-hint urgent';
-  }
-
-  // mode banners
-  document.getElementById('pickup-banner').className = `pickup-mode-banner ${uiMode==='pickup'?'active':''}`;
-  document.getElementById('discard-banner').className = `discard-mode-banner ${uiMode==='discard'?'active':''}`;
-}
-
-// ═══════════════════════════════════════
-//  HUMAN ACTIONS
-// ═══════════════════════════════════════
-let pendingDiscard = -1;
-
-function selectCard(idx) {
-  if (G.currentPlayer !== 0) return;
-  if (G.turnPhase === 'discard' || uiMode === 'discard') {
-    if (pendingDiscard === idx) {
-      // confirm discard
-      humanDiscard(idx);
-      return;
-    }
-    selectedCards.clear();
-    selectedCards.add(idx);
-    pendingDiscard = idx;
-    uiMode = 'discard';
-    const c = G.players[0].hand[idx];
-    showToast(`Klik lagi ${c.rank}${c.suit} untuk buang`, '', 2500);
-    render();
-    return;
-  }
-  if (selectedCards.has(idx)) selectedCards.delete(idx);
-  else selectedCards.add(idx);
-  render();
-}
-
-function humanDrawDeck() {
-  if (G.currentPlayer !== 0) return;
-  if (G.turnPhase !== 'draw') return;
-  if (G.deck.length === 0) {
-    showToast('Kartu tengah habis!', 'red');
-    return;
-  }
-  const drawn = G.deck.pop();
-  G.players[0].hand.push(drawn);
-  addLog(`Anda mengambil kartu tengah`);
-  G.turnPhase = 'discard';
-  uiMode = 'discard';
-  selectedCards.clear();
-  pendingDiscard = -1;
-
-  // mark first cycle
-  advanceFirstCycle(0);
-
-  // check if can close immediately
-  checkAutoClose(0, drawn);
-  render();
-}
-
-function enterPickupMode() {
-  if (G.currentPlayer !== 0) return;
-  if (G.turnPhase !== 'draw') return;
-  if (G.firstCycle) { showToast('Putaran pertama: harus ambil kartu tengah', 'red'); return; }
-  if (G.discard.length === 0) { showToast('Tidak ada kartu buangan', 'red'); return; }
-  uiMode = 'pickup';
-  render();
-  showToast('Pilih kartu buangan yang ingin diambil (maks 7 dari terakhir)', 'gold', 3000);
-}
-
-function cancelPickup() {
-  uiMode = 'idle';
-  render();
-}
-
-function pickupFromDiscard(idx) {
-  if (uiMode !== 'pickup') return;
-  const dis = G.discard;
-  const fromEnd = dis.length - 1 - idx;
-  if (fromEnd >= 7) { showToast('Melebihi batas 7 kartu!', 'red'); return; }
-
-  // semua kartu dari idx ke akhir wajib diambil
-  const taken = dis.slice(idx); // preview dulu, belum splice
-  const p = G.players[0];
-  const hasSeri = hasSeriInHand(p);
-
-  // Cari combo yang mengandung setidaknya 1 kartu dari 'taken',
-  // dikombinasikan dengan kartu di tangan (tanpa Joker sebagai pemicu).
-  // Joker di tangan TIDAK boleh menjadi alasan pengambilan buangan.
-  // ATURAN: minimal 2 kartu dalam combo harus dari TANGAN pemain.
-  const handWithoutJoker = p.hand.filter(c => !isJoker(c));
-  const handIds = new Set(handWithoutJoker.map(c => cardId(c)));
-  
-  let bestCombo = null;
-
-  // Coba setiap kartu di 'taken' sebagai targetCard
-  for (const targetCard of taken) {
-    for (let size = 3; size <= 14; size++) {
-      const pool = [...handWithoutJoker, ...taken];
-      const combos = getCombinations(pool, size);
-      for (const combo of combos) {
-        // combo harus mengandung targetCard
-        if (!combo.some(c => cardId(c) === cardId(targetCard))) continue;
-        // tidak boleh ada joker dari tangan (joker tidak bisa jadi alasan ambil buangan)
-        if (combo.some(c => isJoker(c))) continue;
-        // minimal 2 kartu dari TANGAN harus ada dalam combo
-        const fromHand = combo.filter(c => handIds.has(cardId(c)));
-        if (fromHand.length < 2) continue;
-        if (checkCombo(combo, hasSeri)) {
-          bestCombo = combo;
-          break;
-        }
-      }
-      if (bestCombo) break;
-    }
-    if (bestCombo) break;
-  }
-
-  if (!bestCombo) {
-    showToast('Kartu ini tidak membentuk kombinasi valid dengan kartu di tangan!', 'red', 3000);
-    uiMode = 'idle';
-    render();
-    return;
-  }
-
-  // Sekarang benar-benar ambil dari discard
-  dis.splice(idx);
-  const rest = taken.filter(c => !bestCombo.some(bc => cardId(bc) === cardId(c)));
-
-  // Kartu di tangan yang masuk combo dikeluarkan dari tangan
-  removeComboFromHand(p, bestCombo);
-  // Buka combo di meja
-  p.openCombos.push(bestCombo);
-  p.tookFromDiscard = true;
-
-  // Sisa kartu taken (yang tidak masuk combo) masuk ke tangan
-  for (const c of rest) p.hand.push(c);
-
-  addLog(`Anda mengambil dari buangan, membuka kombinasi [${bestCombo.map(c=>c.rank+c.suit).join(',')}]`, 'success');
-  G.turnPhase = 'discard';
-  uiMode = 'discard';
-  selectedCards.clear();
-  pendingDiscard = -1;
-  advanceFirstCycle(0);
-  render();
-  showToast('Kombinasi dibuka! Pilih kartu untuk dibuang', 'green', 2500);
-}
-
-function humanDiscard(idx) {
-  if (G.currentPlayer !== 0) return;
-  const p = G.players[0];
-  const c = p.hand[idx];
-  if (!c) return;
-
-  // Check joker cannot be discarded openly
-  if (isJoker(c) && G.turnPhase === 'discard') {
-    // joker can only be discarded as tutupan (closed)
-    // check if hand is complete
-    const allInCombo = checkHandComplete(p);
-    if (!allInCombo) {
-      showToast('Joker tidak bisa dibuang terbuka! Hanya sebagai kartu tutupan.', 'red', 3000);
-      return;
-    }
-  }
-
-  // Remove from hand
-  p.hand.splice(idx, 1);
-  G.discard.push(c);
-
-  addLog(`Anda membuang ${c.rank}${c.suit}`);
-
-  // Check if this causes kecebur for next player
-  const nextIdx = (0 + 1) % 4;
-  const nextP = G.players[nextIdx];
-  if (nextP.cekih) {
-    const needed = getCekihNeeded(nextP);
-    if (needed && cardId(c) === cardId(needed)) {
-      // kecebur!
-      triggerKecebur(0, nextIdx, c);
-      return;
-    }
-  }
-
-  // End player's turn
-  uiMode = 'idle';
-  selectedCards.clear();
-  pendingDiscard = -1;
-  G.turnPhase = 'draw';
-  advanceTurn();
-}
-
-function declareCekih() {
-  if (G.currentPlayer !== 0) return;
-  const p = G.players[0];
-  if (p.cekih) { showToast('Sudah dalam kondisi cekih', ''); return; }
-  // Coba dengan assignment joker dulu, lalu fallback ke tanpa assignment
-  const needed = computeCekihNeededWithAssignment(p) || computeCekihNeeded(p);
-  if (!needed) { showToast('Belum dalam kondisi cekih (butuh tepat 1 kartu). Jika punya Joker, atur dulu posisinya.', 'red', 4000); return; }
-  p.cekih = true;
-  addLog(`Anda mendeklarasikan CEKIH!`, 'danger');
-  showToast('CEKIH! Pemain lain waspada!', 'red', 3000);
-  render();
-}
-
-// ═══════════════════════════════════════
-//  CEKIH & COMBO ANALYSIS
-// ═══════════════════════════════════════
-function hasSeriInHand(p) {
-  const all = [...p.hand, ...p.openCombos.flat()];
-  // check if any combo on table is a seri
-  for (const combo of p.openCombos) {
-    if (isValidAngkaSeri(combo) || isValidRajaSeri(combo) || isValidAceSeri(combo)) return true;
-  }
-  // check hand combos
-  for (const combo of (p.handCombos||[])) {
-    if (isValidAngkaSeri(combo) || isValidRajaSeri(combo) || isValidAceSeri(combo)) return true;
+// CEKIH = ada 1 kartu X sehingga (tangan + X) bisa langsung tutup
+function isCekih(hand, hasExternalSeri){
+  if (!hand.length) return false;
+  // jika tangan sudah bisa "tutup" tanpa tambahan? itu juga cekih (tinggal ambil & buang)
+  var cands=candidateDrawCards(hand);
+  for (var i=0;i<cands.length;i++){
+    if (bestClose(hand.concat([cands[i]]), hasExternalSeri)) return true;
   }
   return false;
 }
 
-function checkHandComplete(p) {
-  // all cards in hand must be part of some valid combo
-  const combos = p.handCombos || [];
-  const usedCards = new Set();
-  for (const combo of combos) {
-    for (const c of combo) usedCards.add(cardId(c));
-  }
-  for (const c of p.hand) {
-    if (!usedCards.has(cardId(c))) return false;
-  }
-  return true;
+function canJoin(rest, T, hasExternalSeri){
+  var ev=evaluate(rest.concat([T]), hasExternalSeri);
+  if (ev.matiJoker && isJoker(T)) return false;
+  for (var i=0;i<ev.combos.length;i++)
+    for (var j=0;j<ev.combos[i].cards.length;j++)
+      if (cid(ev.combos[i].cards[j])===cid(T)) return true;
+  return false;
 }
 
-// Find what card is needed for cekih (returns tutupan card or null)
-// Cekih = tepat 1 kartu sisa yang tidak masuk kombinasi manapun (= tutupan)
-// Joker BISA menjadi tutupan
-function computeCekihNeeded(p) {
-  const hand = p.hand;
-  if (hand.length === 0) return null;
-
-  // hasSeri = seri sudah ada di open combos atau bisa ditemukan di tangan
-  const hasSeriOpen = p.openCombos.some(c => isValidAngkaSeri(c)||isValidRajaSeri(c)||isValidAceSeri(c));
-
-  // Coba setiap kartu sebagai tutupan (dibuang tertutup)
-  for (let i = 0; i < hand.length; i++) {
-    const tutupan = hand[i];
-    // Joker bisa jadi tutupan - tidak perlu skip
-    const rest = hand.filter((_, j) => j !== i);
-    if (rest.length === 0) continue;
-    // Hitung apakah sisa kartu semua masuk kombinasi
-    const result = findBestComboAssignment(rest, hasSeriOpen);
-    if (result.uncovered.length === 0) {
-      return tutupan; // ini tutupan yang valid - kondisi cekih!
-    }
-  }
-  return null;
-}
-
-function getCekihNeeded(p) {
-  // for bot: return what card would complete their hand
-  // simplified: return the 'tutupan' card
-  return computeCekihNeeded(p);
-}
-
-function findComboWithCard(p, targetCard, hasSeri) {
-  // Joker TIDAK boleh digunakan sebagai alasan menarik buangan.
-  // Hanya kartu non-Joker di tangan yang bisa dikombinasikan dengan targetCard.
-  const handWithoutJoker = p.hand.filter(c => !isJoker(c));
-  
-  // Try to form a valid combo including targetCard (no joker from hand allowed)
-  for (let size=3; size<=7; size++) {
-    const combos = getCombinations([...handWithoutJoker, targetCard], size);
-    for (const combo of combos) {
-      if (!combo.some(c=>cardId(c)===cardId(targetCard))) continue;
-      // combo must NOT contain any joker (jokers in hand can't trigger pickup)
-      if (combo.some(c=>isJoker(c))) continue;
-      if (checkCombo(combo, hasSeri)) return combo;
-    }
-  }
-  return null;
-}
-
-function removeComboFromHand(p, combo) {
-  const ids = new Set(combo.map(c=>cardId(c)));
-  p.hand = p.hand.filter(c=>!ids.has(cardId(c)));
-}
-
-function getCombinations(arr, k) {
-  if (k === 0) return [[]];
-  if (arr.length < k) return [];
-  const [first, ...rest] = arr;
-  const withFirst = getCombinations(rest, k-1).map(c=>[first,...c]);
-  const withoutFirst = getCombinations(rest, k);
-  return [...withFirst, ...withoutFirst];
-}
-
-// Main combo assignment - OPTIMAL dengan backtracking (Joker bisa di posisi manapun)
-function findBestComboAssignment(cards, hasSeri) {
-  return _bestAssignmentBT([...cards], hasSeri, []);
-}
-
-function _bestAssignmentBT(remaining, hasSeri, foundCombos) {
-  if (remaining.length < 3) {
-    return { combos: foundCombos, uncovered: remaining };
-  }
-  let best = { combos: foundCombos, uncovered: remaining };
-  const maxSize = Math.min(remaining.length, 9);
-  for (let size = maxSize; size >= 3; size--) {
-    const combos = getCombinations(remaining, size);
-    for (const combo of combos) {
-      if (!checkCombo(combo, hasSeri)) continue;
-      const isSeri = isValidAngkaSeri(combo) || isValidRajaSeri(combo) || isValidAceSeri(combo);
-      const ids = new Set(combo.map(c => cardId(c)));
-      const newRem = remaining.filter(c => !ids.has(cardId(c)));
-      const sub = _bestAssignmentBT(newRem, hasSeri || isSeri, [...foundCombos, combo]);
-      if (sub.uncovered.length < best.uncovered.length) {
-        best = sub;
-        if (best.uncovered.length === 0) return best;
-      }
+function bestClose(hand, hasExternalSeri){
+  if (!hand.length) return null;
+  var best=null;
+  for (var i=0;i<hand.length;i++){
+    var T=hand[i];
+    var rest=hand.slice(0,i).concat(hand.slice(i+1));
+    var ev=evaluate(rest, hasExternalSeri);
+    var hasComboSomewhere = ev.combos.length>0 || hasExternalSeri;
+    if (ev.leftover.length===0 && hasComboSomewhere){
+      var bonus=closureBonus(T);
+      var dbl=canJoin(rest, T, hasExternalSeri);
+      var cand={tutupan:T, combos:ev.combos, hasSeri:ev.hasSeri, bonus:bonus, doubleCount:dbl, rest:rest};
+      if (!best || bonus>best.bonus || (bonus===best.bonus && dbl && !best.doubleCount)) best=cand;
     }
   }
   return best;
 }
 
-// ═══════════════════════════════════════
-//  KECEBUR & CLOSE
-// ═══════════════════════════════════════
-function triggerKecebur(discarderIdx, cloaserIdx, discardedCard) {
-  const closer = G.players[cloaserIdx];
-  const discarder = G.players[discarderIdx];
-  
-  // closer takes the card
-  closer.hand.push(discardedCard);
-  // find tutupan - find card not in any combo
-  const result = findBestComboAssignment([...closer.hand], hasSeriInHand(closer));
-  closer.handCombos = result.combos;
-  
-  let tutupan = null;
-  if (result.uncovered.length > 0) {
-    // discard the most worthless uncovered card as tutupan
-    tutupan = result.uncovered.reduce((best,c)=> {
-      return cardValue(c) >= cardValue(best) ? best : c;
-    }, result.uncovered[0]);
-  }
-  
-  // remove tutupan from hand
-  if (tutupan) {
-    closer.hand = closer.hand.filter(c=>cardId(c)!==cardId(tutupan));
-    G.discard.push({...tutupan, closed:true});
-  }
-
-  const tutupanBonus = tutupan ? closureBonus(tutupan) : 50;
-  
-  addLog(`${G.players[discarderIdx].name} KECEBUR! ${closer.name} tutup dengan ${tutupan?tutupan.rank+tutupan.suit:'?'}`, 'danger');
-  showToast(`${discarder.name} KECEBUR! -${tutupanBonus} poin`, 'red', 4000);
-
-  G.closedBy = cloaserIdx;
-  G.closureCard = tutupan;
-  G.closureType = 'tutup';
-  G.cekiburanBy = discarderIdx;
-  G.roundDone = true;
-  
-  setTimeout(() => endRound(), 1500);
+function canCloseWithCard(hand, card, hasExternalSeri){
+  return bestClose(hand.concat([card]), hasExternalSeri);
 }
 
-function checkAutoClose(playerIdx, drawnCard) {
-  const p = G.players[playerIdx];
-  // add the drawn card to hand and check if complete
-  const result = findBestComboAssignment([...p.hand], hasSeriInHand(p));
-  if (result.uncovered.length === 1) {
-    // potential tutupan situation, don't auto-close, let player decide
-    updateCekihStatus(playerIdx);
-  }
-  if (result.uncovered.length === 0) {
-    // can close but don't force - for bots we might auto
-    if (playerIdx !== 0) {
-      // bot auto-close
-      performClose(playerIdx, null, 'tutupTangan');
+function findPickupCombo(hand, taken, target, hasExternalSeri){
+  var handNonJoker = hand.filter(function(c){return !isJoker(c);});
+  var handNJIds={}; handNonJoker.forEach(function(c){ handNJIds[cid(c)]=1; });
+  var takenIds={}; taken.forEach(function(c){ takenIds[cid(c)]=1; });
+  var pool = handNonJoker.concat(taken.filter(function(c){return !isJoker(c);}));
+  var seen={}, P=[];
+  pool.forEach(function(c){ if(!seen[cid(c)]){ seen[cid(c)]=1; P.push(c); } });
+  var targetId=cid(target);
+  var n=P.length, total=1<<n;
+  if (n>20) return null;
+  // kumpulkan SEMUA combo kandidat (mengandung target, >=2 kartu tangan, >=1 taken)
+  var candidates=[];
+  for (var mask=1; mask<total; mask++){
+    var bits=popcount(mask);
+    if (bits<3 || bits>9) continue;
+    var sub=[], hasTarget=false, handCount=0, takenCount=0;
+    for (var i=0;i<n;i++) if (mask&(1<<i)){
+      var c=P[i]; sub.push(c);
+      if (cid(c)===targetId) hasTarget=true;
+      if (handNJIds[cid(c)]) handCount++;
+      if (takenIds[cid(c)]) takenCount++;
     }
+    if (!hasTarget || handCount<2 || takenCount<1) continue;
+    var info=classifyGroup(sub);
+    if (!info) continue;
+    candidates.push({cards:sub, type:info.type, tier:info.tier, mask:mask});
   }
-}
-
-function updateCekihStatus(playerIdx) {
-  const p = G.players[playerIdx];
-  let needed;
-  if (p.isHuman) {
-    // Untuk manusia, coba dengan joker assignment dulu
-    needed = computeCekihNeededWithAssignment(p) || computeCekihNeeded(p);
-  } else {
-    needed = computeCekihNeeded(p);
-  }
-  if (needed && !p.cekih) {
-    if (!p.isHuman) {
-      p.cekih = true;
-      addLog(`${p.name} CEKIH!`, 'danger');
-    }
-    // Untuk manusia: hanya update status internal, tidak auto-declare
-    // (pemain harus tekan tombol CEKIH sendiri)
-  } else if (!needed && p.cekih) {
-    p.cekih = false;
-    if (!p.isHuman) addLog(`${p.name} keluar dari kondisi cekih`);
-  }
-}
-
-function performClose(playerIdx, tutupanCard, type) {
-  const p = G.players[playerIdx];
-  
-  if (tutupanCard) {
-    p.hand = p.hand.filter(c=>cardId(c)!==cardId(tutupanCard));
-    G.discard.push({...tutupanCard, closed:true});
-  }
-  
-  const result = findBestComboAssignment([...p.hand], hasSeriInHand(p));
-  p.handCombos = result.combos;
-  
-  G.closedBy = playerIdx;
-  G.closureCard = tutupanCard;
-  G.closureType = type;
-  G.roundDone = true;
-  
-  const bonus = type==='tutupTangan'?(hasOnlyRajaAndAce(p)?350:250):
-                tutupanCard?closureBonus(tutupanCard):0;
-  
-  addLog(`${p.name} TUTUP! (${type==='tutupTangan'?'Tutup Tangan':tutupanCard?tutupanCard.rank+tutupanCard.suit:'?'})`, 'success');
-  showToast(`${p.name} tutup! +${bonus} poin`, 'green', 3000);
-  
-  setTimeout(() => endRound(), 1500);
-}
-
-function hasOnlyRajaAndAce(p) {
-  const all = p.hand.flat();
-  return all.every(c=>isRaja(c.rank)||isAce(c.rank)||isJoker(c));
-}
-
-// ═══════════════════════════════════════
-//  TURN MANAGEMENT
-// ═══════════════════════════════════════
-function advanceFirstCycle(playerIdx) {
-  G.playersWhoMoved.add(playerIdx);
-  if (G.playersWhoMoved.size >= 4) {
-    G.firstCycle = false;
-  }
-}
-
-function advanceTurn() {
-  if (G.roundDone) return;
-  
-  // check deck empty
-  if (G.deck.length === 0) {
-    addLog('Kartu tengah habis! Ronde berakhir.', 'important');
-    G.roundDone = true;
-    setTimeout(() => endRound(), 1000);
-    return;
-  }
-
-  G.currentPlayer = (G.currentPlayer + 1) % 4;
-  G.turnPhase = 'draw';
-  render();
-
-  // if bot, execute bot turn
-  if (G.currentPlayer !== 0) {
-    setTimeout(() => executeBotTurn(G.currentPlayer), 800);
-  }
-}
-
-// ═══════════════════════════════════════
-//  BOT AI
-// ═══════════════════════════════════════
-function evaluateHand(p) {
-  const result = findBestComboAssignment([...p.hand], hasSeriInHand(p));
-  let score = 0;
-  for (const combo of result.combos) score += combo.reduce((s,c)=>s+cardValue(c),0);
-  for (const c of result.uncovered) score -= cardValue(c);
-  return { score, combos: result.combos, uncovered: result.uncovered };
-}
-
-function executeBotTurn(pidx) {
-  if (G.roundDone) return;
-  if (G.currentPlayer !== pidx) return;
-  const p = G.players[pidx];
-
-  // Phase 1: Draw
-  const hasSeri = hasSeriInHand(p);
-  let drewFromDiscard = false;
-
-  if (!G.firstCycle && G.discard.length > 0) {
-    // Try to pick from discard (bot heuristic)
-    const pickResult = botTryPickupDiscard(pidx);
-    if (pickResult) {
-      drewFromDiscard = true;
-      advanceFirstCycle(pidx);
-    }
-  }
-
-  if (!drewFromDiscard) {
-    // draw from deck
-    if (G.deck.length === 0) {
-      addLog('Kartu tengah habis!', 'important');
-      G.roundDone = true;
-      setTimeout(() => endRound(), 800);
-      return;
-    }
-    const drawn = G.deck.pop();
-    p.hand.push(drawn);
-    addLog(`${p.name} mengambil kartu tengah`);
-    advanceFirstCycle(pidx);
-  }
-
-  // Update cekih status
-  updateCekihStatus(pidx);
-
-  // Phase 2: Check if can close
-  const eval2 = findBestComboAssignment([...p.hand], hasSeriInHand(p));
-  if (eval2.uncovered.length === 0) {
-    // can close
-    if (!p.tookFromDiscard) {
-      performClose(pidx, null, 'tutupTangan');
+  // evaluasi kelayakan tiap kandidat; pilih yang layak dengan nilai-turun tertinggi
+  var best=null, bestVal=-1;
+  for (var k=0;k<candidates.length;k++){
+    var combo=candidates[k];
+    var peg=null, feasible=false;
+    if (combo.type==='seri'){
+      feasible=true;
+    } else if (hasExternalSeri){
+      feasible=true;
     } else {
-      performClose(pidx, null, 'tutupTangan');
+      // pegadaian: butuh seri di sisa tangan (boleh joker)
+      var comboIds={}; combo.cards.forEach(function(c){ comboIds[cid(c)]=1; });
+      var restHand=hand.filter(function(c){ return !comboIds[cid(c)]; });
+      var evRest=evaluate(restHand, false);
+      for (var s=0;s<evRest.combos.length;s++){
+        if (evRest.combos[s].type==='seri'){ peg=evRest.combos[s]; break; }
+      }
+      if (peg) feasible=true;
     }
-    return;
+    if (!feasible) continue;
+    // nilai turun = nilai combo + nilai seri pegadaian; kurangi kartu taken yang terbuang
+    var laid = combo.tier*combo.cards.length + (peg? peg.tier*peg.cards.length : 0);
+    var waste = taken.length - combo.cards.filter(function(c){return takenIds[cid(c)];}).length;
+    var val = laid*100 - waste;
+    if (val>bestVal){ bestVal=val; best={combo:{cards:combo.cards, type:combo.type, tier:combo.tier}, pegadaianSeri:peg}; }
   }
-
-  // Phase 3: Discard
-  const discardCard = botChooseDiscard(p);
-  if (!discardCard) {
-    // fallback: discard random
-    const c = p.hand[Math.floor(Math.random()*p.hand.length)];
-    botDiscard(pidx, c);
-    return;
-  }
-  
-  setTimeout(() => {
-    botDiscard(pidx, discardCard);
-  }, 400);
+  return best;
 }
 
-function botTryPickupDiscard(pidx) {
-  const p = G.players[pidx];
-  const dis = G.discard;
-  if (dis.length === 0) return false;
-  const hasSeri = hasSeriInHand(p);
+function validPickupTargets(hand, discard, hasExternalSeri){
+  var res=[];
+  var limit=Math.min(7, discard.length);
+  var start=discard.length-limit;
+  for (var idx=start; idx<discard.length; idx++){
+    var taken=discard.slice(idx);
+    if (findPickupCombo(hand, taken, discard[idx], hasExternalSeri)) res.push(idx);
+  }
+  return res;
+}
 
-  // Bot tidak boleh pakai Joker sebagai alasan tarik buangan
-  const handWithoutJoker = p.hand.filter(c => !isJoker(c));
+function scoreOpen(openCombos){
+  var s=0;
+  for (var i=0;i<openCombos.length;i++){
+    var combo=openCombos[i];
+    var tier=combo.tier!=null?combo.tier:groupTier(combo.cards);
+    s += tier*combo.cards.length;
+  }
+  return s;
+}
+function groupTier(cards){ var info=classifyGroup(cards); return info?info.tier:0; }
 
-  // Check last 7 cards (dari akhir ke awal)
-  const limit = Math.min(7, dis.length);
-  const startIdx = dis.length - limit;
-
-  // Coba setiap posisi target (dari kartu terbaru mundur ke lama)
-  for (let wi = dis.length - 1; wi >= startIdx; wi--) {
-    const targetCard = dis[wi];
-    // Seluruh kartu dari wi sampai akhir wajib diambil
-    const taken = dis.slice(wi);
-
-    // Cari combo: gabungkan tangan (tanpa Joker) + taken
-    // ATURAN: combo harus memiliki minimal 2 kartu dari TANGAN (bukan semuanya dari buangan)
-    const pool = [...handWithoutJoker, ...taken];
-    const takenIds = new Set(taken.map(c => cardId(c)));
-    const handIds = new Set(handWithoutJoker.map(c => cardId(c)));
-    let foundCombo = null;
-
-    for (let size = 3; size <= pool.length; size++) {
-      const combos = getCombinations(pool, size);
-      for (const combo of combos) {
-        if (!combo.some(c => cardId(c) === cardId(targetCard))) continue;
-        if (combo.some(c => isJoker(c))) continue; // no joker trigger
-        // minimal 2 kartu dari tangan harus ada dalam combo
-        const fromHand = combo.filter(c => handIds.has(cardId(c)));
-        if (fromHand.length < 2) continue;
-        if (checkCombo(combo, hasSeri)) {
-          foundCombo = combo;
-          break;
-        }
-      }
-      if (foundCombo) break;
-    }
-
-    if (foundCombo) {
-      // Ambil kartu dari buangan
-      dis.splice(wi);
-      const rest = taken.filter(c => !foundCombo.some(fc => cardId(fc) === cardId(c)));
-
-      removeComboFromHand(p, foundCombo);
-      p.openCombos.push(foundCombo);
-      p.tookFromDiscard = true;
-
-      for (const c of rest) p.hand.push(c);
-      addLog(`${p.name} mengambil buangan dan membuka kombinasi [${foundCombo.map(c=>c.rank+c.suit).join(',')}]`, 'success');
-      return true;
-    }
+function hasExternalSeriP(player){
+  for (var i=0;i<player.openCombos.length;i++){
+    var combo=player.openCombos[i];
+    if (combo.type==='seri') return true;
+    if (combo.type==null && isSeriGroup(combo.cards)) return true;
   }
   return false;
 }
 
-function botChooseDiscard(p) {
-  // Choose card to discard: prefer uncovered high-value cards
-  const eval1 = findBestComboAssignment([...p.hand], hasSeriInHand(p));
-  if (eval1.uncovered.length === 0) return null;
-  
-  // Don't discard joker openly
-  const uncoveredNonJoker = eval1.uncovered.filter(c=>!isJoker(c));
-  if (uncoveredNonJoker.length === 0) return null;
-  
-  // Sort by value desc (discard most expensive uncovered card? No - discard least useful)
-  // Heuristic: discard highest value uncovered card that has no potential to form combo soon
-  return uncoveredNonJoker.sort((a,b)=>cardValue(b)-cardValue(a))[0];
+function scoreNormal(player){
+  var ext=hasExternalSeriP(player);
+  var ev=evaluate(player.hand, ext);
+  if (ev.matiJoker) return {score:-250, matiJoker:true, ev:ev};
+  var s=scoreOpen(player.openCombos);
+  for (var i=0;i<ev.combos.length;i++) s += ev.combos[i].tier*ev.combos[i].cards.length;
+  for (var j=0;j<ev.leftover.length;j++) if(!isJoker(ev.leftover[j])) s -= tierOf(ev.leftover[j]);
+  return {score:s, matiJoker:false, ev:ev};
 }
 
-function botDiscard(pidx, card) {
-  const p = G.players[pidx];
-  p.hand = p.hand.filter(c=>cardId(c)!==cardId(card));
-  G.discard.push(card);
-  addLog(`${p.name} membuang ${card.rank}${card.suit}`);
-  
-  // Check kecebur for next player
-  const nextIdx = (pidx + 1) % 4;
-  const nextP = G.players[nextIdx];
-  if (nextP.cekih) {
-    const needed = getCekihNeeded(nextP);
-    if (needed && cardId(card) === cardId(needed)) {
-      triggerKecebur(pidx, nextIdx, card);
-      return;
-    }
-  }
+function joinTier(rest, joker, ext){
+  var ev=evaluate(rest.concat([joker]), ext);
+  for (var i=0;i<ev.combos.length;i++)
+    for (var j=0;j<ev.combos[i].cards.length;j++)
+      if (cid(ev.combos[i].cards[j])===cid(joker)) return ev.combos[i].tier;
+  return 0;
+}
 
+function scoreClose(player, tutupan){
+  var ext=hasExternalSeriP(player);
+  var ev=evaluate(player.hand, ext);
+  var s=scoreOpen(player.openCombos);
+  for (var i=0;i<ev.combos.length;i++) s += ev.combos[i].tier*ev.combos[i].cards.length;
+  s += closureBonus(tutupan);
+  if (canJoin(player.hand, tutupan, ext))
+    s += isJoker(tutupan) ? joinTier(player.hand, tutupan, ext) : tierOf(tutupan);
+  return {score:s, ev:ev};
+}
+
+function isPureRaja(combos){
+  if (!combos.length) return false;
+  for (var i=0;i<combos.length;i++)
+    for (var j=0;j<combos[i].cards.length;j++){
+      var c=combos[i].cards[j];
+      if (isJoker(c)) continue;
+      if (!isRaja(c.rank) && !isAce(c.rank)) return false;
+    }
+  return true;
+}
+
+function computeBurns(prev, next){
+  var burned=[];
+  for (var i=0;i<prev.length;i++){
+    if (prev[i] < 100) continue;
+    var overtaken=false;
+    for (var j=0;j<prev.length;j++){
+      if (j===i) continue;
+      if (prev[j] <= prev[i] && next[j] > next[i]){ overtaken=true; break; }
+    }
+    if (overtaken) burned.push(i);
+  }
+  return burned;
+}
+
+var API = {
+  SUITS:SUITS, RANKS:RANKS, RANK_NUM:RANK_NUM,
+  isAngka:isAngka, isRaja:isRaja, isAce:isAce, isJoker:isJoker, cid:cid,
+  tierOf:tierOf, closureBonus:closureBonus,
+  createDeck:createDeck, shuffle:shuffle,
+  classifyGroup:classifyGroup, isSeriGroup:isSeriGroup,
+  evaluate:evaluate, isCekih:isCekih, bestClose:bestClose, canCloseWithCard:canCloseWithCard,
+  canJoin:canJoin, findPickupCombo:findPickupCombo, validPickupTargets:validPickupTargets,
+  scoreOpen:scoreOpen, scoreNormal:scoreNormal, scoreClose:scoreClose,
+  isPureRaja:isPureRaja, hasExternalSeriP:hasExternalSeriP, computeBurns:computeBurns,
+  groupTier:groupTier
+};
+root.CEKIH = API;
+if (typeof module!=='undefined' && module.exports) module.exports = API;
+
+})(typeof globalThis!=='undefined'?globalThis:this);
+
+/* ===== UI / GAME LAYER ===== */
+var E = CEKIH; // shorthand
+
+// ── GAME STATE ──
+var G = null;
+var UI = { mode:'idle', pendingDiscard:-1, pickupTargets:[], pendingTutupanIdx:-1, dragSrcIdx:-1 };
+var SHUFFLER = 0;
+
+function initGameState(startPlayer, prevPoints){
+  var deck = E.shuffle(E.createDeck());
+  var players = [];
+  var names = ['Anda','Bot 1','Bot 2','Bot 3'];
+  for (var i=0;i<4;i++){
+    players.push({
+      name: names[i], isHuman: i===0,
+      hand: [], openCombos: [],
+      points: prevPoints ? prevPoints[i] : 0,
+      cekih: false, declaredCekih: false,
+      tookFromDiscard: false,
+      handCombosFinal: null  // di-set saat scoring
+    });
+  }
+  // bagikan 7 kartu giliran per pemain
+  for (var k=0;k<7;k++){
+    for (var p=0;p<4;p++) players[p].hand.push(deck.pop());
+  }
+  G = {
+    players: players,
+    deck: deck, // 26 kartu tengah
+    discard: [],
+    currentPlayer: startPlayer!=null ? startPlayer : 0,
+    startPlayer: startPlayer!=null ? startPlayer : 0,
+    round: 1,
+    firstCycleSet: {},
+    turnPhase: 'draw',          // 'draw' | 'discard'
+    closedBy: null,
+    closureCard: null,
+    closureType: null,          // 'tutupBiasa' | 'tutupTangan' | 'murniRaja'
+    cekiburanBy: null,
+    roundDone: false,
+    lastDiscardBy: -1,
+    lastDiscardCard: null,
+    anyPickup: false   // apakah ADA pemain yang pernah ambil dari buangan (untuk Mutih)
+  };
+}
+function isFirstCycle(){ return Object.keys(G.firstCycleSet).length < 4; }
+function markFirstCycle(pidx){ G.firstCycleSet[pidx]=1; }
+
+// ── LOG / TOAST ──
+function addLog(msg, cls){
+  var log = document.getElementById('game-log');
+  var div = document.createElement('div');
+  div.className = 'log-entry'+(cls?' '+cls:'');
+  div.textContent = msg;
+  log.appendChild(div);
+  log.scrollTop = log.scrollHeight;
+  if (log.children.length>200) log.removeChild(log.firstChild);
+}
+function showToast(msg, type, dur){
+  var t = document.getElementById('toast');
+  t.textContent = msg; t.className = 'toast visible '+(type||'');
+  clearTimeout(t._timer);
+  t._timer = setTimeout(function(){ t.className='toast'; }, dur||2500);
+}
+
+// ── RENDER HELPERS ──
+function suitColor(s){ return (s==='\u2665'||s==='\u2666')?'red':'black'; }
+function escapeAttr(s){ return s.replace(/'/g,"\\'"); }
+
+// info joker dari hasil evaluate: peta jid → label representasi
+function buildJokerRoleMap(combos){
+  // greedy: untuk tiap combo dgn joker, ambil jokerLabels berurutan
+  var map = {};
+  for (var i=0;i<combos.length;i++){
+    var combo = combos[i];
+    var jokers = combo.cards.filter(function(c){return E.isJoker(c);});
+    var labels = (combo.jokerLabels||[]).slice();
+    for (var j=0;j<jokers.length;j++) map[jokers[j].jid] = labels[j] || '?';
+  }
+  return map;
+}
+
+function cardHTML(c, opts){
+  opts = opts || {};
+  var isJ = E.isJoker(c);
+  var extra = opts.extra || '';
+  var click = opts.click || '';
+  var clickAttr = click ? ('onclick="'+click+'"') : '';
+  var roleLabel = (opts.jokerRoleMap && opts.jokerRoleMap[c.jid]) || null;
+  var color = isJ ? 'joker' : suitColor(c.suit);
+  var mati = (isJ && opts.matiJoker) ? ' mati' : '';
+  var displayRank, displaySuit;
+  if (isJ){
+    if (roleLabel){
+      // parse roleLabel like "5♥" or "10♣" or "Aspade"
+      // role is rank+suit string from engine; first chars are rank, last is suit
+      // robust: suit = last char if it's one of ♥♦♣♠
+      var lastChar = roleLabel.slice(-1);
+      var isSuit = (lastChar==='\u2665'||lastChar==='\u2666'||lastChar==='\u2663'||lastChar==='\u2660');
+      if (isSuit){
+        displaySuit = lastChar;
+        displayRank = roleLabel.slice(0,-1);
+        color = suitColor(lastChar);
+      } else { displayRank = 'JKR'; displaySuit = '\u2605'; }
+    } else { displayRank = 'JKR'; displaySuit = '\u2605'; }
+  } else {
+    displayRank = c.rank; displaySuit = c.suit;
+  }
+  var roleBadge = (isJ && roleLabel) ? '<div class="joker-role">JKR '+roleLabel+'</div>' : (isJ?'<div class="joker-role">JKR</div>':'');
+  return '<div class="card '+color+' '+extra+mati+'" '+clickAttr+'>'+
+    '<div class="card-top"><span>'+displayRank+'</span><span>'+displaySuit+'</span></div>'+
+    '<div class="card-center">'+displaySuit+'</div>'+
+    roleBadge+
+    '</div>';
+}
+function cardHTMLSmall(c, extra, click){
+  var isJ = E.isJoker(c);
+  var color = isJ ? 'joker' : suitColor(c.suit);
+  var displayRank = isJ ? 'JKR' : c.rank;
+  var displaySuit = isJ ? '\u2605' : c.suit;
+  var clickAttr = click ? ('onclick="'+click+'"') : '';
+  return '<div class="card small '+color+' '+(extra||'')+'" '+clickAttr+'>'+
+    '<div class="card-top"><span>'+displayRank+'</span><span>'+displaySuit+'</span></div>'+
+    '<div class="card-center">'+displaySuit+'</div></div>';
+}
+function cardHTMLTiny(c){
+  var isJ = E.isJoker(c);
+  var color = isJ ? 'joker' : suitColor(c.suit);
+  var displayRank = isJ ? 'JK' : c.rank;
+  var displaySuit = isJ ? '\u2605' : c.suit;
+  return '<div class="card tiny '+color+'">'+
+    '<div class="card-top"><span>'+displayRank+'</span><span>'+displaySuit+'</span></div>'+
+    '<div class="card-center">'+displaySuit+'</div></div>';
+}
+
+function comboTypeLabel(combo){
+  if (combo.type==='seri'){
+    if (combo.tier===5) return 'SERI';
+    if (combo.tier===10) return 'SERI RAJA';
+    if (combo.tier===15) return 'SERI AS';
+  } else if (combo.type==='threes'){
+    return combo.tier===15 ? 'THREES AS' : 'THREES RAJA';
+  }
+  return '';
+}
+
+// ── RENDER ──
+function render(){
+  renderScoreBar();
+  renderBots();
+  renderDeck();
+  renderDiscard();
+  renderHumanHand();
+  renderActions();
+}
+function renderScoreBar(){
+  var bar = document.getElementById('score-bar');
+  var html = '';
+  for (var i=0;i<4;i++){
+    var p = G.players[i];
+    var isActive = G.currentPlayer===i && !G.roundDone;
+    var ptsClass = p.points < 0 ? 'negative' : p.points >= 300 ? 'high' : '';
+    html += '<div class="score-cell '+(isActive?'active-turn':'')+'">'+
+      '<div class="score-name">'+p.name+'<span class="badge '+(i===0?'':'bot')+'">'+(i===0?'ANDA':'BOT')+'</span></div>'+
+      '<div class="score-points '+ptsClass+'">'+p.points+'</div>'+
+      '<div class="score-status '+(p.cekih?'cekih':'')+'">'+(p.cekih?'\u25CF CEKIH':'')+'</div>'+
+      '<div class="turn-indicator"></div></div>';
+  }
+  bar.innerHTML = html;
+  document.getElementById('round-num').textContent = G.round;
+}
+function renderBots(){
+  for (var i=1;i<=3;i++){
+    var p = G.players[i];
+    var area = document.getElementById('area-p'+i);
+    area.className = 'player-area '+(G.currentPlayer===i&&!G.roundDone?'active-turn':'');
+    document.getElementById('hand-count-p'+i).textContent = p.hand.length;
+    document.getElementById('cekih-tag-p'+i).textContent = p.cekih?'\u25CF cekih':'';
+    var hd = document.getElementById('hand-display-p'+i);
+    var s = '';
+    for (var j=0;j<p.hand.length;j++) s += '<div class="card tiny face-down"></div>';
+    hd.innerHTML = s;
+    var oe = document.getElementById('open-p'+i);
+    s = '';
+    for (var k=0;k<p.openCombos.length;k++){
+      var combo = p.openCombos[k];
+      var jrm = buildJokerRoleMap([combo]);
+      s += '<div class="combo-group"><span class="ctype">'+comboTypeLabel(combo)+'</span>';
+      for (var m=0;m<combo.cards.length;m++) s += cardHTMLTiny(combo.cards[m]);
+      s += '</div>';
+    }
+    oe.innerHTML = s;
+  }
+}
+function renderDeck(){
+  document.getElementById('deck-remaining').textContent = G.deck.length;
+  document.getElementById('deck-count').textContent = G.deck.length+' kartu';
+  var dp = document.getElementById('deck-pile');
+  var canDraw = G.currentPlayer===0 && G.turnPhase==='draw' && G.deck.length>0 && !G.roundDone && UI.mode==='idle';
+  dp.className = 'deck-pile'+(canDraw?' clickable':'');
+  document.getElementById('discard-count').textContent = G.discard.length+' kartu';
+  var sh = document.getElementById('deck-shuffler');
+  sh.textContent = SHUFFLER>=0 ? ('Pengocok: '+G.players[SHUFFLER].name) : '';
+}
+function renderDiscard(){
+  var row = document.getElementById('discard-row');
+  row.innerHTML = '';
+  var dis = G.discard;
+  if (dis.length===0) return;
+  // pre-compute pickup targets
+  var targets = {};
+  if (UI.mode==='pickup'){
+    var p = G.players[0];
+    var ext = E.hasExternalSeriP(p);
+    var arr = E.validPickupTargets(p.hand, dis, ext);
+    for (var i=0;i<arr.length;i++) targets[arr[i]] = 1;
+  }
+  for (var idx=0; idx<dis.length; idx++){
+    var c = dis[idx];
+    var fromEnd = dis.length - 1 - idx;
+    var inRange = fromEnd < 7;
+    // batas 7 kartu
+    if (fromEnd===6 && dis.length>7){
+      row.innerHTML += '<div class="discard-boundary"></div>';
+    }
+    var extra = inRange ? '' : 'discard-out';
+    var click = '';
+    if (UI.mode==='pickup' && targets[idx]){
+      extra += ' pickup-target';
+      click = 'executePickup('+idx+')';
+    } else if (UI.mode==='pickup' && inRange){
+      extra += ' pickup-drag';
+    }
+    row.innerHTML += cardHTMLSmall(c, extra, click);
+  }
+  var scroll = document.querySelector('.discard-scroll');
+  if (scroll) scroll.scrollLeft = scroll.scrollWidth;
+}
+
+function renderHumanHand(){
+  var p = G.players[0];
+  var handEl = document.getElementById('hand-p0');
+  handEl.innerHTML = '';
+  var ext = E.hasExternalSeriP(p);
+  var ev = E.evaluate(p.hand, ext);
+  var inComboIds = {};
+  for (var i=0;i<ev.combos.length;i++)
+    for (var j=0;j<ev.combos[i].cards.length;j++) inComboIds[E.cid(ev.combos[i].cards[j])] = 1;
+  var jrm = buildJokerRoleMap(ev.combos);
+  var isMyTurn = G.currentPlayer===0 && !G.roundDone;
+  for (var k=0;k<p.hand.length;k++){
+    var c = p.hand[k];
+    var extra = '';
+    var inCombo = inComboIds[E.cid(c)];
+    if (inCombo) extra += ' in-combo';
+    else extra += ' not-combo';
+    if (isMyTurn) extra += ' selectable';
+    if (UI.mode==='tutup' && UI.pendingTutupanIdx===k) extra += ' tutupan-target';
+    if (UI.mode==='discard' && UI.pendingDiscard===k) extra += ' selected';
+    var click = '';
+    if (isMyTurn){
+      if (UI.mode==='tutup') click = 'pickTutupan('+k+')';
+      else if (UI.mode==='discard') click = 'selectDiscard('+k+')';
+      else click = 'selectDiscard('+k+')'; // default: try discard click
+    }
+    var matiFlag = E.isJoker(c) && ev.matiJoker && ev.leftover.indexOf(c)>=0;
+    handEl.innerHTML += cardHTML(c, {extra:extra, click:click, jokerRoleMap:jrm, matiJoker:matiFlag});
+  }
+  setupHandDragDrop(handEl, p);
+
+  document.getElementById('hand-count-p0').textContent = p.hand.length;
+  document.getElementById('cekih-self').textContent = p.cekih ? '\u25CF CEKIH' : '';
+
+  // open combos for human
+  var openEl = document.getElementById('open-p0');
+  var s = '';
+  for (var oi=0;oi<p.openCombos.length;oi++){
+    var combo = p.openCombos[oi];
+    s += '<div class="combo-group"><span class="ctype">'+comboTypeLabel(combo)+'</span>';
+    for (var oj=0;oj<combo.cards.length;oj++) s += cardHTMLSmall(combo.cards[oj]);
+    s += '</div>';
+  }
+  openEl.innerHTML = s;
+}
+
+function setupHandDragDrop(handEl, p){
+  var cards = handEl.querySelectorAll('.card');
+  cards.forEach(function(el, idx){
+    el.draggable = true;
+    el.addEventListener('dragstart', function(e){
+      UI.dragSrcIdx = idx;
+      e.dataTransfer.effectAllowed = 'move';
+      setTimeout(function(){ el.classList.add('dragging'); }, 0);
+    });
+    el.addEventListener('dragend', function(){ el.classList.remove('dragging'); });
+    el.addEventListener('dragover', function(e){ e.preventDefault(); e.dataTransfer.dropEffect='move'; });
+    el.addEventListener('drop', function(e){
+      e.preventDefault();
+      if (UI.dragSrcIdx<0 || UI.dragSrcIdx===idx) return;
+      var moved = p.hand.splice(UI.dragSrcIdx,1)[0];
+      p.hand.splice(idx, 0, moved);
+      UI.dragSrcIdx = -1;
+      render();
+    });
+  });
+}
+
+function renderActions(){
+  var p = G.players[0];
+  var isMyTurn = G.currentPlayer===0 && !G.roundDone;
+  var inDraw = G.turnPhase==='draw';
+  var inDiscard = G.turnPhase==='discard';
+  var firstCycle = isFirstCycle();
+  var btnPickup = document.getElementById('btn-pickup');
+  var btnDraw = document.getElementById('btn-drawdeck');
+  var btnTutup = document.getElementById('btn-tutup');
+  var btnKecebur = document.getElementById('btn-kecebur');
+  var hint = document.getElementById('action-hint');
+
+  document.getElementById('banner-pickup').className = 'banner pickup'+(UI.mode==='pickup'?' active':'');
+  document.getElementById('banner-tutup').className = 'banner tutup'+(UI.mode==='tutup'?' active':'');
+  document.getElementById('banner-discard').className = 'banner discard'+(UI.mode==='discard'&&isMyTurn&&inDiscard?' active':'');
+
+  if (!isMyTurn){
+    btnPickup.disabled = true; btnDraw.disabled = true;
+    btnTutup.style.display = 'none'; btnKecebur.style.display = 'none';
+    hint.className = 'action-hint'; hint.textContent = 'Menunggu giliran '+G.players[G.currentPlayer].name+'...';
+    return;
+  }
+  // human's turn
+  if (inDraw){
+    btnPickup.disabled = firstCycle || G.discard.length===0 || UI.mode!=='idle';
+    btnDraw.disabled = G.deck.length===0 || UI.mode!=='idle';
+    // kecebur opportunity
+    var prev = (0 - 1 + 4) % 4;
+    var canKecebur = !firstCycle && p.cekih && p.declaredCekih &&
+      G.lastDiscardBy===prev && G.lastDiscardCard &&
+      !!E.canCloseWithCard(p.hand, G.lastDiscardCard, E.hasExternalSeriP(p));
+    btnKecebur.style.display = canKecebur ? 'inline-block' : 'none';
+    btnTutup.style.display = 'none';
+    hint.className = 'action-hint'+(canKecebur?' urgent':'');
+    hint.textContent = canKecebur
+      ? 'CEBURIN ' + G.players[prev].name + '! Atau ambil kartu seperti biasa.'
+      : (firstCycle
+          ? 'Putaran pertama: wajib AMBIL TENGAH.'
+          : 'Giliran Anda: ambil dari tengah atau dari area buangan.');
+  } else if (inDiscard){
+    btnPickup.disabled = true; btnDraw.disabled = true;
+    btnKecebur.style.display = 'none';
+    var ext = E.hasExternalSeriP(p);
+    var bc = E.bestClose(p.hand, ext);
+    var canClose = !!bc && !firstCycle; // close hanya bila bukan firstCycle
+    // tutup tangan boleh saat siklus kedua dst (firstCycle false)
+    btnTutup.style.display = canClose ? 'inline-block' : 'none';
+    hint.className = 'action-hint'+(canClose?' urgent':'');
+    if (canClose){
+      hint.textContent = 'Anda BISA TUTUP! Klik TUTUP untuk pilih tutupan, atau buang kartu lain untuk menolak.';
+    } else if (firstCycle){
+      hint.textContent = 'Putaran pertama: buang 1 kartu (terbuka). Tidak boleh menutup.';
+    } else {
+      hint.textContent = 'Pilih 1 kartu di tangan untuk dibuang (klik 2 kali untuk konfirmasi).';
+    }
+    if (UI.mode==='idle') UI.mode = 'discard';
+  }
+}
+
+// ── HUMAN ACTIONS ──
+function onDeckClick(){
+  if (G.currentPlayer!==0 || G.turnPhase!=='draw' || G.deck.length===0 || UI.mode!=='idle' || G.roundDone) return;
+  var p = G.players[0];
+  var drawn = G.deck.pop();
+  p.hand.push(drawn);
+  addLog('Anda mengambil kartu tengah');
+  markFirstCycle(0);
+  G.turnPhase = 'discard';
+  UI.mode = 'discard';
+  UI.pendingDiscard = -1;
+  updateCekihStatus(0);
+  render();
+}
+
+function enterPickupMode(){
+  if (G.currentPlayer!==0 || G.turnPhase!=='draw' || G.roundDone) return;
+  if (isFirstCycle()){ showToast('Putaran pertama: wajib ambil kartu tengah.','red'); return; }
+  if (G.discard.length===0){ showToast('Belum ada kartu buangan.','red'); return; }
+  var p = G.players[0];
+  var ext = E.hasExternalSeriP(p);
+  var targets = E.validPickupTargets(p.hand, G.discard, ext);
+  if (targets.length===0){ showToast('Tidak ada kombinasi yang bisa dibentuk dari area buangan.','red',3000); return; }
+  UI.mode = 'pickup';
+  showToast('Pilih kartu hijau di area buangan.','green',2500);
+  render();
+}
+function cancelPickup(){ UI.mode='idle'; render(); }
+
+function executePickup(idx){
+  if (UI.mode!=='pickup') return;
+  var p = G.players[0];
+  var ext = E.hasExternalSeriP(p);
+  var taken = G.discard.slice(idx);
+  var target = G.discard[idx];
+  var r = E.findPickupCombo(p.hand, taken, target, ext);
+  if (!r){ showToast('Kombinasi tidak valid dari posisi itu.','red'); UI.mode='idle'; render(); return; }
+  applyPickup(0, idx, r);
+  G.turnPhase = 'discard';
+  UI.mode = 'discard';
+  UI.pendingDiscard = -1;
+  markFirstCycle(0);
+  updateCekihStatus(0);
+  render();
+}
+
+function applyPickup(pidx, idx, r){
+  var p = G.players[pidx];
+  var taken = G.discard.slice(idx);
+  // hapus suffix dari discard
+  G.discard.splice(idx);
+  // tandai card-id yang masuk combo & seri pegadaian
+  var comboIds = {}; r.combo.cards.forEach(function(c){ comboIds[E.cid(c)]=1; });
+  var pegIds = {};
+  if (r.pegadaianSeri){ r.pegadaianSeri.cards.forEach(function(c){ pegIds[E.cid(c)]=1; }); }
+  // sisa taken yang tidak dipakai → masuk tangan
+  for (var t=0;t<taken.length;t++){
+    if (!comboIds[E.cid(taken[t])]) p.hand.push(taken[t]);
+  }
+  // pindahkan kartu tangan yang dipakai combo/peg keluar dari tangan
+  p.hand = p.hand.filter(function(c){
+    if (comboIds[E.cid(c)] || pegIds[E.cid(c)]) return false;
+    return true;
+  });
+  // bentuk objek combo final
+  var combo1 = { cards: r.combo.cards.slice(), type:r.combo.type, tier:r.combo.tier, jokerLabels: classifyLabels(r.combo.cards) };
+  p.openCombos.push(combo1);
+  if (r.pegadaianSeri){
+    var seriCards = r.pegadaianSeri.cards.slice();
+    var combo2 = { cards: seriCards, type:'seri', tier:r.pegadaianSeri.tier, jokerLabels: classifyLabels(seriCards) };
+    p.openCombos.push(combo2);
+    addLog(p.name+' mengambil dari buangan (PEGADAIAN: '+describeCombo(combo1)+' + seri '+describeCombo(combo2)+')','success');
+  } else {
+    addLog(p.name+' mengambil dari buangan: '+describeCombo(combo1),'success');
+  }
+  p.tookFromDiscard = true;
+  G.anyPickup = true;
+}
+function classifyLabels(cards){
+  var info = E.classifyGroup(cards);
+  return info ? info.jokerLabels : [];
+}
+function describeCombo(combo){
+  var s = '[';
+  for (var i=0;i<combo.cards.length;i++){
+    if (i>0) s += ',';
+    var c = combo.cards[i];
+    s += E.isJoker(c) ? 'JKR' : (c.rank+c.suit);
+  }
+  s += ']';
+  return s;
+}
+
+function selectDiscard(idx){
+  if (G.currentPlayer!==0 || G.roundDone) return;
+  if (UI.mode==='tutup'){ pickTutupan(idx); return; }
+  if (G.turnPhase!=='discard') return;
+  if (UI.pendingDiscard===idx){ humanDiscard(idx); return; }
+  UI.pendingDiscard = idx;
+  UI.mode = 'discard';
+  var c = G.players[0].hand[idx];
+  showToast('Klik lagi '+(E.isJoker(c)?'JKR':(c.rank+c.suit))+' untuk buang','',1800);
+  render();
+}
+
+function humanDiscard(idx){
+  var p = G.players[0];
+  var c = p.hand[idx];
+  if (!c) return;
+  var ext = E.hasExternalSeriP(p);
+  var rest = p.hand.slice(0,idx).concat(p.hand.slice(idx+1));
+  var evRest = E.evaluate(rest, ext);
+  var willClose = evRest.leftover.length===0 && (evRest.combos.length>0 || p.openCombos.length>0);
+  if (willClose && !isFirstCycle()){
+    // ini close (tutup biasa atau tutup tangan tergantung kondisi)
+    if (E.isJoker(c) && false){} // joker boleh sebagai tutupan
+    p.hand.splice(idx,1);
+    G.discard.push(c); // tutupan tetap di buangan (tertutup; di sini terbuka untuk transparansi)
+    var type;
+    if (!p.tookFromDiscard && p.openCombos.length===0){
+      // tutup tangan / murni raja
+      var allInHand = evRest.combos;
+      type = E.isPureRaja(allInHand) ? 'murniRaja' : 'tutupTangan';
+    } else {
+      type = 'tutupBiasa';
+    }
+    finalizeClose(0, c, type);
+    return;
+  }
+  // bukan close → discard biasa
+  if (E.isJoker(c)){
+    showToast('Joker tidak bisa dibuang terbuka kecuali sebagai tutupan.','red',3000);
+    UI.pendingDiscard = -1; render(); return;
+  }
+  p.hand.splice(idx,1);
+  G.discard.push(c);
+  G.lastDiscardBy = 0; G.lastDiscardCard = c;
+  addLog('Anda membuang '+c.rank+c.suit);
+  UI.mode='idle'; UI.pendingDiscard=-1;
+  updateCekihStatus(0);
+  // cek kecebur: pemain berikutnya (1) bisa kecebur?
+  if (checkAndExecuteKecebur(0, c)) return;
   G.turnPhase = 'draw';
   advanceTurn();
 }
 
-// ═══════════════════════════════════════
-//  END ROUND & SCORING
-// ═══════════════════════════════════════
-function endRound() {
-  const scores = [];
-  
-  for (let i=0;i<4;i++) {
-    const p = G.players[i];
-    let roundScore = 0;
-    
-    if (G.cekiburanBy === i) {
-      // kecebur: poin ronde = 0, minus tutupan
-      const tutupanVal = G.closureCard ? closureBonus(G.closureCard) : 50;
-      roundScore = -tutupanVal;
-      p.matiJoker = false; // kecebur overrides
-    } else if (G.closedBy === i) {
-      // winner
-      roundScore = calcScore(p, G.closureCard, G.closureType);
-    } else if (G.closedBy !== null) {
-      // another player closed via tutup tangan - others not counted
-      roundScore = 0;
-    } else {
-      // deck empty - count normally
-      roundScore = calcNormalScore(p);
-    }
-    
-    // mati joker penalty (applies to accumulated total)
-    scores.push({ player: p, idx: i, roundScore });
+// ── TUTUP MODE (human picks tutupan) ──
+function enterTutupMode(){
+  var p = G.players[0];
+  if (G.currentPlayer!==0 || G.roundDone) return;
+  if (G.turnPhase!=='discard') return;
+  if (isFirstCycle()){ showToast('Putaran pertama: tidak boleh menutup.','red'); return; }
+  var ext = E.hasExternalSeriP(p);
+  var bc = E.bestClose(p.hand, ext);
+  if (!bc){ showToast('Belum bisa menutup.','red'); return; }
+  UI.mode = 'tutup';
+  UI.pendingTutupanIdx = p.hand.indexOf(bc.tutupan);
+  showToast('Klik kartu untuk dijadikan tutupan. Disarankan: '+(E.isJoker(bc.tutupan)?'JKR':(bc.tutupan.rank+bc.tutupan.suit)),'green',3000);
+  render();
+}
+function cancelTutup(){ UI.mode = G.turnPhase==='discard'?'discard':'idle'; UI.pendingTutupanIdx=-1; render(); }
+
+function pickTutupan(idx){
+  var p = G.players[0];
+  var c = p.hand[idx];
+  if (!c) return;
+  var ext = E.hasExternalSeriP(p);
+  var rest = p.hand.slice(0,idx).concat(p.hand.slice(idx+1));
+  var evRest = E.evaluate(rest, ext);
+  if (evRest.leftover.length!==0 || (evRest.combos.length===0 && p.openCombos.length===0)){
+    showToast('Kartu ini bukan tutupan valid (sisa kartu tidak semua dalam kombinasi).','red',3000);
+    return;
   }
-  
-  // Apply scores
-  const prevPoints = G.players.map(p=>p.points);
-  
-  for (const s of scores) {
-    s.player.points += s.roundScore;
-    
-    // Mati joker penalty on accumulated total
-    if (s.player.matiJoker && G.cekiburanBy !== s.idx) {
-      s.player.points -= 250;
-      addLog(`${s.player.name} MATI JOKER! -250 akumulasi`, 'danger');
-    }
+  p.hand.splice(idx,1);
+  G.discard.push(c);
+  var type;
+  if (!p.tookFromDiscard && p.openCombos.length===0){
+    type = E.isPureRaja(evRest.combos) ? 'murniRaja' : 'tutupTangan';
+  } else {
+    type = 'tutupBiasa';
   }
-  
-  // Apply "bakar" (burn) rule
-  applyBurnRule(prevPoints);
-  
-  // Check winner
-  const winner = G.players.find(p=>p.points >= 500);
-  
-  showRoundModal(scores, winner);
+  finalizeClose(0, c, type);
 }
 
-function calcNormalScore(p) {
-  const hasSeriOpen = p.openCombos.some(c => isValidAngkaSeri(c)||isValidRajaSeri(c)||isValidAceSeri(c));
-  
-  // Untuk manusia: gunakan joker assignment
-  const handToEval = p.isHuman ? resolveHandWithJokers(p.hand) : [...p.hand];
-  const result = findBestComboAssignment(handToEval, hasSeriOpen);
-  p.handCombos = result.combos;
-  
-  let score = 0;
-  for (const combo of p.openCombos) {
-    for (const c of combo) score += isJoker(c) ? getJokerValueInCombo(c, combo) : cardValue(c);
+// ── KECEBUR (human dunks previous player) ──
+function executeHumanKecebur(){
+  var p = G.players[0];
+  var prev = (0-1+4)%4;
+  if (G.lastDiscardBy!==prev || !G.lastDiscardCard) return;
+  if (!p.cekih || !p.declaredCekih) return;
+  var ext = E.hasExternalSeriP(p);
+  var bc = E.canCloseWithCard(p.hand, G.lastDiscardCard, ext);
+  if (!bc) return;
+  // pindahkan kartu kecebur dari area buangan ke tangan
+  var keceburCard = G.lastDiscardCard;
+  var lastIdx = G.discard.length - 1;
+  if (lastIdx >= 0 && E.cid(G.discard[lastIdx])===E.cid(keceburCard)){
+    G.discard.splice(lastIdx, 1);
   }
-  for (const combo of result.combos) {
-    for (const c of combo) {
-      // Jika ini Joker yang sudah di-resolve, nilai sesuai posisinya
-      const origIsJoker = isJoker(c) || c._isJoker;
-      if (origIsJoker && c._isJoker) {
-        // Resolved joker - nilai sesuai kartu yang digantikan
-        score += cardValue(c); // sudah punya rank/suit asli
-      } else if (isJoker(c)) {
-        score += getJokerValueInCombo(c, combo);
+  p.hand.push(keceburCard);
+  // tutupan = bc.tutupan; tapi bc dihitung pada hand+card; cari di p.hand sekarang
+  var tIdx = -1;
+  for (var i=0;i<p.hand.length;i++) if (E.cid(p.hand[i])===E.cid(bc.tutupan)) { tIdx=i; break; }
+  if (tIdx<0){ showToast('Error: tutupan tidak ditemukan.','red'); return; }
+  var tutupan = p.hand[tIdx];
+  p.hand.splice(tIdx,1);
+  G.discard.push(tutupan);
+  G.cekiburanBy = prev;
+  G.lastDiscardBy = 0; G.lastDiscardCard = tutupan;
+  addLog(p.name+' CEBURIN '+G.players[prev].name+'! Mengambil '+(E.isJoker(keceburCard)?'JKR':(keceburCard.rank+keceburCard.suit))+', tutup dengan '+(E.isJoker(tutupan)?'JKR':(tutupan.rank+tutupan.suit)),'danger');
+  finalizeClose(0, tutupan, 'tutupBiasa');
+}
+
+
+// ── CEKIH AUTO-UPDATE ──
+function updateCekihStatus(pidx){
+  var p = G.players[pidx];
+  var ext = E.hasExternalSeriP(p);
+  var cek = E.isCekih(p.hand, ext);
+  if (cek && !p.cekih){
+    p.cekih = true; p.declaredCekih = true;
+    if (p.isHuman){ addLog('Anda CEKIH! (otomatis)','danger'); showToast('CEKIH! Kurang 1 kartu lagi.','red',2800); }
+    else addLog(p.name+' CEKIH!','danger');
+  } else if (!cek && p.cekih){
+    p.cekih = false; p.declaredCekih = false;
+    if (p.isHuman) addLog('Kondisi cekih Anda berubah — tidak lagi cekih.');
+    else addLog(p.name+' tidak lagi cekih.');
+  }
+}
+
+// ── KECEBUR CHECK (after discard) ──
+// player at discarderIdx baru saja membuang card; next = (discarderIdx+1)%4
+// jika next cekih+declared dan canCloseWithCard → eksekusi kecebur (otomatis untuk bot;
+// untuk human, tombol KECEBUR akan muncul — tidak otomatis).
+function checkAndExecuteKecebur(discarderIdx, card){
+  var nextIdx = (discarderIdx+1)%4;
+  var nextP = G.players[nextIdx];
+  if (!nextP.cekih || !nextP.declaredCekih) return false;
+  var ext = E.hasExternalSeriP(nextP);
+  var bc = E.canCloseWithCard(nextP.hand, card, ext);
+  if (!bc) return false;
+  if (nextP.isHuman){
+    // human: tidak otomatis. Tombol KECEBUR akan muncul di renderActions.
+    return false;
+  }
+  // bot auto-kecebur
+  executeBotKecebur(discarderIdx, nextIdx, card, bc);
+  return true;
+}
+
+function executeBotKecebur(discarderIdx, closerIdx, card, bc){
+  var closer = G.players[closerIdx];
+  // pindahkan kartu kecebur dari area buangan ke tangan closer
+  var lastIdx = G.discard.length - 1;
+  if (lastIdx >= 0 && E.cid(G.discard[lastIdx])===E.cid(card)){
+    G.discard.splice(lastIdx, 1);
+  }
+  closer.hand.push(card);
+  // ambil tutupan dari bc
+  var tIdx = -1;
+  for (var i=0;i<closer.hand.length;i++) if (E.cid(closer.hand[i])===E.cid(bc.tutupan)){ tIdx=i; break; }
+  var tutupan = closer.hand[tIdx];
+  closer.hand.splice(tIdx,1);
+  G.discard.push(tutupan);
+  G.cekiburanBy = discarderIdx;
+  G.lastDiscardBy = closerIdx; G.lastDiscardCard = tutupan;
+  addLog(closer.name+' CEBURIN '+G.players[discarderIdx].name+'! Tutupan: '+(E.isJoker(tutupan)?'JKR':(tutupan.rank+tutupan.suit)),'danger');
+  showToast(closer.name+' CEBURIN '+G.players[discarderIdx].name+'!','red',3200);
+  finalizeClose(closerIdx, tutupan, 'tutupBiasa');
+}
+
+// ── FINALIZE CLOSE ──
+function finalizeClose(pidx, tutupan, type){
+  G.closedBy = pidx;
+  G.closureCard = tutupan;
+  G.closureType = type;
+  G.roundDone = true;
+  // simpan hand combos final (untuk scoring)
+  var p = G.players[pidx];
+  var ext = E.hasExternalSeriP(p);
+  var ev = E.evaluate(p.hand, ext);
+  p.handCombosFinal = ev.combos;
+  var bonusLog = '';
+  if (type==='murniRaja') bonusLog='MURNI RAJA +350';
+  else if (type==='tutupTangan') bonusLog='TUTUP TANGAN +250';
+  else {
+    bonusLog = (E.isJoker(tutupan)?'JKR':(tutupan.rank+tutupan.suit))+' +'+E.closureBonus(tutupan);
+  }
+  addLog(p.name+' TUTUP! ('+bonusLog+')','success');
+  showToast(p.name+' menutup!','green',2500);
+  render();
+  setTimeout(endRound, 1500);
+}
+
+// ── TURN MANAGEMENT ──
+function advanceTurn(){
+  if (G.roundDone) return;
+  G.currentPlayer = (G.currentPlayer + 1) % 4;
+  G.turnPhase = 'draw';
+  UI.mode = 'idle';
+  UI.pendingDiscard = -1;
+  UI.pendingTutupanIdx = -1;
+  // deck habis → ronde berakhir
+  if (G.deck.length===0 && !someoneCanPickup()){
+    G.roundDone = true;
+    addLog('Kartu tengah habis — ronde berakhir.','important');
+    render();
+    setTimeout(endRound, 1200);
+    return;
+  }
+  render();
+  if (G.currentPlayer!==0){
+    setTimeout(function(){ executeBotTurn(G.currentPlayer); }, 800);
+  }
+}
+function someoneCanPickup(){
+  // mode darurat saat deck habis: jika tak ada yang bisa pickup, ronde harus end
+  // Tapi aturannya: deck habis = ronde end. Kita pakai ini sebagai guard tambahan.
+  return false;
+}
+
+// ── BOT AI ──
+// Kumpulan kartu yang BELUM terlihat (deck + tangan lawan tersembunyi) berdasar info publik + tangan bot sendiri.
+// TIDAK mengintip tangan lawan — hanya menghitung kartu yang publik/sudah terbuka. Adil.
+function computeUnseen(pidx){
+  var seen={}, jokSeen=0;
+  G.discard.forEach(function(c){ if(E.isJoker(c)) jokSeen++; else seen[E.cid(c)]=1; });
+  for (var pl=0;pl<4;pl++){
+    G.players[pl].openCombos.forEach(function(combo){
+      combo.cards.forEach(function(c){ if(E.isJoker(c)) jokSeen++; else seen[E.cid(c)]=1; });
+    });
+  }
+  G.players[pidx].hand.forEach(function(c){ if(E.isJoker(c)) jokSeen++; else seen[E.cid(c)]=1; });
+  var set={};
+  for (var s=0;s<E.SUITS.length;s++) for (var r=0;r<E.RANKS.length;r++){
+    var id=E.RANKS[r]+E.SUITS[s];
+    if (!seen[id]) set[id]=1;
+  }
+  return {set:set, jokerLeft: Math.max(0, 2-jokSeen)};
+}
+
+// Skor "kehidupan" tangan: makin banyak penyambung kartu sisa yang masih unseen, makin baik dipertahankan.
+function livenessScore(hand, ext, unseen){
+  var ev = E.evaluate(hand, ext);
+  var sc=0;
+  ev.leftover.forEach(function(c){
+    if (E.isJoker(c)){ sc+=6; return; }
+    if (E.isAngka(c.rank)){
+      var n=E.RANK_NUM[c.rank];
+      [n-2,n-1,n+1,n+2].forEach(function(nr){ if(nr>=2&&nr<=10 && unseen.set[(''+nr)+c.suit]) sc+=1; });
+    } else if (E.isRaja(c.rank)){
+      ['J','Q','K'].forEach(function(rr){ if(rr!==c.rank && unseen.set[rr+c.suit]) sc+=1; });
+      E.SUITS.forEach(function(ss){ if(ss!==c.suit && unseen.set[c.rank+ss]) sc+=1; });
+    } else if (E.isAce(c.rank)){
+      E.SUITS.forEach(function(ss){ if(ss!==c.suit && unseen.set['A'+ss]) sc+=1; });
+    }
+  });
+  // joker hidup bila ada >=2 kartu sisa yang bisa menyambung joker; perkiraan via jumlah sisa non-joker
+  return sc;
+}
+
+// Pilih kartu buang terbaik: maksimalkan nilai kombinasi, jaga kartu hidup, dan HINDARI MATI JOKER.
+function botChooseDiscard(p, pidx){
+  var ext = E.hasExternalSeriP(p);
+  var unseen = computeUnseen(pidx);
+  var candidates = p.hand.filter(function(c){ return !E.isJoker(c); });
+  if (candidates.length===0) candidates = p.hand.slice(); // terpaksa (seluruhnya joker)
+  var best=null, bestScore=-Infinity;
+  for (var i=0;i<candidates.length;i++){
+    var c = candidates[i];
+    var hand2 = p.hand.filter(function(x){ return E.cid(x)!==E.cid(c); });
+    var ev = E.evaluate(hand2, ext);
+    var score=0;
+    var comboVal=0; ev.combos.forEach(function(g){ comboVal += g.tier*g.cards.length; });
+    score += comboVal*4;
+    var leftPen=0; ev.leftover.forEach(function(x){ if(!E.isJoker(x)) leftPen += E.tierOf(x); });
+    score -= leftPen*3;
+    if (ev.matiJoker) score -= 100000;            // jangan pernah biarkan joker mati
+    score += livenessScore(hand2, ext, unseen);   // pertahankan kartu yang masih punya peluang
+    if (score>bestScore){ bestScore=score; best=c; }
+  }
+  return best || p.hand[0];
+}
+
+// Hitung tangan hasil bila pickup (idx,r) dilakukan — untuk cek keamanan joker tanpa memutasi state.
+function simulatePickupHand(p, idx, r){
+  var taken = G.discard.slice(idx);
+  var comboIds={}; r.combo.cards.forEach(function(c){ comboIds[E.cid(c)]=1; });
+  var pegIds={}; if(r.pegadaianSeri){ r.pegadaianSeri.cards.forEach(function(c){ pegIds[E.cid(c)]=1; }); }
+  var res = p.hand.filter(function(c){ return !comboIds[E.cid(c)] && !pegIds[E.cid(c)]; });
+  for (var t=0;t<taken.length;t++){ if(!comboIds[E.cid(taken[t])]) res.push(taken[t]); }
+  return res;
+}
+
+function executeBotTurn(pidx){
+  if (G.roundDone || G.currentPlayer!==pidx) return;
+  var p = G.players[pidx];
+  var firstCycle = isFirstCycle();
+  // PHASE 1: ambil
+  var drewFromDiscard = false;
+  if (!firstCycle && G.discard.length>0){
+    drewFromDiscard = botTryPickup(pidx);
+  }
+  if (!drewFromDiscard){
+    if (G.deck.length===0){
+      G.roundDone = true;
+      addLog('Kartu tengah habis — ronde berakhir.','important');
+      render();
+      setTimeout(endRound, 1000);
+      return;
+    }
+    var drawn = G.deck.pop();
+    p.hand.push(drawn);
+    addLog(p.name+' mengambil kartu tengah');
+    markFirstCycle(pidx);
+  } else {
+    markFirstCycle(pidx);
+  }
+  updateCekihStatus(pidx);
+
+  // PHASE 2: pertimbangkan tutup
+  if (!firstCycle){
+    var ext = E.hasExternalSeriP(p);
+    var bc = E.bestClose(p.hand, ext);
+    if (bc){
+      // tentukan tipe
+      var type;
+      if (!p.tookFromDiscard && p.openCombos.length===0){
+        // tutup tangan / murni raja
+        var rest = p.hand.filter(function(c){ return E.cid(c)!==E.cid(bc.tutupan); });
+        var evRest = E.evaluate(rest, false);
+        type = E.isPureRaja(evRest.combos) ? 'murniRaja' : 'tutupTangan';
       } else {
-        score += cardValue(c);
+        type = 'tutupBiasa';
       }
+      // bot strategi sederhana: selalu tutup bila bisa
+      var tutupan = bc.tutupan;
+      // hapus dari hand
+      p.hand = p.hand.filter(function(c){ return E.cid(c)!==E.cid(tutupan); });
+      G.discard.push(tutupan);
+      finalizeClose(pidx, tutupan, type);
+      return;
     }
   }
-  for (const c of result.uncovered) {
-    const origIsJoker = isJoker(c) || c._isJoker;
-    if (!origIsJoker) {
-      score -= cardValue(c);
+
+  // PHASE 3: discard — pemilihan cerdas (hindari mati joker, jaga kartu hidup)
+  var discardCard = botChooseDiscard(p, pidx);
+  // execute discard
+  p.hand = p.hand.filter(function(c){ return E.cid(c)!==E.cid(discardCard); });
+  G.discard.push(discardCard);
+  G.lastDiscardBy = pidx; G.lastDiscardCard = discardCard;
+  addLog(p.name+' membuang '+(E.isJoker(discardCard)?'JKR':(discardCard.rank+discardCard.suit)));
+  updateCekihStatus(pidx);
+  render();
+  // cek kecebur untuk next
+  setTimeout(function(){
+    if (G.roundDone) return;
+    if (checkAndExecuteKecebur(pidx, discardCard)) return;
+    G.turnPhase = 'draw';
+    advanceTurn();
+  }, 500);
+}
+
+function botTryPickup(pidx){
+  var p = G.players[pidx];
+  var ext = E.hasExternalSeriP(p);
+  var targets = E.validPickupTargets(p.hand, G.discard, ext);
+  if (targets.length===0) return false;
+  // strategi: ambil yang menghasilkan combo terbanyak / terbesar
+  var bestIdx = -1, bestScore = -Infinity, bestR = null;
+  var hasJoker = p.hand.some(E.isJoker);
+  for (var i=0;i<targets.length;i++){
+    var idx = targets[i];
+    var taken = G.discard.slice(idx);
+    var r = E.findPickupCombo(p.hand, taken, G.discard[idx], ext);
+    if (!r) continue;
+    var sc = r.combo.tier*r.combo.cards.length - (taken.length - r.combo.cards.length)*2;
+    if (r.pegadaianSeri) sc += r.pegadaianSeri.tier*r.pegadaianSeri.cards.length;
+    // keamanan joker: jika pickup ini membuat joker terdampar (mati), penalti besar
+    if (hasJoker){
+      var resHand = simulatePickupHand(p, idx, r);
+      var evRes = E.evaluate(resHand, true); // ada seri terbuka setelah pickup
+      if (evRes.matiJoker) sc -= 100000;
+    }
+    if (sc>bestScore){ bestScore = sc; bestIdx = idx; bestR = r; }
+  }
+  // jika opsi pickup terbaik pun membuat joker mati, lebih baik ambil tengah (jangan pickup)
+  if (bestIdx>=0 && bestScore <= -90000) return false;
+  if (bestIdx<0) return false;
+  applyPickup(pidx, bestIdx, bestR);
+  return true;
+}
+
+// ── END ROUND & SCORING ──
+function endRound(){
+  if (!G.roundDone) G.roundDone = true;
+  var prevPoints = G.players.map(function(p){ return p.points; });
+  // MUTIH: ronde berakhir tanpa ada yang tutup DAN tak satu pun pernah ambil dari buangan
+  var isMutih = (G.closedBy === null) && !G.anyPickup;
+  if (isMutih){ addLog('Ronde MUTIH — tak ada yang ambil buangan. Poin tangan hangus (tidak dihitung).','important'); }
+  var results = [];
+  for (var i=0;i<4;i++){
+    var p = G.players[i];
+    var delta = 0, detail = '';
+    if (isMutih){
+      delta = 0; detail = 'MUTIH (hangus)';
+    } else if (G.cekiburanBy === i){
+      // dunked
+      if (!p.declaredCekih){
+        var sn = E.scoreNormal(p);
+        delta = sn.score;
+        detail = 'lupa cekih: hitung normal';
+      } else {
+        var b = E.closureBonus(G.closureCard);
+        delta = -b;
+        detail = 'KECEBUR \u2212'+b;
+      }
+    } else if (G.closedBy === i){
+      // closer
+      if (G.closureType==='tutupTangan'){ delta = 250; detail='Tutup Tangan +250'; }
+      else if (G.closureType==='murniRaja'){ delta = 350; detail='Murni Raja +350'; }
+      else {
+        // tutupBiasa
+        var sc = E.scoreClose(p, G.closureCard);
+        delta = sc.score;
+        var bonus = E.closureBonus(G.closureCard);
+        detail = 'Tutup '+(E.isJoker(G.closureCard)?'JKR':(G.closureCard.rank+G.closureCard.suit))+' +'+bonus;
+      }
     } else {
-      // Joker tidak masuk combo = mati joker
-      p.matiJoker = true;
-    }
-  }
-  return score;
-}
-
-function applyBurnRule(prevPoints) {
-  // After applying round scores, check burn
-  for (let i=0;i<4;i++) {
-    const pi = G.players[i];
-    if (prevPoints[i] < 100) continue;
-    // check if anyone surpassed pi's new total
-    for (let j=0;j<4;j++) {
-      if (j===i) continue;
-      if (G.players[j].points > pi.points && G.players[j].points !== prevPoints[j]) {
-        // j surpassed i
-        addLog(`${pi.name} KEBAKAR! Poin reset ke 0 (dilewati ${G.players[j].name})`, 'danger');
-        showToast(`${pi.name} KEBAKAR! → 0`, 'red', 3000);
-        pi.points = 0;
-        break;
+      // bukan closer, bukan dunked
+      if (G.closureType==='tutupTangan' || G.closureType==='murniRaja'){
+        delta = 0; detail = 'tidak dihitung (tutup tangan)';
+      } else {
+        var sn2 = E.scoreNormal(p);
+        delta = sn2.score;
+        if (sn2.matiJoker) detail = 'MATI JOKER \u2212250';
+        else detail = (delta>=0?'+':'')+delta;
       }
     }
+    results.push({idx:i, player:p, delta:delta, detail:detail});
   }
+  // apply
+  for (var r=0;r<results.length;r++) results[r].player.points += results[r].delta;
+
+  var newPoints = G.players.map(function(p){ return p.points; });
+  // CEK WIN dulu (≥500): jika ada → tentukan winner tanpa burn
+  var reached = [];
+  for (var w=0;w<4;w++) if (newPoints[w] >= 500) reached.push(w);
+  var winner = null;
+  if (reached.length>0){
+    // tiebreak: prevPoints tertinggi (paling dekat 500), lalu newPoints tertinggi
+    reached.sort(function(a,b){
+      if (prevPoints[b] !== prevPoints[a]) return prevPoints[b]-prevPoints[a];
+      return newPoints[b]-newPoints[a];
+    });
+    winner = G.players[reached[0]];
+  } else {
+    // BURN
+    var burned = E.computeBurns(prevPoints, newPoints);
+    for (var bi=0;bi<burned.length;bi++){
+      addLog('\uD83D\uDD25 '+G.players[burned[bi]].name+' KEBAKAR! Poin reset ke 0.','danger');
+      G.players[burned[bi]].points = 0;
+    }
+  }
+  // SHUFFLER: poin paling jauh dari 500 (dari belakang)
+  var farIdx = 0, farDist = -1;
+  for (var s=0;s<4;s++){
+    var d = 500 - G.players[s].points; // lebih besar = lebih jauh
+    if (d>farDist){ farDist=d; farIdx=s; }
+  }
+  SHUFFLER = farIdx;
+  render();
+  showRoundModal(results, prevPoints, winner);
 }
 
-function showRoundModal(scores, winner) {
-  const modal = document.getElementById('round-modal');
-  document.getElementById('round-modal-title').textContent = `Ronde ${G.round} Selesai`;
-  
-  let html = '<table><tr><th>Pemain</th><th>Poin Ronde</th><th>Total</th></tr>';
-  for (const s of scores) {
-    const cls = s.roundScore > 0 ? 'pos' : s.roundScore < 0 ? 'neg' : '';
-    html += `<tr>
-      <td>${s.player.name}</td>
-      <td class="score-delta ${cls}">${s.roundScore>0?'+':''}${s.roundScore}</td>
-      <td ${s.player.points>=400?'style="color:var(--gold)"':''}>${s.player.points}</td>
-    </tr>`;
+function showRoundModal(results, prevPoints, winner){
+  var modal = document.getElementById('round-modal');
+  document.getElementById('round-modal-title').textContent = ((G.closedBy===null && !G.anyPickup)?'Ronde '+G.round+' — MUTIH':'Ronde '+G.round+' Selesai');
+  var html = '<table><tr><th>Pemain</th><th>Rincian</th><th>Ronde</th><th>Total</th></tr>';
+  for (var i=0;i<results.length;i++){
+    var r = results[i];
+    var cls = r.delta>0?'pos':r.delta<0?'neg':'';
+    html += '<tr>'+
+      '<td>'+r.player.name+'</td>'+
+      '<td style="font-size:0.65rem;color:var(--text-muted)">'+r.detail+'</td>'+
+      '<td class="score-delta '+cls+'">'+(r.delta>0?'+':'')+r.delta+'</td>'+
+      '<td '+(r.player.points>=400?'style="color:var(--gold)"':'')+'>'+r.player.points+'</td>'+
+      '</tr>';
   }
   html += '</table>';
-  
-  if (G.closedBy !== null) {
-    const closer = G.players[G.closedBy];
-    html += `<p style="margin-top:0.8rem;font-size:0.72rem;color:var(--text-muted)">Tutup oleh: <strong style="color:var(--gold)">${closer.name}</strong></p>`;
-  }
-  
+  var infoLines = [];
+  var mutih = (G.closedBy===null) && !G.anyPickup;
+  if (mutih) infoLines.push('<strong style="color:var(--gold)">MUTIH</strong> — tak ada yang ambil buangan, poin tangan hangus');
+  if (G.closedBy!=null) infoLines.push('Tutup oleh: <strong style="color:var(--gold)">'+G.players[G.closedBy].name+'</strong>');
+  if (G.cekiburanBy!=null) infoLines.push('Kecebur: <strong style="color:var(--red-light)">'+G.players[G.cekiburanBy].name+'</strong>');
+  infoLines.push('Pengocok ronde berikutnya: <strong>'+G.players[SHUFFLER].name+'</strong>');
+  html += '<p style="margin-top:0.8rem;font-size:0.72rem;color:var(--text-muted);line-height:1.7">'+infoLines.join(' &middot; ')+'</p>';
   document.getElementById('round-modal-body').innerHTML = html;
   modal.classList.add('active');
-  
-  if (winner) {
-    modal.classList.remove('active');
-    showGameOver(winner);
+  if (winner){
+    setTimeout(function(){
+      modal.classList.remove('active');
+      showGameOver(winner);
+    }, 2500);
   }
 }
-
-function showGameOver(winner) {
-  const modal = document.getElementById('gameover-modal');
-  document.getElementById('gameover-title').textContent = `🏆 ${winner.name} MENANG!`;
-  const sorted = [...G.players].sort((a,b)=>b.points-a.points);
-  let html = '<table><tr><th>Peringkat</th><th>Pemain</th><th>Poin</th></tr>';
-  sorted.forEach((p,i)=>{
-    html += `<tr><td>${i+1}</td><td class="${i===0?'winner':''}">${p.name}</td><td class="${i===0?'winner':i===3?'loser':''}">${p.points}</td></tr>`;
-  });
+function showGameOver(winner){
+  var modal = document.getElementById('gameover-modal');
+  document.getElementById('gameover-title').textContent = '\uD83C\uDFC6 '+winner.name+' MENANG!';
+  var sorted = G.players.slice().sort(function(a,b){return b.points-a.points;});
+  var html = '<table><tr><th>Peringkat</th><th>Pemain</th><th>Poin</th></tr>';
+  for (var i=0;i<sorted.length;i++){
+    var cls = i===0?'winner':(i===3?'loser':'');
+    html += '<tr><td>'+(i+1)+'</td><td class="'+(i===0?'winner':'')+'">'+sorted[i].name+'</td><td class="'+cls+'">'+sorted[i].points+'</td></tr>';
+  }
   html += '</table>';
   document.getElementById('gameover-body').innerHTML = html;
   modal.classList.add('active');
 }
 
-function nextRound() {
+function nextRound(){
   document.getElementById('round-modal').classList.remove('active');
-  resetJokerAssignments();
-  
-  const round = G.round + 1;
-  const prevPoints = G.players.map(p=>p.points);
-  const prevPlayers = G.players.map(p=>({name:p.name,isHuman:p.isHuman,points:p.points}));
-  
-  // find who starts: highest points from last round
-  const scoresLastRound = G.players.map((p,i)=>({i,points:p.points}));
-  scoresLastRound.sort((a,b)=>b.points-a.points);
-  const startPlayer = scoresLastRound[0].i;
-  
-  // who shuffles: lowest points
-  const shuffler = scoresLastRound[scoresLastRound.length-1].i;
-  
-  initGameState();
-  G.round = round;
-  // restore points
-  for (let i=0;i<4;i++) G.players[i].points = prevPoints[i];
-  G.currentPlayer = startPlayer;
-  G.startPlayer = startPlayer;
-  
-  addLog(`Ronde ${round} dimulai. ${G.players[startPlayer].name} jalan pertama.`, 'important');
+  var roundNum = G.round + 1;
+  var prevPoints = G.players.map(function(p){ return p.points; });
+  // start player = poin tertinggi
+  var maxPts = -Infinity, startPlayer = 0;
+  for (var i=0;i<4;i++) if (G.players[i].points > maxPts){ maxPts=G.players[i].points; startPlayer=i; }
+  initGameState(startPlayer, prevPoints);
+  G.round = roundNum;
+  addLog('Ronde '+roundNum+' dimulai. '+G.players[startPlayer].name+' jalan pertama.','important');
   render();
-  
-  // if first player is bot, execute
-  if (G.currentPlayer !== 0) {
-    setTimeout(() => executeBotTurn(G.currentPlayer), 1200);
-  }
+  if (G.currentPlayer!==0) setTimeout(function(){ executeBotTurn(G.currentPlayer); }, 1200);
 }
 
-// ═══════════════════════════════════════
-//  GAME ENTRY
-// ═══════════════════════════════════════
-function startGame() {
+function startGame(){
   document.getElementById('menu-screen').classList.remove('active');
   document.getElementById('game-screen').classList.add('active');
-  
-  initGameState();
+  // ronde 1: starter acak
+  var starter = Math.floor(Math.random()*4);
+  initGameState(starter, null);
+  SHUFFLER = (starter+2)%4; // arbitrer untuk ronde 1
+  addLog('Ronde 1 dimulai. '+G.players[starter].name+' jalan pertama.','important');
   render();
-  addLog(`Ronde 1 dimulai. Selamat bermain!`, 'important');
-  
-  // if first player is bot
-  if (G.currentPlayer !== 0) {
-    setTimeout(() => executeBotTurn(G.currentPlayer), 1000);
-  }
+  if (G.currentPlayer!==0) setTimeout(function(){ executeBotTurn(G.currentPlayer); }, 1000);
 }
+
 </script>
 </body>
 </html>

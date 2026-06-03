@@ -427,7 +427,7 @@
     <h2 id="round-modal-title">Ronde Selesai</h2>
     <div id="round-modal-body"></div>
     <br>
-    <button class="btn-primary" onclick="nextRound()" style="width:100%">RONDE BERIKUTNYA</button>
+    <button class="btn-primary" id="round-next-btn" onclick="nextRound()" style="width:100%">RONDE BERIKUTNYA</button>
   </div>
 </div>
 
@@ -915,7 +915,8 @@ function isPureRaja(combos){
 function computeBurns(prev, next){
   var burned=[];
   for (var i=0;i<prev.length;i++){
-    if (prev[i] < 100) continue;
+    if (prev[i] < 100) continue;   // harus MEMULAI ronde di >=100 (H1: yang berangkat <100 tak kebakar)
+    if (next[i] < 100) continue;   // harus TETAP >=100 setelah ronde (A1: "minus yang tidak sampai dibawah 100")
     var overtaken=false;
     for (var j=0;j<prev.length;j++){
       if (j===i) continue;
@@ -1907,6 +1908,8 @@ function showRoundModal(results, prevPoints, winner){
   infoLines.push('Pengocok ronde berikutnya: <strong>'+G.players[SHUFFLER].name+'</strong>');
   html += '<p style="margin-top:0.8rem;font-size:0.72rem;color:var(--text-muted);line-height:1.7">'+infoLines.join(' &middot; ')+'</p>';
   document.getElementById('round-modal-body').innerHTML = html;
+  var nextBtn = document.getElementById('round-next-btn');
+  if (nextBtn) nextBtn.style.display = winner ? 'none' : '';
   modal.classList.add('active');
   if (winner){
     setTimeout(function(){
@@ -1930,6 +1933,8 @@ function showGameOver(winner){
 }
 
 function nextRound(){
+  // guard: jika sudah ada pemenang (>=500), game berakhir — jangan mulai ronde baru
+  for (var gi=0; gi<4; gi++){ if (G.players[gi].points >= 500){ return; } }
   document.getElementById('round-modal').classList.remove('active');
   var roundNum = G.round + 1;
   var prevPoints = G.players.map(function(p){ return p.points; });

@@ -153,7 +153,7 @@
   .turn-indicator { position: absolute; bottom: 0; left: 0; right: 0; height: 2px; background: var(--gold); opacity: 0; transition: opacity 0.3s; }
   .score-cell.active-turn .turn-indicator { opacity: 1; }
 
-  .game-main { display: grid; grid-template-rows: auto 1fr auto; flex: 1; gap: 0.8rem; padding: 0.8rem; min-height: 0; }
+  .game-main { display: grid; grid-template-rows: auto 180px auto; flex: 1; gap: 0.6rem; padding: 0.6rem; min-height: 0; }
   .bot-areas { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.8rem; }
   .player-area { background: var(--surface); border: 1px solid var(--border); padding: 0.6rem; min-height: 80px; position: relative; transition: border-color 0.3s; }
   .player-area.active-turn { border-color: rgba(201,168,76,0.55); box-shadow: 0 0 0 1px rgba(201,168,76,0.25); }
@@ -161,45 +161,98 @@
   .player-area-label .pname { color: var(--gold); }
   .player-area-label .cekih-tag { color: var(--red-light); font-weight:500; }
 
-  .table-area { display: grid; grid-template-columns: 1fr 2fr 1fr; gap: 0.8rem; align-items: stretch; }
-  .deck-zone { display: flex; flex-direction: column; align-items: center; gap: 0.5rem; justify-content: center; }
-  .deck-label { font-size: 0.6rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.08em; }
+  /* ── TABEL AREA: buangan full width ── */
+  .table-area {
+    display: block;
+  }
+  /* deck-zone di table-area disembunyikan — deck hanya ada di samping tangan player */
+  .deck-zone { display: none; }
+  .deck-label { font-size: 0.5rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.06em; text-align:center; }
   .deck-pile {
-    width: 60px; height: 84px;
+    width: 52px; height: 72px;
     background: linear-gradient(135deg, #1e1e30, #14142a);
     border: 1px solid var(--border); border-radius: 4px;
     display: flex; align-items: center; justify-content: center;
     cursor: not-allowed; position: relative; transition: all 0.2s;
-    font-size: 1.4rem; color: rgba(201,168,76,0.3);
+    font-size: 1.2rem; color: rgba(201,168,76,0.3);
   }
   .deck-pile.clickable { border-color: var(--gold); cursor: pointer; }
   .deck-pile.clickable:hover { transform: translateY(-3px); box-shadow: 0 6px 20px rgba(201,168,76,0.3); }
-  .deck-count { font-size: 0.65rem; color: var(--text-muted); }
-  .deck-shuffler { font-size: 0.55rem; color: var(--text-dim); text-align: center; max-width: 100px; line-height:1.3; }
+  .deck-count { font-size: 0.55rem; color: var(--text-muted); }
+  .deck-shuffler { font-size: 0.48rem; color: var(--text-dim); text-align: center; line-height:1.3; }
 
-  .discard-zone { display: flex; flex-direction: column; gap: 0.4rem; min-width: 0; }
-  .discard-head { display:flex; justify-content:space-between; align-items:baseline; font-size:0.6rem; color:var(--text-dim); text-transform:uppercase; letter-spacing:0.08em; }
-  .discard-scroll { width: 100%; overflow-x: auto; padding-bottom: 4px; scrollbar-width: thin; scrollbar-color: var(--border) transparent; }
-  .discard-row { display: flex; flex-direction: row; gap: 2px; min-width: max-content; padding: 2px; align-items:center; }
-  .discard-boundary {
-    width: 0; border-left: 2px dashed rgba(201,168,76,0.5);
-    height: 60px; margin: 0 4px; position: relative; flex-shrink:0;
+  /* ── SPIRAL DISCARD (lintasan berurutan melingkar) ── */
+  .discard-zone {
+    display: flex; flex-direction: column; gap: 0.3rem;
+    background: var(--surface); border: 1px solid var(--border); padding: 0.5rem;
+    min-height: 0; width: 100%;
   }
-  .discard-boundary::after {
-    content: 'batas 7'; position: absolute; top: -10px; left: 50%;
-    transform: translateX(-50%); font-size: 0.46rem; color: var(--gold);
-    letter-spacing: 0.05em; white-space: nowrap;
+  .discard-head {
+    display:flex; justify-content:space-between; align-items:baseline;
+    font-size:0.55rem; color:var(--text-dim); text-transform:uppercase; letter-spacing:0.08em;
+    flex-shrink: 0;
   }
-  .discard-out { opacity: 0.35; }
+  .discard-spiral-wrap {
+    position: relative;
+    width: 100%;
+    height: 190px;
+    overflow: hidden;
+  }
+  .discard-spiral-wrap .dcard { position: absolute; }
+  .discard-out { opacity: 0.22; }
+  /* Batas 7: highlight ring oval di sekitar 7 kartu terbaru */
+  .d7-ring {
+    position:absolute; pointer-events:none; z-index:2;
+    border: 1.5px dashed rgba(201,168,76,0.6);
+    border-radius: 6px;
+  }
+  /* Garis penghubung antar kartu (SVG overlay) */
+  #discard-connector {
+    position:absolute; top:0; left:0; width:100%; height:100%;
+    pointer-events:none; z-index:1;
+    overflow:visible;
+  }
 
-  .log-zone { background: var(--surface); border: 1px solid var(--border); padding: 0.6rem; overflow-y: auto; max-height: 140px; font-size: 0.62rem; color: var(--text-muted); line-height: 1.7; scrollbar-width: thin; scrollbar-color: var(--border) transparent; }
+  /* Log tetap ada tapi tersembunyi (hanya penting/danger) — compact mini */
+  .log-zone {
+    display:none; /* dihilangkan dari UI */
+  }
   .log-entry { padding: 0 0.2rem; }
   .log-entry.important { color: var(--gold); }
   .log-entry.danger { color: var(--red-light); }
   .log-entry.success { color: var(--green); }
 
-  .human-area { background: var(--surface); border: 1px solid var(--border); border-top: 2px solid rgba(201,168,76,0.3); padding: 0.8rem; }
-  .human-area-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.6rem; flex-wrap:wrap; gap:0.5rem; }
+  .human-area {
+    background: var(--surface); border: 1px solid var(--border);
+    border-top: 2px solid rgba(201,168,76,0.3); padding: 0.6rem 0.8rem;
+    display: flex; flex-direction: column; gap: 0.4rem;
+  }
+  /* baris tangan: kartu kiri + deck kanan langsung sejajar */
+  .hand-row {
+    display: flex; flex-direction: row; align-items: flex-start; gap: 0.5rem;
+  }
+  .hand-cards {
+    flex: 1; display: flex; flex-wrap: wrap; gap: 4px; min-height: 80px; align-items: flex-start;
+  }
+  .open-combos { display: flex; flex-wrap: wrap; gap: 6px; }
+  /* deck kanan — langsung sejajar dengan baris kartu tangan */
+  .human-deck-side {
+    display: flex; flex-direction: column; align-items: center;
+    gap: 0.3rem; justify-content: flex-start; flex-shrink: 0;
+  }
+  .human-deck-side .deck-label { font-size: 0.48rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.05em; text-align:center; }
+  .human-deck-side .deck-pile {
+    width: 52px; height: 72px;
+    background: linear-gradient(135deg, #1e1e30, #14142a);
+    border: 1px solid var(--border); border-radius: 4px;
+    display: flex; align-items: center; justify-content: center;
+    cursor: not-allowed; transition: all 0.2s;
+    font-size: 1.1rem; color: rgba(201,168,76,0.3);
+  }
+  .human-deck-side .deck-pile.clickable { border-color: var(--gold); cursor: pointer; }
+  .human-deck-side .deck-pile.clickable:hover { transform: translateY(-3px); box-shadow: 0 4px 16px rgba(201,168,76,0.35); }
+  .human-deck-side .deck-count { font-size: 0.52rem; color: var(--text-muted); text-align:center; }
+  .human-area-top { display: flex; align-items: center; justify-content: space-between; flex-wrap:wrap; gap:0.4rem; }
   .human-label { font-size: 0.65rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.1em; }
   .human-controls { display: flex; gap: 0.5rem; align-items: center; flex-wrap:wrap; }
   .btn-action {
@@ -375,23 +428,17 @@
     </div>
 
     <div class="table-area">
-      <div class="deck-zone">
-        <div class="deck-label">Kartu Tengah</div>
-        <div class="deck-pile" id="deck-pile" onclick="onDeckClick()">&#127136;</div>
-        <div class="deck-count" id="deck-count">26 kartu</div>
-        <div class="deck-shuffler" id="deck-shuffler"></div>
-      </div>
       <div class="discard-zone">
         <div class="discard-head">
           <span>Area Buangan (terbuka)</span>
           <span id="discard-count">0 kartu</span>
         </div>
-        <div class="discard-scroll">
-          <div class="discard-row" id="discard-row"></div>
+        <div class="discard-spiral-wrap" id="discard-spiral">
+          <svg id="discard-connector" xmlns="http://www.w3.org/2000/svg"></svg>
         </div>
       </div>
-      <div class="log-zone" id="game-log"></div>
     </div>
+    <div class="log-zone" id="game-log" style="display:none"></div>
 
     <div class="human-area">
       <div id="banner-pickup" class="banner pickup">&#9656; Klik kartu hijau di area buangan untuk mengambil (semua kartu setelah posisi itu akan ikut terambil). <button class="btn-action" style="margin-left:8px" onclick="cancelPickup()">BATAL</button></div>
@@ -407,8 +454,24 @@
           <button class="btn-action" id="btn-drawdeck" onclick="onDeckClick()" disabled>AMBIL TENGAH</button>
         </div>
       </div>
-      <div class="hand-cards" id="hand-p0"></div>
+      <div class="hand-row">
+        <div class="hand-cards" id="hand-p0"></div>
+        <!-- Deck tepat di sebelah kanan kartu tangan -->
+        <div class="human-deck-side">
+          <div class="deck-label">Tengah</div>
+          <div class="deck-pile" id="deck-pile-side" onclick="onDeckClick()">&#127136;</div>
+          <div class="deck-count" id="deck-count-side">26</div>
+          <div style="font-size:0.42rem;color:var(--text-dim);text-align:center;line-height:1.3" id="deck-shuffler-side"></div>
+        </div>
+      </div>
       <div class="open-combos" id="open-p0"></div>
+      <!-- elemen hidden untuk kompatibilitas renderActions -->
+      <div style="display:none">
+        <div id="deck-pile" class="deck-pile"></div>
+        <div id="deck-count"></div>
+        <div id="deck-remaining"></div>
+        <div id="deck-shuffler"></div>
+      </div>
       <div class="action-panel">
         <div class="action-hint" id="action-hint">Menunggu giliran...</div>
       </div>
@@ -875,11 +938,13 @@ function hasExternalSeriP(player){
 function scoreNormal(player){
   var ext=hasExternalSeriP(player);
   var ev=evaluate(player.hand, ext);
-  if (ev.matiJoker) return {score:-250, matiJoker:true, ev:ev};
   var s=scoreOpen(player.openCombos);
   for (var i=0;i<ev.combos.length;i++) s += ev.combos[i].tier*ev.combos[i].cards.length;
   for (var j=0;j<ev.leftover.length;j++) if(!isJoker(ev.leftover[j])) s -= tierOf(ev.leftover[j]);
-  return {score:s, matiJoker:false, ev:ev};
+  // Mati joker: penalti -250 DITAMBAHKAN di atas poin normal (bukan menggantikan)
+  // Aturan: "even poin player sudah -100, apabila mati joker maka poin player akan -350"
+  if (ev.matiJoker) s -= 250;
+  return {score:s, matiJoker:ev.matiJoker, ev:ev};
 }
 
 function joinTier(rest, joker, ext){
@@ -920,7 +985,9 @@ function computeBurns(prev, next){
     var overtaken=false;
     for (var j=0;j<prev.length;j++){
       if (j===i) continue;
-      if (prev[j] <= prev[i] && next[j] > next[i]){ overtaken=true; break; }
+      // Aturan: jika poin sama di awal ronde, yang dari bawah ke atas TIDAK membakar.
+      // Hanya jika prev[j] benar-benar < prev[i] (di bawah), lalu next[j] > next[i] (melampaui).
+      if (prev[j] < prev[i] && next[j] > next[i]){ overtaken=true; break; }
     }
     if (overtaken) burned.push(i);
   }
@@ -1124,13 +1191,25 @@ function renderBots(){
     document.getElementById('cekih-tag-p'+i).textContent = p.cekih?'\u25CF cekih':'';
     var hd = document.getElementById('hand-display-p'+i);
     var s = '';
-    for (var j=0;j<p.hand.length;j++) s += '<div class="card tiny face-down"></div>';
+    // Tampilkan kartu bot secara terbuka (X-RAY mode)
+    var ext = E.hasExternalSeriP(p);
+    var ev = E.evaluate(p.hand, ext);
+    var inComboIds = {};
+    for (var ci=0;ci<ev.combos.length;ci++)
+      for (var cj=0;cj<ev.combos[ci].cards.length;cj++) inComboIds[E.cid(ev.combos[ci].cards[cj])]=1;
+    var jrm = buildJokerRoleMap(ev.combos);
+    for (var j=0;j<p.hand.length;j++){
+      var c = p.hand[j];
+      var inC = inComboIds[E.cid(c)];
+      var extra = 'tiny '+(inC?'in-combo':'not-combo');
+      var matiFlag = E.isJoker(c) && ev.matiJoker;
+      s += cardHTML(c, {extra:extra, jokerRoleMap:jrm, matiJoker:matiFlag});
+    }
     hd.innerHTML = s;
     var oe = document.getElementById('open-p'+i);
     s = '';
     for (var k=0;k<p.openCombos.length;k++){
       var combo = p.openCombos[k];
-      var jrm = buildJokerRoleMap([combo]);
       s += '<div class="combo-group"><span class="ctype">'+comboTypeLabel(combo)+'</span>';
       for (var m=0;m<combo.cards.length;m++) s += cardHTMLTiny(combo.cards[m]);
       s += '</div>';
@@ -1139,50 +1218,167 @@ function renderBots(){
   }
 }
 function renderDeck(){
-  document.getElementById('deck-remaining').textContent = G.deck.length;
-  document.getElementById('deck-count').textContent = G.deck.length+' kartu';
-  var dp = document.getElementById('deck-pile');
   var canDraw = G.currentPlayer===0 && G.turnPhase==='draw' && G.deck.length>0 && !G.roundDone && UI.mode==='idle';
-  dp.className = 'deck-pile'+(canDraw?' clickable':'');
+  // deck-pile di table-area sudah dihapus dari DOM; cukup update side deck
+  var dp = document.getElementById('deck-pile');
+  if (dp) dp.className = 'deck-pile'+(canDraw?' clickable':'');
+  var dc = document.getElementById('deck-count');
+  if (dc) dc.textContent = G.deck.length;
+  var dps = document.getElementById('deck-pile-side');
+  if (dps) dps.className = 'deck-pile'+(canDraw?' clickable':'');
+  var dcs = document.getElementById('deck-count-side');
+  if (dcs) dcs.textContent = G.deck.length;
+  var dr = document.getElementById('deck-remaining');
+  if (dr) dr.textContent = G.deck.length;
   document.getElementById('discard-count').textContent = G.discard.length+' kartu';
-  var sh = document.getElementById('deck-shuffler');
-  sh.textContent = SHUFFLER>=0 ? ('Pengocok: '+G.players[SHUFFLER].name) : '';
+  // shuffler di side label
+  var sh = document.getElementById('deck-shuffler-side');
+  if (sh) sh.textContent = SHUFFLER>=0 ? G.players[SHUFFLER].name : '';
 }
 function renderDiscard(){
-  var row = document.getElementById('discard-row');
-  row.innerHTML = '';
+  var wrap = document.getElementById('discard-spiral');
+  if (!wrap) return;
+  wrap.innerHTML = '';
+
+  var svg = document.createElementNS('http://www.w3.org/2000/svg','svg');
+  svg.style.cssText = 'position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:1;overflow:visible;';
+  wrap.appendChild(svg);
+
   var dis = G.discard;
-  if (dis.length===0) return;
+  if (dis.length === 0) return;
+
+  // Ukuran area dan kartu
+  var W = wrap.offsetWidth  || 340;
+  var H = wrap.offsetHeight || 160;
+  var n = dis.length;
+
+  // Kartu kecil, rapat tanpa gap
+  var CW = 36, CH = 50;   // lebar & tinggi kartu
+  var PAD = 4;             // padding dari tepi area
+
   // pre-compute pickup targets
   var targets = {};
   if (UI.mode==='pickup'){
-    var p = G.players[0];
-    var ext = E.hasExternalSeriP(p);
-    var arr = E.validPickupTargets(p.hand, dis, ext);
-    for (var i=0;i<arr.length;i++) targets[arr[i]] = 1;
+    var p0 = G.players[0];
+    var ext0 = E.hasExternalSeriP(p0);
+    var arr = E.validPickupTargets(p0.hand, dis, ext0);
+    for (var ti=0;ti<arr.length;ti++) targets[arr[ti]] = 1;
   }
-  for (var idx=0; idx<dis.length; idx++){
-    var c = dis[idx];
-    var fromEnd = dis.length - 1 - idx;
-    var inRange = fromEnd < 7;
-    // batas 7 kartu
-    if (fromEnd===6 && dis.length>7){
-      row.innerHTML += '<div class="discard-boundary"></div>';
+
+  // ── SPIRAL PERSEGI PANJANG ────────────────────────────────────────
+  // Lintasan berurutan: mulai dari pojok kiri-atas, jalan ke KANAN dulu,
+  // lalu BAWAH, lalu KIRI, lalu ATAS, lalu KANAN lagi (mengecil ke dalam).
+  // Kartu idx=0 (paling lama) = posisi pertama lintasan.
+  // Kartu idx=n-1 (terbaru)   = posisi terakhir (dalam/tengah).
+  //
+  // Algoritma: telusuri spiral layer by layer dari luar ke dalam.
+  // Setiap layer = 1 putaran persegi panjang, makin kecil ke dalam.
+
+  // Batas efektif area (dengan padding)
+  var x0 = PAD, y0 = PAD, x1 = W - PAD - CW, y1 = H - PAD - CH;
+
+  // Hasilkan semua titik lintasan spiral persegi panjang
+  function spiralRectPoints(n, x0, y0, x1, y1, cw, ch) {
+    var pts = [];
+    var left = x0, top = y0, right = x1, bottom = y1;
+    var dir = 0; // 0=right,1=down,2=left,3=up
+    while (pts.length < n) {
+      if (dir === 0) { // kiri → kanan (atas)
+        var x = left;
+        while (x <= right && pts.length < n) { pts.push({x:x, y:top, rot:0}); x += cw; }
+        top += ch;
+      } else if (dir === 1) { // atas → bawah (kanan)
+        var y = top;
+        while (y <= bottom && pts.length < n) { pts.push({x:right, y:y, rot:0}); y += ch; }
+        right -= cw;
+      } else if (dir === 2) { // kanan → kiri (bawah)
+        var x = right;
+        while (x >= left && pts.length < n) { pts.push({x:x, y:bottom, rot:0}); x -= cw; }
+        bottom -= ch;
+      } else { // bawah → atas (kiri)
+        var y = bottom;
+        while (y >= top && pts.length < n) { pts.push({x:left, y:y, rot:0}); y -= ch; }
+        left += cw;
+      }
+      dir = (dir + 1) % 4;
+      // jika area sudah tidak valid, berhenti
+      if (left > right || top > bottom) break;
     }
+    return pts;
+  }
+
+  var positions = spiralRectPoints(n, x0, y0, x1, y1, CW, CH);
+
+  // Gambar garis penghubung SVG antar pusat kartu
+  if (n >= 2) {
+    var pathD = 'M '+(positions[0].x+CW/2).toFixed(1)+' '+(positions[0].y+CH/2).toFixed(1);
+    for (var pi = 1; pi < positions.length; pi++) {
+      var px = (positions[pi].x + CW/2).toFixed(1);
+      var py = (positions[pi].y + CH/2).toFixed(1);
+      pathD += ' L '+px+' '+py;
+    }
+    var pathEl = document.createElementNS('http://www.w3.org/2000/svg','path');
+    pathEl.setAttribute('d', pathD);
+    pathEl.setAttribute('fill','none');
+    pathEl.setAttribute('stroke','rgba(201,168,76,0.15)');
+    pathEl.setAttribute('stroke-width','1');
+    svg.appendChild(pathEl);
+  }
+
+  // Render kartu — rapat, tidak ada rotasi (mengikuti lintasan lurus)
+  for (var idx = 0; idx < n; idx++) {
+    var c = dis[idx];
+    var fromEnd = n - 1 - idx;
+    var inRange = fromEnd < 7;
+    var pos = positions[idx];
+    if (!pos) continue;
+
     var extra = inRange ? '' : 'discard-out';
     var click = '';
     if (UI.mode==='pickup' && targets[idx]){
-      extra += ' pickup-target';
-      click = 'executePickup('+idx+')';
+      extra += ' pickup-target'; click = 'executePickup('+idx+')';
     } else if (UI.mode==='pickup' && inRange){
       extra += ' pickup-drag';
     }
-    row.innerHTML += cardHTMLSmall(c, extra, click);
+    var div = document.createElement('div');
+    div.style.cssText = 'position:absolute;left:'+pos.x.toFixed(0)+'px;top:'+pos.y.toFixed(0)+'px;z-index:'+(idx+3)+';';
+    div.innerHTML = cardHTMLSmall(c, 'dcard '+extra, click);
+    wrap.appendChild(div);
   }
-  var scroll = document.querySelector('.discard-scroll');
-  if (scroll) scroll.scrollLeft = scroll.scrollWidth;
-}
 
+  // Dot emas di kartu terbaru (ujung dalam spiral)
+  if (n >= 1 && positions[n-1]) {
+    var np = positions[n-1];
+    var dot = document.createElement('div');
+    dot.style.cssText = 'position:absolute;width:5px;height:5px;border-radius:50%;background:var(--gold);'+
+      'left:'+(np.x+CW/2-2.5).toFixed(0)+'px;top:'+(np.y+CH+1).toFixed(0)+'px;z-index:'+(n+10)+';opacity:0.9;';
+    wrap.appendChild(dot);
+  }
+
+  // Kotak batas-7 di sekitar 7 kartu terbaru
+  if (n > 7) {
+    var bxs = [], bys = [];
+    for (var bi = n-7; bi < n; bi++){
+      if (!positions[bi]) continue;
+      bxs.push(positions[bi].x); bys.push(positions[bi].y);
+    }
+    if (bxs.length) {
+      var bx1 = Math.min.apply(null,bxs)-1, by1 = Math.min.apply(null,bys)-1;
+      var bx2 = Math.max.apply(null,bxs)+CW+1, by2 = Math.max.apply(null,bys)+CH+1;
+      var bRect = document.createElement('div');
+      bRect.className = 'd7-ring';
+      bRect.style.cssText = 'left:'+bx1.toFixed(0)+'px;top:'+by1.toFixed(0)+'px;'+
+        'width:'+(bx2-bx1).toFixed(0)+'px;height:'+(by2-by1).toFixed(0)+'px;z-index:2;';
+      var bLbl = document.createElement('span');
+      bLbl.style.cssText = 'position:absolute;top:-10px;left:3px;font-size:0.38rem;'+
+        'color:rgba(201,168,76,0.85);font-family:"IBM Plex Mono",monospace;'+
+        'background:var(--surface);padding:0 3px;letter-spacing:0.03em;white-space:nowrap;';
+      bLbl.textContent = 'batas 7';
+      bRect.appendChild(bLbl);
+      wrap.appendChild(bRect);
+    }
+  }
+}
 function renderHumanHand(){
   var p = G.players[0];
   var handEl = document.getElementById('hand-p0');
@@ -1651,47 +1847,229 @@ function computeUnseen(pidx){
   return {set:set, jokerLeft: Math.max(0, 2-jokSeen)};
 }
 
-// Skor "kehidupan" tangan: makin banyak penyambung kartu sisa yang masih unseen, makin baik dipertahankan.
-function livenessScore(hand, ext, unseen){
-  var ev = E.evaluate(hand, ext);
-  var sc=0;
-  ev.leftover.forEach(function(c){
-    if (E.isJoker(c)){ sc+=6; return; }
-    if (E.isAngka(c.rank)){
-      var n=E.RANK_NUM[c.rank];
-      [n-2,n-1,n+1,n+2].forEach(function(nr){ if(nr>=2&&nr<=10 && unseen.set[(''+nr)+c.suit]) sc+=1; });
-    } else if (E.isRaja(c.rank)){
-      ['J','Q','K'].forEach(function(rr){ if(rr!==c.rank && unseen.set[rr+c.suit]) sc+=1; });
-      E.SUITS.forEach(function(ss){ if(ss!==c.suit && unseen.set[c.rank+ss]) sc+=1; });
-    } else if (E.isAce(c.rank)){
-      E.SUITS.forEach(function(ss){ if(ss!==c.suit && unseen.set['A'+ss]) sc+=1; });
-    }
-  });
-  // joker hidup bila ada >=2 kartu sisa yang bisa menyambung joker; perkiraan via jumlah sisa non-joker
-  return sc;
+// ── VALUASI TANGAN BERBASIS POTENSI (inti BOT "rakus") ──
+// Memperkirakan NILAI HARAPAN tangan: bukan cuma kombinasi yang sudah jadi, tapi juga
+// kartu tinggi (AS/Raja) yang MASIH punya jalan untuk jadi kombinasi. Inilah yang membuat
+// bot berhenti membuang AS/Raja secara membabi-buta hanya karena belum masuk kombinasi.
+/* ===== BOT "RAKUS TAPI CERDAS" — HELPER & TUNING (ditambahkan) ===== */
+var DANGER_SCALE   = 4;
+var KECEBUR_EV_CAP = 120;
+var CEILING_AS2    = 8;
+var CEILING_AS3    = 18;
+var CEILING_RAJA2  = 10;
+var CEILING_RAJASERI = 8;
+
+function botRivals(pidx){
+  var out=[];
+  for (var i=0;i<4;i++){ if(i===pidx) continue;
+    var rv=G.players[i];
+    out.push({ idx:i, points:rv.points, cekih:(rv.cekih && rv.declaredCekih), handCount:rv.hand.length });
+  }
+  return out;
+}
+function nextPlayerCekih(pidx){
+  var np=G.players[(pidx+1)%4];
+  return !!(np.cekih && np.declaredCekih);
+}
+function cardDanger(c, unseen){
+  if (E.isJoker(c)) return 1e6;
+  var base = E.tierOf(c), live = 0;
+  if (E.isAngka(c.rank)){
+    var n=E.RANK_NUM[c.rank];
+    for (var d=-2; d<=2; d++){ if(d===0) continue; var nr=n+d; if(nr<2||nr>10) continue;
+      if (unseen.set[(''+nr)+c.suit]) live++; }
+  } else if (E.isRaja(c.rank)){
+    ['J','Q','K'].forEach(function(r2){ if(r2!==c.rank && unseen.set[r2+c.suit]) live++; });
+    E.SUITS.forEach(function(s){ if(s!==c.suit && unseen.set[c.rank+s]) live++; });
+  } else {
+    E.SUITS.forEach(function(s){ if(s!==c.suit && unseen.set['A'+s]) live++; });
+  }
+  return base * (1 + Math.min(4, live)) * DANGER_SCALE;
+}
+function botOuts(p, ext, unseen){
+  var held={}; p.hand.forEach(function(c){ held[E.cid(c)]=1; });
+  var outs=0, bestBonus=0;
+  for (var s=0;s<E.SUITS.length;s++) for (var r=0;r<E.RANKS.length;r++){
+    var rank=E.RANKS[r], suit=E.SUITS[s], id=rank+suit;
+    if (held[id] || !unseen.set[id]) continue;
+    var bc=E.canCloseWithCard(p.hand, {rank:rank, suit:suit}, ext);
+    if (bc){ outs++; if (bc.bonus>bestBonus) bestBonus=bc.bonus; }
+  }
+  return { outs:outs, bestBonus:bestBonus };
+}
+function botKeceburEV(pidx){
+  var p=G.players[pidx];
+  if (!(p.cekih && p.declaredCekih)) return 0;
+  if (nextPlayerCekih(pidx)) return 0;
+  var ext=E.hasExternalSeriP(p);
+  var unseen=computeUnseen(pidx);
+  var o=botOuts(p, ext, unseen);
+  if (o.outs===0) return 0;
+  var prev=G.players[(pidx-1+4)%4];
+  var feedP = Math.min(0.5, 0.06*o.outs);
+  var rivalExposure = 40 + (prev.points>=100 ? 60 : 20);
+  return Math.min(KECEBUR_EV_CAP, feedP * (o.bestBonus + rivalExposure));
+}
+function botBurnLock(pidx, closeNow){
+  var projected = G.players[pidx].points + closeNow;
+  var best=-1;
+  for (var i=0;i<4;i++){ if(i===pidx) continue;
+    var rv=G.players[i];
+    if (rv.points>=100 && rv.points<projected && rv.points>best) best=rv.points;
+  }
+  return best;
 }
 
-// Pilih kartu buang terbaik: maksimalkan nilai kombinasi, jaga kartu hidup, dan HINDARI MATI JOKER.
+function botPotential(hand, ext, unseen, deckLeft){
+  var ev = E.evaluate(hand, ext);
+  var val = 0, i;
+  for (i=0;i<ev.combos.length;i++) val += ev.combos[i].tier * ev.combos[i].cards.length;
+  if (ev.matiJoker) val -= 350;
+  var turns = Math.max(1, Math.floor(deckLeft/4));
+  var pHigh = Math.min(0.85, 0.30 + turns*0.10);
+  var pLow  = Math.min(0.55, 0.10 + turns*0.06);
+  var lo = ev.leftover;
+  for (var k=0;k<lo.length;k++){
+    var c = lo[k];
+    if (E.isJoker(c)){ val -= 2; continue; }
+    var tier = E.tierOf(c), partner=false, completers=0, d, nr;
+    if (E.isAngka(c.rank)){
+      var n=E.RANK_NUM[c.rank];
+      for (d=-2; d<=2; d++){ if(d===0) continue; nr=n+d; if(nr<2||nr>10) continue;
+        if (lo.some(function(x){return !E.isJoker(x)&&x.suit===c.suit&&E.RANK_NUM[x.rank]===nr;})) partner=true;
+        if (unseen.set[(''+nr)+c.suit]) completers++; }
+    } else if (E.isRaja(c.rank)){
+      ['J','Q','K'].forEach(function(r2){ if(r2!==c.rank){
+        if (lo.some(function(x){return !E.isJoker(x)&&x.suit===c.suit&&x.rank===r2;})) partner=true;
+        if (unseen.set[r2+c.suit]) completers++; }});
+      E.SUITS.forEach(function(ss){ if(ss!==c.suit){
+        if (lo.some(function(x){return !E.isJoker(x)&&x.rank===c.rank&&x.suit===ss;})) partner=true;
+        if (unseen.set[c.rank+ss]) completers++; }});
+    } else if (E.isAce(c.rank)){
+      E.SUITS.forEach(function(ss){ if(ss!==c.suit){
+        if (lo.some(function(x){return !E.isJoker(x)&&x.rank==='A'&&x.suit===ss;})) partner=true;
+        if (unseen.set['A'+ss]) completers++; }});
+    }
+    if (completers>0){
+      var pbase = partner ? pHigh : pLow;
+      var peff = 1 - Math.pow(1-pbase, Math.min(3, completers));
+      if (unseen.jokerLeft>0) peff = 1 - (1-peff)*(1-Math.min(0.5,0.18*unseen.jokerLeft));
+      val += tier * peff;
+      val -= tier * (1-peff) * 0.6;
+    } else {
+      val -= tier;
+    }
+  }
+  // (A) CEILING-BIAS: dorong membangun kategori ber-plafon tinggi (AS/Raja)
+  var aces=0, rajaRank={}, rajaSuit={};
+  for (var z=0;z<hand.length;z++){
+    var hc=hand[z]; if (E.isJoker(hc)) continue;
+    if (E.isAce(hc.rank)) aces++;
+    else if (E.isRaja(hc.rank)){
+      rajaRank[hc.rank]=(rajaRank[hc.rank]||0)+1;
+      rajaSuit[hc.suit]=(rajaSuit[hc.suit]||0)+1;
+    }
+  }
+  if (aces>=3) val += CEILING_AS3;
+  else if (aces>=2) val += CEILING_AS2;
+  for (var rk in rajaRank) if (rajaRank[rk]>=2) val += CEILING_RAJA2;
+  for (var su in rajaSuit) if (rajaSuit[su]>=2) val += CEILING_RAJASERI;
+  return val;
+}
+
+// Pilih buang: pertahankan 6 kartu berpotensi tertinggi, JANGAN pernah membuat mati joker.
+// Tambahan: dorong KONVERGENSI struktur (mendekati tangan yang bisa ditutup) — makin tipis dek,
+// makin kuat dorongan merapikan tangan jadi kombinasi penuh agar bisa menutup & meraih bonus tutupan.
 function botChooseDiscard(p, pidx){
   var ext = E.hasExternalSeriP(p);
   var unseen = computeUnseen(pidx);
+  var deckLeft = G.deck.length;
+  var depthFactor = Math.max(0, Math.min(1, (deckLeft-4)/18));
+  var convW = 6 + 14*(1-depthFactor);
+  var threat = nextPlayerCekih(pidx);
   var candidates = p.hand.filter(function(c){ return !E.isJoker(c); });
-  if (candidates.length===0) candidates = p.hand.slice(); // terpaksa (seluruhnya joker)
+  if (candidates.length===0) candidates = p.hand.slice();
   var best=null, bestScore=-Infinity;
   for (var i=0;i<candidates.length;i++){
     var c = candidates[i];
-    var hand2 = p.hand.filter(function(x){ return E.cid(x)!==E.cid(c); });
-    var ev = E.evaluate(hand2, ext);
-    var score=0;
-    var comboVal=0; ev.combos.forEach(function(g){ comboVal += g.tier*g.cards.length; });
-    score += comboVal*4;
-    var leftPen=0; ev.leftover.forEach(function(x){ if(!E.isJoker(x)) leftPen += E.tierOf(x); });
-    score -= leftPen*3;
-    if (ev.matiJoker) score -= 100000;            // jangan pernah biarkan joker mati
-    score += livenessScore(hand2, ext, unseen);   // pertahankan kartu yang masih punya peluang
-    if (score>bestScore){ bestScore=score; best=c; }
+    var rest = p.hand.filter(function(x){ return E.cid(x)!==E.cid(c); });
+    var evRest = E.evaluate(rest, ext);
+    var sc = botPotential(rest, ext, unseen, deckLeft);
+    var loose = 0;
+    for (var j=0;j<evRest.leftover.length;j++) if(!E.isJoker(evRest.leftover[j])) loose++;
+    sc -= loose * convW;
+    if (evRest.matiJoker) sc -= 100000;
+    if (threat) sc -= cardDanger(c, unseen);   // (C) jangan suapi tetangga cekih
+    if (sc>bestScore){ bestScore=sc; best=c; }
   }
   return best || p.hand[0];
+}
+
+// Konteks strategis bot saat ini (untuk keputusan tutup yang rakus).
+function botContext(pidx){
+  var p = G.players[pidx];
+  var maxOther = -Infinity, anyCekih = false;
+  for (var i=0;i<4;i++){
+    if (i===pidx) continue;
+    if (G.players[i].points > maxOther) maxOther = G.players[i].points;
+    if (G.players[i].cekih && G.players[i].declaredCekih) anyCekih = true;
+  }
+  return { deckLeft:G.deck.length, anyOpponentCekih:anyCekih, myPoints:p.points, maxOtherPoints:maxOther };
+}
+
+// Skor tutup persis seperti yang diberikan endRound.
+function botCloseScore(player, tutupan, type){
+  if (type==='tutupTangan') return 250;
+  if (type==='murniRaja') return 350;
+  return E.scoreClose(player, tutupan).score;
+}
+
+// KEPUTUSAN TUTUP RAKUS: tahan close kecil saat dek masih dalam; ambil yang besar;
+// makin tipis dek makin tegas; tekanan lawan cekih & ambang menang menurunkan ambang.
+function botDecideClose(pidx){
+  var p = G.players[pidx];
+  var ext = E.hasExternalSeriP(p);
+  var bc = E.bestClose(p.hand, ext);
+  if (!bc) return null;
+  var tutupan = bc.tutupan, type;
+  if (!p.tookFromDiscard && p.openCombos.length===0){
+    var rest = p.hand.filter(function(c){ return E.cid(c)!==E.cid(tutupan); });
+    var evRest = E.evaluate(rest, ext);
+    type = E.isPureRaja(evRest.combos) ? 'murniRaja' : 'tutupTangan';
+  } else {
+    type = 'tutupBiasa';
+  }
+  var ctx = botContext(pidx);
+  var unseen = computeUnseen(pidx);
+  var closeNow = botCloseScore(p, tutupan, type);
+  var hold = botPotential(p.hand, ext, unseen, ctx.deckLeft) + E.scoreOpen(p.openCombos);
+  var forced = ctx.deckLeft <= 4;
+
+  // (E) BURN-LOCK: tutup sekarang yang melewati lawan >=100 → kunci segera
+  var burnTarget = botBurnLock(pidx, closeNow);
+  if (burnTarget >= 0 && closeNow >= 40){
+    return { shouldClose:true, tutupan:tutupan, type:type, score:closeNow };
+  }
+
+  var floor = 95;
+  if (ctx.myPoints < ctx.maxOtherPoints - 60) floor = 120;
+  if (ctx.myPoints >= 420) floor = 0;
+  if (ctx.anyOpponentCekih) floor = Math.min(floor, 60);
+  var depthFactor = Math.max(0, Math.min(1, (ctx.deckLeft-4)/18));
+  var effFloor = floor * depthFactor;
+
+  // (D) TUTUPAN-UPGRADE: tutupan murah + masih simpan kartu tinggi → insentif menahan
+  var cheapTutup = !E.isJoker(tutupan) && E.closureBonus(tutupan) <= 50;
+  var hasHi = p.hand.some(function(c){ return E.isJoker(c) || E.isAce(c.rank) || E.isRaja(c.rank); });
+  if (cheapTutup && hasHi) hold += 30 * depthFactor;
+
+  // (B) KECEBUR-HUNT: menahan saat cekih & aman bernilai
+  hold += botKeceburEV(pidx);
+
+  var margin = forced ? -9999 : (ctx.anyOpponentCekih?5:25)*depthFactor;
+  var shouldClose = (closeNow >= effFloor) && (closeNow + margin >= hold || forced || ctx.myPoints>=420);
+  if (forced) shouldClose = true;
+  return { shouldClose:shouldClose, tutupan:tutupan, type:type, score:closeNow };
 }
 
 // Hitung tangan hasil bila pickup (idx,r) dilakukan — untuk cek keamanan joker tanpa memutasi state.
@@ -1730,29 +2108,17 @@ function executeBotTurn(pidx){
   }
   updateCekihStatus(pidx);
 
-  // PHASE 2: pertimbangkan tutup
+  // PHASE 2: pertimbangkan tutup — keputusan RAKUS (bukan asal tutup begitu bisa)
   if (!firstCycle){
-    var ext = E.hasExternalSeriP(p);
-    var bc = E.bestClose(p.hand, ext);
-    if (bc){
-      // tentukan tipe
-      var type;
-      if (!p.tookFromDiscard && p.openCombos.length===0){
-        // tutup tangan / murni raja
-        var rest = p.hand.filter(function(c){ return E.cid(c)!==E.cid(bc.tutupan); });
-        var evRest = E.evaluate(rest, false);
-        type = E.isPureRaja(evRest.combos) ? 'murniRaja' : 'tutupTangan';
-      } else {
-        type = 'tutupBiasa';
-      }
-      // bot strategi sederhana: selalu tutup bila bisa
-      var tutupan = bc.tutupan;
-      // hapus dari hand
+    var dec = botDecideClose(pidx);
+    if (dec && dec.shouldClose){
+      var tutupan = dec.tutupan;
       p.hand = p.hand.filter(function(c){ return E.cid(c)!==E.cid(tutupan); });
       G.discard.push(tutupan);
-      finalizeClose(pidx, tutupan, type);
+      finalizeClose(pidx, tutupan, dec.type);
       return;
     }
+    // dec ada tapi shouldClose=false → sengaja MENAHAN diri untuk membangun poin lebih besar
   }
 
   // PHASE 3: discard — pemilihan cerdas (hindari mati joker, jaga kartu hidup)
@@ -1778,25 +2144,36 @@ function botTryPickup(pidx){
   var ext = E.hasExternalSeriP(p);
   var targets = E.validPickupTargets(p.hand, G.discard, ext);
   if (targets.length===0) return false;
-  // strategi: ambil yang menghasilkan combo terbanyak / terbesar
-  var bestIdx = -1, bestScore = -Infinity, bestR = null;
+  var unseen = computeUnseen(pidx);
+  var deckLeft = G.deck.length;
   var hasJoker = p.hand.some(E.isJoker);
+  var bestIdx = -1, bestScore = -Infinity, bestR = null;
   for (var i=0;i<targets.length;i++){
     var idx = targets[i];
     var taken = G.discard.slice(idx);
     var r = E.findPickupCombo(p.hand, taken, G.discard[idx], ext);
     if (!r) continue;
-    var sc = r.combo.tier*r.combo.cards.length - (taken.length - r.combo.cards.length)*2;
-    if (r.pegadaianSeri) sc += r.pegadaianSeri.tier*r.pegadaianSeri.cards.length;
-    // keamanan joker: jika pickup ini membuat joker terdampar (mati), penalti besar
+    var laid = r.combo.tier*r.combo.cards.length + (r.pegadaianSeri? r.pegadaianSeri.tier*r.pegadaianSeri.cards.length : 0);
+    var waste = taken.length - r.combo.cards.length;
+    var sc = laid*10 - waste*3;
+    if (r.combo.tier>=10) sc += 40;
+    if (r.combo.tier>=15) sc += 30;
+    if (r.pegadaianSeri)  sc += 15;
+    var resHand = simulatePickupHand(p, idx, r);
     if (hasJoker){
-      var resHand = simulatePickupHand(p, idx, r);
-      var evRes = E.evaluate(resHand, true); // ada seri terbuka setelah pickup
+      var evRes = E.evaluate(resHand, true);
       if (evRes.matiJoker) sc -= 100000;
     }
+    if (E.isCekih(resHand, true)) sc += 25;
+    var bcRes = E.bestClose(resHand, true);
+    if (bcRes){
+      sc += 35;
+      var closeScoreRes = E.scoreClose(p, bcRes.tutupan).score + E.scoreOpen(p.openCombos);
+      if (botBurnLock(pidx, closeScoreRes) >= 0) sc += 80;   // (E) setup tutup yang membakar lawan
+    }
+    sc += botPotential(resHand, true, unseen, deckLeft) * 0.5;
     if (sc>bestScore){ bestScore = sc; bestIdx = idx; bestR = r; }
   }
-  // jika opsi pickup terbaik pun membuat joker mati, lebih baik ambil tengah (jangan pickup)
   if (bestIdx>=0 && bestScore <= -90000) return false;
   if (bestIdx<0) return false;
   applyPickup(pidx, bestIdx, bestR);
@@ -1845,7 +2222,7 @@ function endRound(){
       } else {
         var sn2 = E.scoreNormal(p);
         delta = sn2.score;
-        if (sn2.matiJoker) detail = 'MATI JOKER \u2212250';
+        if (sn2.matiJoker) detail = 'MATI JOKER \u2212250 (total '+(delta>=0?'+':'')+delta+')';
         else detail = (delta>=0?'+':'')+delta;
       }
     }
